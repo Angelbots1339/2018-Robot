@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Auto Selector</title>
+		<script src="jquery-3.2.1.min.js"></script>
+		<script>
+$(document).ready(function(){
+	$.get("getModes", function(data){
+		var obj = $.parseJSON(data);
+		$.each(obj, function(key, data){
+			$("div#radioBtns").append("<input type=\"radio\" name=\"auto\" value=\"" + key + "\"/> " + data + "<br/>");
+		});
+	});
+		
+    $("button#submit").click(function(){
+    	var num = $("input[name='auto']:checked").val();
+        $.post("setMode",
+        {
+          auto: num
+        },
+        function(data,status){
+            alert(data);
+        });
+    });
+    
+    $("button#camera").click(function(){
+    	$("img#img").toggle();
+    });
+    
+    $("button#value).click(function(){
+    	$("div#valueDisplay").toggle();
+    });
+    
+    setInterval(function(){
+    	$.get("getValues", function(data){
+    		var obj = $.parseJSON(data);
+    		$.each(obj, function(key, data){
+    			if($("#" + key).length == 0){
+    				$("div#valueDisplay").append("<span id=\"" + key + "\">" + key + ":  " + data + "</span>");
+    			}
+    			else{
+    				$("span#" + key).text(key + ":  " + data)
+    			}
+    		});
+    	});
+    }, 50);
+});
+		</script>
+	</head>
+	<body>
+		<div align="center" id="auto">
+			<h1>Select your autonomous mode</h1>
+			<div id="radioBtns"></div>
+			<button id="submit">Change auto</button>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<div id="cameraContainer">
+			<button id="camera" align="center">Camera</button>
+			<img src="http://10.13.39.12/mjpg/video.mjpg" alt=":(" align="center" id="img"/>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<div id="valueContainer">
+			<button id="value" align="center">Value Display</button>
+			<div align="center" id="valueDisplay"></div>
+		</div>
+	</body>
+</html>

@@ -7,6 +7,9 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.commands.CommandBase;
+import org.usfirst.frc.team1339.utils.Server;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -20,7 +23,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
 
-	Command m_autonomousCommand;
+	Command autonomousCommand;
+	Server server;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -28,6 +32,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		CommandBase.init();
+		server = new Server(8080);
+		server.autonomousSelector.add("Chill", null);
+		server.autonomousSelector.setCurrentMode(0);
+		server.valueDisplay.putValue("Gyro", "Disabled");
+		server.start();
 	}
 
 	/**
@@ -58,17 +68,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		autonomousCommand = server.autonomousSelector.getCurrentModeCommand();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -86,8 +88,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 	}
 
