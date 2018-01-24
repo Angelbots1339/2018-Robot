@@ -18,7 +18,11 @@ public abstract class CommandBase extends Command {
     
     public static Chassis chassis;
     
+    public static ElevatorSystem elevatorsystem;
+    
     public static void init() {
+    	elevatorsystem = new ElevatorSystem();
+    	
     	chassis = new Chassis();
         
         oi = new OI();
@@ -30,6 +34,5 @@ public abstract class CommandBase extends Command {
 
     public CommandBase() {
         super();
-        
     }
 }
