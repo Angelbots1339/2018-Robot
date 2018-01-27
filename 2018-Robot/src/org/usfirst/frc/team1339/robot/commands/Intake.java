@@ -7,34 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Elevator extends CommandBase {
-	
-    public Elevator() {
-    	requires(elevatorsystem);
+public class Intake extends CommandBase {
+
+    public Intake() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
-    boolean moving;
-    boolean up;
-    
+
+    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-		if(oi.getXboxStick().getRawAxis(RobotMap.xboxRightBumper) == 1) {
-			up = true;
-			moving = true;
-		}else if(oi.getXboxStick().getRawAxis(RobotMap.xboxLeftBumper) == 1) {
-			up = false;
-			moving = true;
-		}
-		//if(sensorinput){
-		//	moving = false;
-		//}	
-		if(moving) {
-			elevatorsystem.setElevtor(up?1:-1);
-		}else {
-			elevatorsystem.setElevtor(0);
-		}
+		intakesystem.setIntake(oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger)-oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger));
     }
 
     // Make this return true when this Command no longer needs to run execute()

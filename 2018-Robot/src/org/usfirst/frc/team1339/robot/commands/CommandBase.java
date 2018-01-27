@@ -19,8 +19,12 @@ public abstract class CommandBase extends Command {
     public static Chassis chassis;
     
     public static ElevatorSystem elevatorsystem;
+
+    public static IntakeSystem intakesystem;
     
     public static void init() {
+    	intakesystem = new IntakeSystem();
+    	
     	elevatorsystem = new ElevatorSystem();
     	
     	chassis = new Chassis();
