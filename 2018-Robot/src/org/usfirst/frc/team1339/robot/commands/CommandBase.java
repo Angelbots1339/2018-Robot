@@ -14,13 +14,23 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public abstract class CommandBase extends Command {
 
-    public static OI oi;
-    
     public static Chassis chassis;
+    public static Elevator elevator;
+    public static Intake intake;
+    public static Wrist wrist;
+    public static Pinchers pinchers;
+    public static Climber climber;
+
+    public static OI oi;
     
     public static void init() {
     	chassis = new Chassis();
-        
+    	elevator = new Elevator();
+    	intake = new Intake();
+    	wrist = new Wrist();
+    	pinchers = new Pinchers();
+    	climber = new Climber();
+
         oi = new OI();
     }
 
@@ -30,6 +40,5 @@ public abstract class CommandBase extends Command {
 
     public CommandBase() {
         super();
-        
     }
 }
