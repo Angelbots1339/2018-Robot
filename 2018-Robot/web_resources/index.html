@@ -37,7 +37,7 @@ $(document).ready(function(){
     		var obj = $.parseJSON(data);
     		$.each(obj, function(key, data){
     			if($("#" + key).length == 0){
-    				$("div#valueDisplay").append("<span id=\"" + key + "\">" + key + ":  " + data + "</span>");
+    				$("div#valueDisplay").append("<span id=\"" + key + "\">" + key + ":  " + data + "</span><br/>");
     			}
     			else{
     				$("span#" + key).text(key + ":  " + data)
@@ -58,14 +58,14 @@ $(document).ready(function(){
 		<br/>
 		<br/>
 		<div id="cameraContainer">
-			<button id="camera" align="center">Camera</button>
+			<button id="camera">Camera</button>
 			<img src="http://10.13.39.12/mjpg/video.mjpg" alt=":(" align="center" id="img"/>
 		</div>
 		<br/>
 		<br/>
 		<br/>
 		<div id="valueContainer">
-			<button id="value" align="center">Value Display</button>
+			<button id="value">Value Display</button>
 			<div align="center" id="valueDisplay"></div>
 		</div>
 	</body>

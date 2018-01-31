@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
 
 	Command autonomousCommand;
 	Server server;
+	long counter = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,10 +34,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		CommandBase.init();
-		server = new Server(8080);
+		server = new Server(8099);
 		server.autonomousSelector.add("Chill", null);
 		server.autonomousSelector.setCurrentMode(0);
 		server.valueDisplay.putValue("Gyro", "Disabled");
+		server.valueDisplay.putValue("Counter", counter);
 		server.start();
 	}
 
@@ -91,6 +93,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		counter = 0;
 	}
 
 	/**
@@ -99,6 +102,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		counter++;
+		server.valueDisplay.putValue("Counter", counter);
 	}
 
 	/**
