@@ -54,30 +54,30 @@ public class RobotMap {
 	public final static int operatorSevenButton = 7;
 	
 	//Drive Motors
-	public final static int leftTopDriveMotor = -1;
-	public final static int leftFrontDriveMotor = -1;
-	public final static int leftBackDriveMotor = -1;
-	public final static int rightTopDriveMotor = -1;
-	public final static int rightFrontDriveMotor = -1;
-	public final static int rightBackDriveMotor = -1;
+	public final static int rightTopDriveMotor = 1;
+	public final static int rightFrontDriveMotor = 2;
+	public final static int rightBackDriveMotor = 3;
+	public final static int leftTopDriveMotor = 12;
+	public final static int leftFrontDriveMotor = 11;
+	public final static int leftBackDriveMotor = 10;
 	
 	//Intake Motors
-	public final static int leftIntakeMotor = -1;
-	public final static int rightIntakeMotor = -1;
+	public final static int rightIntakeMotor = 4;
+	public final static int leftIntakeMotor = 9;
 	
 	//Elevator Motors
-	public final static int leftElevatorMotor = -1;
-	public final static int rightElevatorMotor = -1;
+	public final static int rightElevatorMotor = 5;
+	public final static int leftElevatorMotor = 8;
 	
 	//Wrist Motor
-	public final static int wristMotor = -1;
+	public final static int wristMotor = 6;
 	
 	//Climbing Motors
-	public final static int climbMotor = -1;
+	public final static int climbMotor = 7;
 	
 	//Solenoids
-	public final static int frontInSol = -1;
-	public final static int frontOutSol = -1;
-	public final static int backInSol = -1;
-	public final static int backOutSol = -1;
+	public final static int frontInSol = 1;
+	public final static int frontOutSol = 2;
+	public final static int backInSol = 3;
+	public final static int backOutSol = 4;
 }

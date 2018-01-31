@@ -23,7 +23,7 @@ public class ArcadeDrive extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	stick = oi.getXboxStick();
-		throttle = stick.getRawAxis(RobotMap.xboxLeftYAxis);
+		throttle = -stick.getRawAxis(RobotMap.xboxLeftYAxis);
 		turn = stick.getRawAxis(RobotMap.xboxRightXAxis);
 		
 		chassis.directionalDrive(throttle, turn);

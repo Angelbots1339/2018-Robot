@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1339.robot.subsystems;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
+import org.usfirst.frc.team1339.robot.commands.ArcadeDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -24,13 +25,14 @@ public class Chassis extends Subsystem {
     	lBackSlave.follow(lMaster);
     	
     	rMaster = new TalonSRX(RobotMap.rightTopDriveMotor);
-    	rFrontSlave = new TalonSRX(RobotMap.rightTopDriveMotor);
+    	rFrontSlave = new TalonSRX(RobotMap.rightFrontDriveMotor);
     	rFrontSlave.follow(rMaster);
     	rBackSlave = new TalonSRX(RobotMap.rightBackDriveMotor);
     	rBackSlave.follow(rMaster);
     }
 
     public void initDefaultCommand() {
+    	setDefaultCommand(new ArcadeDrive());
     }
     
     public void setMotorValues(double left, double right) {
@@ -40,7 +42,7 @@ public class Chassis extends Subsystem {
     
     public void directionalDrive(double throttle, double turn) {
     	throttle = Math.copySign(throttle * throttle, throttle);
-        turn = -Math.copySign(turn * turn, turn);
+        turn = Math.copySign(turn * turn, turn);
         
         throttle = limit(throttle);
         throttle = applyDeadband(throttle, deadband);
