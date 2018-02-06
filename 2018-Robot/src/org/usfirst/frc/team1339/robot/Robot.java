@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.start();
 		}
 		server.valueDisplay.putValue("Mode", "Auto");
+		CommandBase.chassis.resetEncoders();
 	}
 
 	/**
@@ -98,6 +99,7 @@ public class Robot extends TimedRobot {
 		}
 		counter = 0;
 		server.valueDisplay.putValue("Mode", "TeleOp");
+		CommandBase.chassis.resetEncoders();
 	}
 
 	/**
@@ -110,6 +112,8 @@ public class Robot extends TimedRobot {
 		server.valueDisplay.putValue("Counter", counter);
 		server.valueDisplay.putValue("Beam Break", CommandBase.intake.hazBox());
 		server.valueDisplay.putValue("Match Time", DriverStation.getInstance().getMatchTime());
+	
+		CommandBase.chassis.publishSmartDashboard();
 	}
 
 	/**

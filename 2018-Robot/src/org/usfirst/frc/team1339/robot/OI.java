@@ -1,6 +1,11 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
+import org.usfirst.frc.team1339.robot.commands.Record;
+import org.usfirst.frc.team1339.robot.commands.ShiftHigh;
+import org.usfirst.frc.team1339.robot.commands.ShiftLow;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -34,7 +39,21 @@ public class OI {
 	private JoystickButton sixButton = new JoystickButton(operatorStick, RobotMap.operatorSixButton);
 	private JoystickButton sevenButton = new JoystickButton(operatorStick, RobotMap.operatorSevenButton);
 	
+	/*	XBOX B ---> Cancels record and following { ExecuteProfile }
+	 *  XBOX A ---> Starts recording { Record }
+	 *  XBOX Y ---> Follow pre-generated path { ExecuteProfile }
+	 *  XBOX X ---> Follow recorded path { ExecuteProfile }
+	 *  XBOX Right Bumper ---> Take off limiter { ShiftHigh }
+	 *  XBOX Left Bumper ---> Apply Limiter { ShiftLow }
+	 * */
+	
 	public OI(){
+		aButton.whenPressed(new Record("log"));
+		xButton.whenPressed(new ExecuteProfile("recording"));
+		yButton.whenPressed(new ExecuteProfile("path"));
+		
+		rightBumper.whenPressed(new ShiftHigh());
+		leftBumper.whenPressed(new ShiftLow());
 	}
 	
 	//Get Functions
