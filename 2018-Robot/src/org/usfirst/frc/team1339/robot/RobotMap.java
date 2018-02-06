@@ -54,9 +54,9 @@ public class RobotMap {
 	public final static int operatorSevenButton = 7;
 	
 	//Drive Motors
-	public final static int rightTopDriveMotor = 1;
-	public final static int rightFrontDriveMotor = 2;
-	public final static int rightBackDriveMotor = 3;
+	public final static int rightTopDriveMotor = 2;
+	public final static int rightFrontDriveMotor = 3;
+	public final static int rightBackDriveMotor = 1;
 	public final static int leftTopDriveMotor = 12;
 	public final static int leftFrontDriveMotor = 11;
 	public final static int leftBackDriveMotor = 10;
@@ -75,9 +75,18 @@ public class RobotMap {
 	//Climbing Motors
 	public final static int climbMotor = 7;
 	
+	//TalonSRX Motion Profiling PIDF
+	public static final double talonKf = 1.5; //1.77 
+	public static final double talonKp = 0.4;
+	public static final double talonKi = 0.0;
+	public static final double talonKd = 0.0;
+	
 	//Solenoids
 	public final static int frontInSol = 1;
 	public final static int frontOutSol = 2;
 	public final static int backInSol = 3;
 	public final static int backOutSol = 4;
+	
+	//Sensors
+	public final static int beamBreakId = 0;
 }

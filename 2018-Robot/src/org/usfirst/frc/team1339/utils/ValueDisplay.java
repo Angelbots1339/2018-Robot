@@ -11,6 +11,7 @@ public class ValueDisplay {
 	}
 	
 	public void putValue(String name, Object value){
+		//name = name.replaceAll("\\s", "");
 		json.put(name, value);
 	}
 	

@@ -36,37 +36,60 @@ $(document).ready(function(){
     	$.get("getValues", function(data){
     		var obj = $.parseJSON(data);
     		$.each(obj, function(key, data){
-    			if($("#" + key).length == 0){
-    				$("div#valueDisplay").append("<span id=\"" + key + "\">" + key + ":  " + data + "</span><br/>");
+    			var id = key.replace(/\s/g,'');
+    			if($("#" + id).length == 0){
+    				$("div#valueDisplay").append("<span id=\"" + id + "\">" + key + ":  " + data + "</span><br/>");
     			}
     			else{
-    				$("span#" + key).text(key + ":  " + data)
+    				$("span#" + id).text(key + ":  " + data)
+    			}
+    			if(data.toString() == "true"){
+    				$("span#" + id).removeClass();
+    				$("span#" + id).addClass("booleanTrue");
+    			} else if(data.toString() == "false"){
+    				$("span#" + id).removeClass();
+    				$("span#" + id).addClass("booleanFalse");
+    			} else {
+    				$("span#" + id).removeClass();
     			}
     		});
     	});
     }, 50);
 });
 		</script>
+		
+		<style>
+.booleanTrue{
+	background-color:#99ff96
+}
+.booleanFalse{
+	background-color:#ff7777
+}
+		</style>
+		
 	</head>
 	<body>
 		<div align="center" id="auto">
 			<h1>Select your autonomous mode</h1>
 			<div id="radioBtns"></div>
+			<br/>
 			<button id="submit">Change auto</button>
 		</div>
 		<br/>
 		<br/>
-		<br/>
-		<div id="cameraContainer">
+		<div align="center" id="cameraContainer">
 			<button id="camera">Camera</button>
-			<img src="http://10.13.39.12/mjpg/video.mjpg" alt=":(" align="center" id="img"/>
+			<br/>
+			<br/>
+			<img src="https://static1.squarespace.com/static/57eeab85e3df2881b80b38ce/t/5a63c95424a69436ca093754/1516489052763/FIRST+Power+Up.jpg" alt=":(" id="img" style="display: none;"/>
 		</div>
 		<br/>
 		<br/>
-		<br/>
-		<div id="valueContainer">
+		<div align="center" id="valueContainer">
 			<button id="value">Value Display</button>
-			<div align="center" id="valueDisplay"></div>
+			<br/>
+			<br/>
+			<div id="valueDisplay" style="display: none;"></div>
 		</div>
 	</body>
 </html>

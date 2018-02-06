@@ -20,6 +20,7 @@ public class Chassis extends Subsystem {
     public Chassis() {
     	lMaster = new TalonSRX(RobotMap.leftTopDriveMotor);
     	lFrontSlave = new TalonSRX(RobotMap.leftFrontDriveMotor);
+    	lFrontSlave.setInverted(true); //Da cim not work :fire:
     	lFrontSlave.follow(lMaster);
     	lBackSlave = new TalonSRX(RobotMap.leftBackDriveMotor);
     	lBackSlave.follow(lMaster);
@@ -37,6 +38,7 @@ public class Chassis extends Subsystem {
     
     public void setMotorValues(double left, double right) {
     	lMaster.set(ControlMode.PercentOutput, left);
+   
     	rMaster.set(ControlMode.PercentOutput, right);
     }
     
@@ -75,11 +77,12 @@ public class Chassis extends Subsystem {
           }
         }
         
-        setMotorValues(limit(leftMotorOutput), limit(rightMotorOutput));
+        setMotorValues(limit(leftMotorOutput), limit(-rightMotorOutput));
     }
     
     private double limit(double value) {
-    	return Math.max(Math.min(1, value), -1);
+    	double limit = .6;
+    	return Math.max(Math.min(limit, value), -limit);
     }
     
     private double applyDeadband(double value, double db) {
