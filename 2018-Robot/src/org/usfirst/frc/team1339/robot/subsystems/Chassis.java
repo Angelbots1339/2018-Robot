@@ -6,11 +6,13 @@ import java.io.PrintWriter;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.ArcadeDrive;
+import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.Conversions;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Notifier;
@@ -34,7 +36,7 @@ public class Chassis extends Subsystem {
 	private boolean recording = false;
 	private boolean following = false;
 	
-	private double limiter = 1;
+	private double throttleLimiter = 1, turnLimiter = 1;
 	
 	public static MotionProfiling leftProfiler;
 	public static MotionProfiling rightProfiler;
@@ -48,6 +50,7 @@ public class Chassis extends Subsystem {
     public Chassis() {
     	lMaster = new TalonSRX(RobotMap.leftTopDriveMotor);
     	lMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    	lMaster.setSensorPhase(true);
     	setPIDF(lMaster, 0, RobotMap.talonKf, RobotMap.talonKp, RobotMap.talonKi, RobotMap.talonKd);
     	
     	lFrontSlave = new TalonSRX(RobotMap.leftFrontDriveMotor);
@@ -59,13 +62,17 @@ public class Chassis extends Subsystem {
     	
     	rMaster = new TalonSRX(RobotMap.rightTopDriveMotor);
     	rMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    	rMaster.setSensorPhase(true);
+    	rMaster.setInverted(true);
     	setPIDF(rMaster, 0, RobotMap.talonKf, RobotMap.talonKp, RobotMap.talonKi, RobotMap.talonKd);
     	
     	rFrontSlave = new TalonSRX(RobotMap.rightFrontDriveMotor);
     	rFrontSlave.follow(rMaster);
+    	rFrontSlave.setInverted(true);
     	
     	rBackSlave = new TalonSRX(RobotMap.rightBackDriveMotor);
     	rBackSlave.follow(rMaster);  	
+    	rBackSlave.setInverted(true);
     	
     	log = null;
     	
@@ -83,16 +90,33 @@ public class Chassis extends Subsystem {
 		rMaster.setSelectedSensorPosition(0, 0, 10);
 		lMaster.setSelectedSensorPosition(0, 0, 10);
 	}
+	
+	private void setBrakeMode(boolean value) {
+		lMaster.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
+		lFrontSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
+		lBackSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
+		rMaster.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
+		rFrontSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
+		rBackSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
+	}
+	
+	public void publishWebServer() {
+		CommandBase.server.valueDisplay.putValue("Right Encoder", rMaster.getSelectedSensorPosition(0));
+		CommandBase.server.valueDisplay.putValue("Left Encoder", lMaster.getSelectedSensorPosition(0));
+	}
     
 	public void publishSmartDashboard() {
+		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);
 		SmartDashboard.putNumber("Right Position Meters", Conversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
 		SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
 
 		SmartDashboard.putNumber("Left Position Meters", Conversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)));
 		SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
 
-		SmartDashboard.putNumber("Right Velocity", Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
-		SmartDashboard.putNumber("Left Velocity", Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("Right Velocity MPS", Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("Left Velocity MPS", Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
 		SmartDashboard.putBoolean("Recording", recording);
 		SmartDashboard.putBoolean("Following", following);
 		
@@ -100,7 +124,7 @@ public class Chassis extends Subsystem {
 		
 		SmartDashboard.putNumber("Right Acceleration", Conversions.clickVelToMetersPerSec((rMaster.getSelectedSensorVelocity(0) - lastRightVel)/ (time - lastTime)));
 		lastRightVel = rMaster.getSelectedSensorVelocity(0);
-		SmartDashboard.putNumber("Left Acceleration", Conversions.clicksToMeters((lMaster.getSelectedSensorVelocity(0) - lastLeftVel)/ (time - lastTime)));
+		SmartDashboard.putNumber("Left Acceleration", Conversions.clickVelToMetersPerSec((lMaster.getSelectedSensorVelocity(0) - lastLeftVel)/ (time - lastTime)));
 		lastLeftVel = lMaster.getSelectedSensorVelocity(0);
 		lastTime = time;
 
@@ -116,7 +140,8 @@ public class Chassis extends Subsystem {
 	}
 	
 	public void setHighGear(boolean highGear) {
-		limiter = (highGear ? 1 : RobotMap.kLimiter);
+		throttleLimiter = (highGear ? 1 : RobotMap.kThrottleLimiter);
+		turnLimiter = (highGear ? 1 : RobotMap.kTurnLimiter);
 	}
     
     public void setMotorValues(double left, double right) {
@@ -127,6 +152,9 @@ public class Chassis extends Subsystem {
     public void directionalDrive(double throttle, double turn) {
     	throttle = Math.copySign(throttle * throttle, throttle);
         turn = Math.copySign(turn * turn, turn);
+        
+        throttle *= throttleLimiter;
+        turn *= turnLimiter;
         
         throttle = limit(throttle);
         throttle = applyDeadband(throttle, deadband);
@@ -159,10 +187,10 @@ public class Chassis extends Subsystem {
           }
         }
 
-        leftMotorOutput *= limiter;
-        rightMotorOutput *= limiter;
+        //leftMotorOutput *= limiter;
+        //rightMotorOutput *= limiter;
         
-        setMotorValues(limit(leftMotorOutput), limit(-rightMotorOutput));
+        setMotorValues(limit(leftMotorOutput), limit(rightMotorOutput));
     }
     
     private double limit(double value) {
@@ -190,8 +218,10 @@ public class Chassis extends Subsystem {
     
     class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {
-	    	if (rightProfiler.canFillBuffer()) rMaster.processMotionProfileBuffer();
-	    	if (leftProfiler.canFillBuffer()) lMaster.processMotionProfileBuffer();
+	    	//if (rightProfiler.canFillBuffer()) 
+	    	rMaster.processMotionProfileBuffer();
+	    	//if (leftProfiler.canFillBuffer()) 
+	    	lMaster.processMotionProfileBuffer();
 	    }
 	}
     
@@ -247,6 +277,7 @@ public class Chassis extends Subsystem {
 
     public void initializeMotionProfile(String filename) {
     	resetEncoders();
+    	setBrakeMode(true);
     	rMaster.changeMotionControlFramePeriod(10);
     	lMaster.changeMotionControlFramePeriod(10);
     	leftProfiler.initialize(filename);
@@ -259,8 +290,8 @@ public class Chassis extends Subsystem {
     	rightProfiler.execute();
     	leftProfiler.execute();
     	
-		rMaster.set(ControlMode.MotionProfile, rightProfiler.getValue());
-    	lMaster.set(ControlMode.MotionProfile, leftProfiler.getValue());
+		if(rightProfiler.isStarted()) rMaster.set(ControlMode.MotionProfile, rightProfiler.getValue());
+		if(leftProfiler.isStarted()) lMaster.set(ControlMode.MotionProfile, leftProfiler.getValue());
     }
     
     public boolean isTrajectoryFinished() {
@@ -272,6 +303,7 @@ public class Chassis extends Subsystem {
     	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
+    	//setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {

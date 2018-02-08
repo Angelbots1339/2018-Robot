@@ -43,9 +43,7 @@ public class MotionProfiling {
 	}
 	
 	public void initialize(String name) {
-		System.out.println("initializing");
 		_setValue = SetValueMotionProfile.Enable;
-		System.out.println("Yup");
 		file.loadFile(name);
 		startFilling(file.getLog(isLeft));
 		isStarted = false;
@@ -55,9 +53,6 @@ public class MotionProfiling {
 	public void startFilling(ArrayList<LogPoint> log) {
 		_talon.clearMotionProfileTrajectories();
 		_talon.clearMotionProfileHasUnderrun(0);
-		_talon.getMotionProfileStatus(_status);
-		System.out.println(_status.btmBufferCnt);
-		System.out.println(_status.isLast);
 		int totalCnt = log.size();	
 		
 		TrajectoryPoint point = new TrajectoryPoint();
@@ -103,7 +98,6 @@ public class MotionProfiling {
 			isStarted = true;
 		}
 		if (_status.activePointValid && _status.isLast) {
-			System.out.println("Finished");
 			/*
 			 * because we set the last point's isLast to true, we will
 			 * get here when the MP is done
@@ -122,5 +116,9 @@ public class MotionProfiling {
 	
 	public boolean isTrajectoryFinished() {
 		return _status.isLast;
+	}
+	
+	public boolean isStarted() {
+		return isStarted;
 	}
 }

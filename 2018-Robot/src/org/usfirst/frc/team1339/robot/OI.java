@@ -49,8 +49,8 @@ public class OI {
 	
 	public OI(){
 		aButton.whenPressed(new Record("log"));
-		xButton.whenPressed(new ExecuteProfile("recording"));
-		yButton.whenPressed(new ExecuteProfile("path"));
+		xButton.whenPressed(new ExecuteProfile("log"));
+		yButton.whenPressed(new ExecuteProfile("test"));
 		
 		rightBumper.whenPressed(new ShiftHigh());
 		leftBumper.whenPressed(new ShiftLow());

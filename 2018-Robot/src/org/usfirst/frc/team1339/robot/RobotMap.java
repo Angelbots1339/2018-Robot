@@ -76,8 +76,8 @@ public class RobotMap {
 	public final static int climbMotor = 7;
 	
 	//TalonSRX Motion Profiling PIDF
-	public static final double talonKf = 0.0; //1.77 
-	public static final double talonKp = 0.0; //0.4
+	public static final double talonKf = 1.4; //1.77 
+	public static final double talonKp = 0.6; //0.4
 	public static final double talonKi = 0.0;
 	public static final double talonKd = 0.0;
 	
@@ -90,5 +90,6 @@ public class RobotMap {
 	//Sensors
 	public final static int beamBreakId = 0;
 	
-	public final static double kLimiter = 0.5;
+	public final static double kThrottleLimiter = 0.5;
+	public final static double kTurnLimiter = 0.8;
 }

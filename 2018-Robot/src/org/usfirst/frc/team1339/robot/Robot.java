@@ -8,9 +8,7 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
-import org.usfirst.frc.team1339.utils.Server;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -25,8 +23,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Robot extends TimedRobot {
 
 	Command autonomousCommand;
-	Server server;
-	long counter = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -35,12 +31,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		CommandBase.init();
-		server = new Server(8099);
-		server.autonomousSelector.add("Chill", null);
-		server.autonomousSelector.setCurrentMode(0);
-		server.valueDisplay.putValue("Beam Break", "Disabled");
-		server.valueDisplay.putValue("Counter", counter);
-		server.start();
+		
+		CommandBase.server.autonomousSelector.add("Chill", null);
+		CommandBase.server.autonomousSelector.setCurrentMode(0);
+		CommandBase.server.start();
 	}
 
 	/**
@@ -50,8 +44,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		server.valueDisplay.putValue("Beam Break", "Disabled");
-		server.valueDisplay.putValue("Mode", "Disabled");
 	}
 
 	@Override
@@ -72,11 +64,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = server.autonomousSelector.getCurrentModeCommand();
+		autonomousCommand = CommandBase.server.autonomousSelector.getCurrentModeCommand();
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-		server.valueDisplay.putValue("Mode", "Auto");
 		CommandBase.chassis.resetEncoders();
 	}
 
@@ -97,8 +88,6 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		counter = 0;
-		server.valueDisplay.putValue("Mode", "TeleOp");
 		CommandBase.chassis.resetEncoders();
 	}
 
@@ -108,12 +97,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		counter++;
-		server.valueDisplay.putValue("Counter", counter);
-		server.valueDisplay.putValue("Beam Break", CommandBase.intake.hazBox());
-		server.valueDisplay.putValue("Match Time", DriverStation.getInstance().getMatchTime());
-	
 		CommandBase.chassis.publishSmartDashboard();
+		CommandBase.chassis.publishWebServer();
 	}
 
 	/**

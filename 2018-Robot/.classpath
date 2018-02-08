@@ -13,5 +13,6 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/json-simple-1.1-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/mindsensors-javadoc.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/mindsensors.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

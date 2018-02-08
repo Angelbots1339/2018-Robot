@@ -2,6 +2,7 @@ package org.usfirst.frc.team1339.robot.commands;
 
 import org.usfirst.frc.team1339.robot.OI;
 import org.usfirst.frc.team1339.robot.subsystems.*;
+import org.usfirst.frc.team1339.utils.Server;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,6 +22,8 @@ public abstract class CommandBase extends Command {
     public static Pinchers pinchers;
     public static Climber climber;
 
+	public static Server server;
+
     public static OI oi;
     
     public static void init() {
@@ -30,6 +33,8 @@ public abstract class CommandBase extends Command {
     	wrist = new Wrist();
     	pinchers = new Pinchers();
     	climber = new Climber();
+    	
+    	server = new Server(8099);
 
         oi = new OI();
     }
