@@ -77,7 +77,7 @@ public class RobotMap {
 	
 	//TalonSRX Motion Profiling PIDF
 	public static final double talonKf = 1.4; //1.77 
-	public static final double talonKp = 0.6; //0.4
+	public static final double talonKp = 2.5; //0.4
 	public static final double talonKi = 0.0;
 	public static final double talonKd = 0.0;
 	

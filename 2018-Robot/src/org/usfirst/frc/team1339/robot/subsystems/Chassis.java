@@ -10,6 +10,7 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.Conversions;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
 
+import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -30,7 +31,7 @@ public class Chassis extends Subsystem {
 	private PrintWriter log;
 	private File fileCreator;
     
-    private double deadband = 0.02;
+    private double deadband = 0.02, lastTime = 0;
     
 	private double initialTime;
 	private boolean recording = false;
@@ -40,10 +41,6 @@ public class Chassis extends Subsystem {
 	
 	public static MotionProfiling leftProfiler;
 	public static MotionProfiling rightProfiler;
-	
-	private double lastLeftVel = 0;
-	private double lastRightVel = 0;
-	private double lastTime = 0;
 	
 	Notifier notifier;
     
@@ -109,33 +106,45 @@ public class Chassis extends Subsystem {
 		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);
 		SmartDashboard.putNumber("Right Position Meters", Conversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
 		SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Velocity MPS", Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
 
 		SmartDashboard.putNumber("Left Position Meters", Conversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)));
 		SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
-
-		SmartDashboard.putNumber("Right Velocity MPS", Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
 		SmartDashboard.putNumber("Left Velocity MPS", Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
-		SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
+		
 		SmartDashboard.putBoolean("Recording", recording);
 		SmartDashboard.putBoolean("Following", following);
 		
-		double time = Timer.getFPGATimestamp();
+		SmartDashboard.putNumber("right executing", rightProfiler.counter);
+		SmartDashboard.putNumber("left executing", leftProfiler.counter);
 		
-		SmartDashboard.putNumber("Right Acceleration", Conversions.clickVelToMetersPerSec((rMaster.getSelectedSensorVelocity(0) - lastRightVel)/ (time - lastTime)));
-		lastRightVel = rMaster.getSelectedSensorVelocity(0);
-		SmartDashboard.putNumber("Left Acceleration", Conversions.clickVelToMetersPerSec((lMaster.getSelectedSensorVelocity(0) - lastLeftVel)/ (time - lastTime)));
-		lastLeftVel = lMaster.getSelectedSensorVelocity(0);
-		lastTime = time;
-
+		if(rightProfiler.isStarted() && leftProfiler.isStarted()) {
+			SmartDashboard.putNumber("right buffer count", rightProfiler.bufferPoints);
+			SmartDashboard.putNumber("left buffer count", leftProfiler.bufferPoints);
+			SmartDashboard.putNumber("buffer difference", rightProfiler.bufferPoints - leftProfiler.bufferPoints);
+		}
+		
+		MotionProfileStatus lStatus = new MotionProfileStatus();
+		lMaster.getMotionProfileStatus(lStatus);
+		SmartDashboard.putBoolean("has Underrun left", lStatus.hasUnderrun);
+		MotionProfileStatus rStatus = new MotionProfileStatus();
+		rMaster.getMotionProfileStatus(rStatus);
+		SmartDashboard.putBoolean("has Underrun right", rStatus.hasUnderrun);
+		
 		if(rMaster.getControlMode() == ControlMode.MotionProfile) {
-			SmartDashboard.putNumber("Right MP Position", rMaster.getActiveTrajectoryPosition());
+			SmartDashboard.putNumberArray("Right MP Position",
+					new double[] {rMaster.getActiveTrajectoryPosition(), rMaster.getSelectedSensorPosition(0)});
 			SmartDashboard.putNumber("Right MP Velocity", rMaster.getActiveTrajectoryVelocity());
+			SmartDashboard.putNumber("Right MP Error", rMaster.getClosedLoopError(0));
 		}
 		
 		if(lMaster.getControlMode() == ControlMode.MotionProfile) {
-			SmartDashboard.putNumber("Left MP Position", lMaster.getActiveTrajectoryPosition());
+			SmartDashboard.putNumberArray("Left MP Position",
+					new double[] {lMaster.getActiveTrajectoryPosition(), lMaster.getSelectedSensorPosition(0)});
 			SmartDashboard.putNumber("Left MP Velocity", lMaster.getActiveTrajectoryVelocity());
+			SmartDashboard.putNumber("Left MP Error", lMaster.getClosedLoopError(0));
 		}
 	}
 	
@@ -218,10 +227,11 @@ public class Chassis extends Subsystem {
     
     class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {
-	    	//if (rightProfiler.canFillBuffer()) 
+	    	double time = Timer.getFPGATimestamp();
+	    	SmartDashboard.putNumber("time difference", time - lastTime);
 	    	rMaster.processMotionProfileBuffer();
-	    	//if (leftProfiler.canFillBuffer()) 
 	    	lMaster.processMotionProfileBuffer();
+	    	lastTime = time;
 	    }
 	}
     
@@ -280,9 +290,11 @@ public class Chassis extends Subsystem {
     	setBrakeMode(true);
     	rMaster.changeMotionControlFramePeriod(10);
     	lMaster.changeMotionControlFramePeriod(10);
-    	leftProfiler.initialize(filename);
+    	
     	rightProfiler.initialize(filename);
-    	notifier.startPeriodic(0.01);
+    	leftProfiler.initialize(filename);
+    	
+    	notifier.startPeriodic(0.005);
     	following = true;
     }
     
@@ -290,8 +302,10 @@ public class Chassis extends Subsystem {
     	rightProfiler.execute();
     	leftProfiler.execute();
     	
-		if(rightProfiler.isStarted()) rMaster.set(ControlMode.MotionProfile, rightProfiler.getValue());
-		if(leftProfiler.isStarted()) lMaster.set(ControlMode.MotionProfile, leftProfiler.getValue());
+		if(rightProfiler.isStarted() && leftProfiler.isStarted()) {
+			rMaster.set(ControlMode.MotionProfile, rightProfiler.getValue());
+			lMaster.set(ControlMode.MotionProfile, leftProfiler.getValue());
+		}
     }
     
     public boolean isTrajectoryFinished() {
@@ -303,7 +317,7 @@ public class Chassis extends Subsystem {
     	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
-    	//setBrakeMode(false);
+    	setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {

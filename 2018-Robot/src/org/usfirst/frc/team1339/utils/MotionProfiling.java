@@ -20,7 +20,9 @@ public class MotionProfiling {
 	
 	private SetValueMotionProfile _setValue = SetValueMotionProfile.Disable;
 
-	private static final int kMinPointsInTalon = 10;
+	private static final int kMinPointsInTalon = 1;
+	public double counter;
+	public double bufferPoints;
 	
 	private ParseFiles file = new ParseFiles();
 	
@@ -29,6 +31,7 @@ public class MotionProfiling {
 	public MotionProfiling(TalonSRX talon, boolean isLeft){
 		_talon = talon;
 		this.isLeft = isLeft;
+		
 	}
 	
 	public void reset() {
@@ -43,17 +46,19 @@ public class MotionProfiling {
 	}
 	
 	public void initialize(String name) {
-		_setValue = SetValueMotionProfile.Enable;
+		_setValue = SetValueMotionProfile.Disable;
 		file.loadFile(name);
 		startFilling(file.getLog(isLeft));
 		isStarted = false;
-		_talon.configMotionProfileTrajectoryPeriod(20, 10);
+		_talon.configMotionProfileTrajectoryPeriod(0, 10);
+		counter = 0;
 	}
 	
 	public void startFilling(ArrayList<LogPoint> log) {
 		_talon.clearMotionProfileTrajectories();
 		_talon.clearMotionProfileHasUnderrun(0);
 		int totalCnt = log.size();	
+		_talon.getMotionProfileStatus(_status);
 		
 		TrajectoryPoint point = new TrajectoryPoint();
 		/* This is fast since it's just into our TOP buffer */
@@ -66,7 +71,7 @@ public class MotionProfiling {
 			point.velocity = velocity;
 			point.headingDeg = 0; /* future feature - not used in this example*/
 			point.profileSlotSelect1 = 0; /* which set of gains would you like to use [0,3]? */
-			point.timeDur = TrajectoryDuration.Trajectory_Duration_0ms;
+			point.timeDur = TrajectoryDuration.Trajectory_Duration_20ms;
 			
 			point.zeroPos = false;
 			if (i == 0)
@@ -87,7 +92,8 @@ public class MotionProfiling {
 	
 	public void execute() {
 		_talon.getMotionProfileStatus(_status);
-		
+		counter++;
+		bufferPoints = _status.btmBufferCnt;
 		/* wait for MP to stream to Talon, really just the first few
 		* points
 		*/
