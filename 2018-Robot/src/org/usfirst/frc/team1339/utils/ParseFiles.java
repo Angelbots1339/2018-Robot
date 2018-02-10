@@ -24,15 +24,25 @@ public class ParseFiles {
     	} catch (FileNotFoundException e) {
     		e.printStackTrace();
     	}
-    	scanner.nextLine();
+    	
+    	boolean reversed = (scanner.nextLine().equals("0") ? false:true);
     	while(scanner.hasNextLine()) {
     		String scope = scanner.nextLine();
-    		leftLog.add(new LogPoint(Double.parseDouble(scope.split(",")[0]),
-    				Double.parseDouble(scope.split(",")[1]),
-    				Double.parseDouble(scope.split(",")[4])));
-    		rightLog.add(new LogPoint(Double.parseDouble(scope.split(",")[2]),
-    				Double.parseDouble(scope.split(",")[3]),
-    				Double.parseDouble(scope.split(",")[4])));
+    		if(!reversed) {
+    			leftLog.add(new LogPoint(Double.parseDouble(scope.split(",")[0]),
+    					Double.parseDouble(scope.split(",")[1]),
+    					Double.parseDouble(scope.split(",")[4])));
+    			rightLog.add(new LogPoint(Double.parseDouble(scope.split(",")[2]),
+    					Double.parseDouble(scope.split(",")[3]),
+    					Double.parseDouble(scope.split(",")[4])));
+    		} else {
+    			rightLog.add(new LogPoint(-Double.parseDouble(scope.split(",")[0]),
+    					-Double.parseDouble(scope.split(",")[1]),
+    					Double.parseDouble(scope.split(",")[4])));
+    			leftLog.add(new LogPoint(-Double.parseDouble(scope.split(",")[2]),
+    					-Double.parseDouble(scope.split(",")[3]),
+    					Double.parseDouble(scope.split(",")[4])));
+    		}
     	}
     }
     
