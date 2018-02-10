@@ -10,6 +10,7 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.Conversions;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -31,7 +32,7 @@ public class Chassis extends Subsystem {
 	private PrintWriter log;
 	private File fileCreator;
     
-    private double deadband = 0.02, lastTime = 0;
+    private double deadband = 0.02;
     
 	private double initialTime;
 	private boolean recording = false;
@@ -84,8 +85,8 @@ public class Chassis extends Subsystem {
     }
     
 	public void resetEncoders() {
-		rMaster.setSelectedSensorPosition(0, 0, 10);
-		lMaster.setSelectedSensorPosition(0, 0, 10);
+		log(rMaster.setSelectedSensorPosition(0, 0, 10));
+		log(lMaster.setSelectedSensorPosition(0, 0, 10));
 	}
 	
 	private void setBrakeMode(boolean value) {
@@ -105,26 +106,20 @@ public class Chassis extends Subsystem {
 	public void publishSmartDashboard() {
 		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);
 		SmartDashboard.putNumber("Right Position Meters", Conversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
-		SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
+		//SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Right Velocity MPS", Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
-		SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
+		//SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
 
 		SmartDashboard.putNumber("Left Position Meters", Conversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)));
-		SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
+		//SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Left Velocity MPS", Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
-		SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
+		//SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
 		
 		SmartDashboard.putBoolean("Recording", recording);
 		SmartDashboard.putBoolean("Following", following);
 		
 		SmartDashboard.putNumber("right executing", rightProfiler.counter);
 		SmartDashboard.putNumber("left executing", leftProfiler.counter);
-		
-		if(rightProfiler.isStarted() && leftProfiler.isStarted()) {
-			SmartDashboard.putNumber("right buffer count", rightProfiler.bufferPoints);
-			SmartDashboard.putNumber("left buffer count", leftProfiler.bufferPoints);
-			SmartDashboard.putNumber("buffer difference", rightProfiler.bufferPoints - leftProfiler.bufferPoints);
-		}
 		
 		MotionProfileStatus lStatus = new MotionProfileStatus();
 		lMaster.getMotionProfileStatus(lStatus);
@@ -227,11 +222,8 @@ public class Chassis extends Subsystem {
     
     class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {
-	    	double time = Timer.getFPGATimestamp();
-	    	SmartDashboard.putNumber("time difference", time - lastTime);
 	    	rMaster.processMotionProfileBuffer();
 	    	lMaster.processMotionProfileBuffer();
-	    	lastTime = time;
 	    }
 	}
     
@@ -286,10 +278,11 @@ public class Chassis extends Subsystem {
     }
 
     public void initializeMotionProfile(String filename) {
+    	System.out.println("Initialized");
     	resetEncoders();
     	setBrakeMode(true);
-    	rMaster.changeMotionControlFramePeriod(10);
-    	lMaster.changeMotionControlFramePeriod(10);
+    	log(rMaster.changeMotionControlFramePeriod(10));
+    	log(lMaster.changeMotionControlFramePeriod(10));
     	
     	rightProfiler.initialize(filename);
     	leftProfiler.initialize(filename);
@@ -309,7 +302,7 @@ public class Chassis extends Subsystem {
     }
     
     public boolean isTrajectoryFinished() {
-    	return leftProfiler.isTrajectoryFinished();//rightProfiler.isTrajectoryFinished(); //|| leftProfiler.isTrajectoryFinished();
+    	return rightProfiler.isTrajectoryFinished() && leftProfiler.isTrajectoryFinished();
     }
     
     public void cancelMotionProfile() {
@@ -317,16 +310,19 @@ public class Chassis extends Subsystem {
     	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
-    	setBrakeMode(false);
+    	//setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {
-		_talon.config_kF(slot, kF, 10);
-		_talon.config_kP(slot, kP, 10);
-		_talon.config_kI(slot, kI, 10);
-		_talon.config_kD(slot, kD, 10);
+		log(_talon.config_kF(slot, kF, 10));
+		log(_talon.config_kP(slot, kP, 10));
+		log(_talon.config_kI(slot, kI, 10));
+		log(_talon.config_kD(slot, kD, 10));
     }
     
-    
+    private void log(ErrorCode code) {
+    	if(code == ErrorCode.OK) return;
+    	System.out.println(code);
+    }
 }
 

@@ -2,13 +2,12 @@ package org.usfirst.frc.team1339.utils;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motion.TrajectoryPoint.TrajectoryDuration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotionProfiling {
 	
@@ -23,6 +22,7 @@ public class MotionProfiling {
 	private static final int kMinPointsInTalon = 1;
 	public double counter;
 	public double bufferPoints;
+	public boolean hasFinished = false;
 	
 	private ParseFiles file = new ParseFiles();
 	
@@ -40,7 +40,7 @@ public class MotionProfiling {
 		 * middle of an MP, and now we have the second half of a profile just
 		 * sitting in memory.
 		 */
-		_talon.clearMotionProfileTrajectories();
+		log(_talon.clearMotionProfileTrajectories());
 		/* When we do re-enter motionProfile control mode, stay disabled. */
 		_setValue = SetValueMotionProfile.Disable;
 	}
@@ -50,15 +50,16 @@ public class MotionProfiling {
 		file.loadFile(name);
 		startFilling(file.getLog(isLeft));
 		isStarted = false;
-		_talon.configMotionProfileTrajectoryPeriod(0, 10);
+		log(_talon.configMotionProfileTrajectoryPeriod(0, 10));
 		counter = 0;
+		hasFinished = false;
 	}
 	
 	public void startFilling(ArrayList<LogPoint> log) {
-		_talon.clearMotionProfileTrajectories();
-		_talon.clearMotionProfileHasUnderrun(0);
+		log(_talon.clearMotionProfileTrajectories());
+		log(_talon.clearMotionProfileHasUnderrun(0));
 		int totalCnt = log.size();	
-		_talon.getMotionProfileStatus(_status);
+		log(_talon.getMotionProfileStatus(_status));
 		
 		TrajectoryPoint point = new TrajectoryPoint();
 		/* This is fast since it's just into our TOP buffer */
@@ -81,7 +82,7 @@ public class MotionProfiling {
 			if ((i + 1) == totalCnt) 
 				point.isLastPoint = true; /* set this to true on the last point  */
 
-			_talon.pushMotionProfileTrajectory(point);
+			log(_talon.pushMotionProfileTrajectory(point));
 			
 		}
 	}
@@ -91,7 +92,7 @@ public class MotionProfiling {
 	}
 	
 	public void execute() {
-		_talon.getMotionProfileStatus(_status);
+		log(_talon.getMotionProfileStatus(_status));
 		counter++;
 		bufferPoints = _status.btmBufferCnt;
 		/* wait for MP to stream to Talon, really just the first few
@@ -109,9 +110,8 @@ public class MotionProfiling {
 			 * get here when the MP is done
 			 */
 			_setValue = SetValueMotionProfile.Hold;
+			hasFinished = true;
 		}
-		SmartDashboard.putNumber("Buffer Count", _status.btmBufferCnt);
-		SmartDashboard.putNumber("Top buffer count", _status.topBufferCnt);
 	}
 	
 	public double getValue() {
@@ -121,10 +121,15 @@ public class MotionProfiling {
 	}
 	
 	public boolean isTrajectoryFinished() {
-		return _status.isLast;
+		return hasFinished;
 	}
 	
 	public boolean isStarted() {
 		return isStarted;
 	}
+	
+	private void log(ErrorCode code) {
+    	if(code == ErrorCode.OK) return;
+    	System.out.println(code);
+    }
 }
