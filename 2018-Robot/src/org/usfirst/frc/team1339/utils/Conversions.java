@@ -2,7 +2,7 @@ package org.usfirst.frc.team1339.utils;
 
 public class Conversions {
 	
-	public static double wheelDiameter = 6;
+	public static double wheelDiameter = 6.1;
 	public static int clicksPerRot = 1024;
 	public static double metersPerInches = 0.0254;
 	public static double inchesPerMeters = 1/metersPerInches;
