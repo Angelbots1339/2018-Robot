@@ -81,6 +81,16 @@ public class RobotMap {
 	public static final double talonKi = 0.0;
 	public static final double talonKd = 0.0;
 	
+	//TalonSRX Position Closed Loop PID on Elevator
+	public static final double elevatorKp = 0.0;
+	public static final double elevatorKi = 0.0;
+	public static final double elevatorKd = 0.0;
+	
+	//TalonSRX Position Closed Loop PID on Wrist
+	public static final double wristKp = 0.0;
+	public static final double wristKi = 0.0;
+	public static final double wristKd = 0.0;
+
 	//Solenoids
 	public final static int frontInSol = 1;
 	public final static int frontOutSol = 2;
