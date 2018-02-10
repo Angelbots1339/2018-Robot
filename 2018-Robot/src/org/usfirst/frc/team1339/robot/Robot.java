@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -34,6 +35,7 @@ public class Robot extends TimedRobot {
 		CommandBase.init();
 		
 		CommandBase.server.autonomousSelector.add("Chill", null);
+		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterToSwitch());
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 	}
