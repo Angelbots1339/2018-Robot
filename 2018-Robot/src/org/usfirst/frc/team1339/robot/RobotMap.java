@@ -99,7 +99,13 @@ public class RobotMap {
 	
 	//Sensors
 	public final static int beamBreakId = 0;
+	public final static int gyroId = 0;
 	
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
+	
+	//Gyro PID Values
+	public final static double gyroKp = 0.0;
+	public final static double gyroKi = 0.0;
+	public final static double gyroKd = 0.0;
 }

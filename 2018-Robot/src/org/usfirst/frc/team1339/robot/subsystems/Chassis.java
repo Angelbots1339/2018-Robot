@@ -9,6 +9,7 @@ import org.usfirst.frc.team1339.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.Conversions;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
+import org.usfirst.frc.team1339.utils.SynchronousPID;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -17,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -42,6 +44,10 @@ public class Chassis extends Subsystem {
 	
 	public static MotionProfiling leftProfiler;
 	public static MotionProfiling rightProfiler;
+	
+	public static SynchronousPID gyroPID;
+	
+	private AnalogGyro gyro = new AnalogGyro(RobotMap.gyroId);
 	
 	Notifier notifier;
     
@@ -78,6 +84,8 @@ public class Chassis extends Subsystem {
 		rightProfiler = new MotionProfiling(rMaster, false);
 		
 		notifier = new Notifier(new PeriodicRunnable());
+		
+		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
     }
 
     public void initDefaultCommand() {
@@ -212,6 +220,12 @@ public class Chassis extends Subsystem {
     	} else {
     		return 0.0;
     	}
+    }
+    
+    public void gyroPID() {
+    	gyroPID.calculate(gyro.getAngle());
+    	double output = gyroPID.get();
+    	setMotorValues(-output, output);
     }
     
     /*
