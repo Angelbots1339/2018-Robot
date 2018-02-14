@@ -3,8 +3,6 @@ package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
-import org.usfirst.frc.team1339.robot.commands.ProfileScheduler;
-import org.usfirst.frc.team1339.robot.commands.Record;
 import org.usfirst.frc.team1339.robot.commands.ShiftHigh;
 import org.usfirst.frc.team1339.robot.commands.ShiftLow;
 
@@ -51,8 +49,7 @@ public class OI {
 	
 	public OI(){
 		aButton.whenPressed(new ExecuteProfile("ReverseCircle"));
-		String[] paths = {"TestForward", "TestBackwards"};
-		xButton.whenPressed(new ProfileScheduler(paths));
+		xButton.whenPressed(new ExecuteProfile("Circle"));
 		yButton.whenPressed(new CenterToSwitch());
 		
 		rightBumper.whenPressed(new ShiftHigh());
