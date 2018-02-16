@@ -105,7 +105,10 @@ public class RobotMap {
 	public final static double kTurnLimiter = 0.8;
 	
 	//Gyro PID Values
-	public final static double gyroKp = 0.0;
-	public final static double gyroKi = 0.0;
-	public final static double gyroKd = 0.0;
+	public final static double gyroKp = 0.0075;
+	public final static double gyroKi = 0.0000;
+	public final static double gyroKd = 0.04;
+	
+	//Gyro error
+	public final static double gyroKe = 1.03;
 }

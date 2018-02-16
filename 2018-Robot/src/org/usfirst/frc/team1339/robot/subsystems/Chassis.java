@@ -97,6 +97,20 @@ public class Chassis extends Subsystem {
 		log(lMaster.setSelectedSensorPosition(0, 0, 10));
 	}
 	
+	public void resetGyro() {
+		gyro.reset();
+	}
+	
+	public void resetSensors() {
+		resetEncoders();
+		resetGyro();
+	}
+	
+	public double getGyroAngle() {
+		double correctedAngle = gyro.getAngle() * RobotMap.gyroKe;
+		return correctedAngle;
+	}
+	
 	private void setBrakeMode(boolean value) {
 		lMaster.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
 		lFrontSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
@@ -122,6 +136,8 @@ public class Chassis extends Subsystem {
 		//SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Left Velocity MPS", Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
 		//SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
+		
+		SmartDashboard.putNumber("gyro", getGyroAngle());
 		
 		SmartDashboard.putBoolean("Recording", recording);
 		SmartDashboard.putBoolean("Following", following);
@@ -223,9 +239,10 @@ public class Chassis extends Subsystem {
     }
     
     public void gyroPID() {
-    	gyroPID.calculate(gyro.getAngle());
+    	setBrakeMode(true);
+    	gyroPID.calculate(getGyroAngle());
     	double output = gyroPID.get();
-    	setMotorValues(-output, output);
+    	setMotorValues(output, -output);
     }
     
     /*

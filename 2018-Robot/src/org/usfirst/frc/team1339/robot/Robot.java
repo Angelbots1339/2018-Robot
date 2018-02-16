@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		CommandBase.chassis.resetEncoders();
+		CommandBase.chassis.resetSensors();
 	}
 
 	/**

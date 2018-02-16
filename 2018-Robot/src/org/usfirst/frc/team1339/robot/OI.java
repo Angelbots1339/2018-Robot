@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
+import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.Record;
 import org.usfirst.frc.team1339.robot.commands.ShiftHigh;
 import org.usfirst.frc.team1339.robot.commands.ShiftLow;
@@ -48,7 +49,7 @@ public class OI {
 	 * */
 	
 	public OI(){
-		aButton.whenPressed(new Record("log"));
+		aButton.whenPressed(new PIDGyro(90, 5));
 		xButton.whenPressed(new ExecuteProfile("log"));
 		yButton.whenPressed(new ExecuteProfile("test"));
 		
