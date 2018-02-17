@@ -66,14 +66,14 @@ public class RobotMap {
 	public final static int leftIntakeMotor = 9;
 	
 	//Elevator Motors
-	public final static int rightElevatorMotor = 5;
-	public final static int leftElevatorMotor = 8;
+	public final static int topElevatorMotor = 7;
+	public final static int bottomElevatorMotor = 8;
 	
 	//Wrist Motor
 	public final static int wristMotor = 6;
 	
 	//Climbing Motors
-	public final static int climbMotor = 7;
+	public final static int climbMotor = 5;
 	
 	//TalonSRX Motion Profiling PIDF
 	public static final double talonKf = 1.4; //1.77 1.4
@@ -98,11 +98,17 @@ public class RobotMap {
 	public final static int backOutSol = 4;
 	
 	//Sensors
-	public final static int beamBreakId = 0;
+	public final static int ultraIn = 5;
+	public final static int ultraOut = 6;
 	public final static int gyroId = 0;
 	
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
+	
+	public final static int wristUpId = 0;
+	public final static int wristDownId = 0;
+	public final static int elevatorUpId = 0;
+	public final static int carriageDownId = 0;
 	
 	//Gyro PID Values
 	public final static double gyroKp = 0.0075;
@@ -111,4 +117,5 @@ public class RobotMap {
 	
 	//Gyro error
 	public final static double gyroKe = 1.03;
+	
 }

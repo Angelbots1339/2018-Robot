@@ -30,7 +30,7 @@ public class PIDElevator extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return elevator.onTarget(setpoint, 10);
+        return elevator.onTarget(setpoint, 10);// || elevator.isCarriageDown() || elevator.isElevatorUp();
     }
 
     // Called once after isFinished returns true

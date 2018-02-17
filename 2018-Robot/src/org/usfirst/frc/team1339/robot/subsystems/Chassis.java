@@ -119,11 +119,6 @@ public class Chassis extends Subsystem {
 		rFrontSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
 		rBackSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
 	}
-	
-	public void publishWebServer() {
-		CommandBase.server.valueDisplay.putValue("Right Encoder", rMaster.getSelectedSensorPosition(0));
-		CommandBase.server.valueDisplay.putValue("Left Encoder", lMaster.getSelectedSensorPosition(0));
-	}
     
 	public void publishSmartDashboard() {
 		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);

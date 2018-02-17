@@ -1,12 +1,11 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
-import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
-import org.usfirst.frc.team1339.robot.commands.PIDGyro;
-import org.usfirst.frc.team1339.robot.commands.Record;
 import org.usfirst.frc.team1339.robot.commands.ShiftHigh;
 import org.usfirst.frc.team1339.robot.commands.ShiftLow;
+import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
+import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
+import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -19,7 +18,6 @@ public class OI {
 
 	private Joystick xboxStick = new Joystick(RobotMap.xboxPort);
 	private Joystick operatorStick = new Joystick(RobotMap.operatorPort);
-	
 	
 	//Xbox Buttons
 	private JoystickButton aButton = new JoystickButton(xboxStick, RobotMap.xboxAButton);
@@ -50,11 +48,11 @@ public class OI {
 	 * */
 	
 	public OI(){
-		aButton.whenPressed(new ExecuteProfile("ReverseCircle"));
-		xButton.whenPressed(new ExecuteProfile("Circle"));
-		yButton.whenPressed(new CenterToSwitch());
-		rightBumper.whenPressed(new ShiftHigh());
-		leftBumper.whenPressed(new ShiftLow());
+		xButton.whenPressed(new ClawOpen());
+		yButton.whenPressed(new ClawMed());
+		bButton.whenPressed(new ClawClosed());
+		//rightBumper.whenPressed(new ShiftHigh());
+		//leftBumper.whenPressed(new ShiftLow());
 	}
 	
 	//Get Functions
