@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.Record;
@@ -40,19 +41,18 @@ public class OI {
 	private JoystickButton sixButton = new JoystickButton(operatorStick, RobotMap.operatorSixButton);
 	private JoystickButton sevenButton = new JoystickButton(operatorStick, RobotMap.operatorSevenButton);
 	
-	/*	XBOX B ---> Cancels record and following { ExecuteProfile }
-	 *  XBOX A ---> Starts recording { Record }
-	 *  XBOX Y ---> Follow pre-generated path { ExecuteProfile }
-	 *  XBOX X ---> Follow recorded path { ExecuteProfile }
-	 *  XBOX Right Bumper ---> Take off limiter { ShiftHigh }
-	 *  XBOX Left Bumper ---> Apply Limiter { ShiftLow }
+	/*	XBOX B ---> Cancels profile
+	 *  XBOX A ---> Follow reverse circle
+	 *  XBOX Y ---> Follow path from FMS data
+	 *  XBOX X ---> Follow circle path
+	 *  XBOX Right Bumper ---> Take off limiter
+	 *  XBOX Left Bumper ---> Apply Limiter
 	 * */
 	
 	public OI(){
-		aButton.whenPressed(new PIDGyro(90, 5));
-		xButton.whenPressed(new ExecuteProfile("log"));
-		yButton.whenPressed(new ExecuteProfile("test"));
-		
+		aButton.whenPressed(new ExecuteProfile("ReverseCircle"));
+		xButton.whenPressed(new ExecuteProfile("Circle"));
+		yButton.whenPressed(new CenterToSwitch());
 		rightBumper.whenPressed(new ShiftHigh());
 		leftBumper.whenPressed(new ShiftLow());
 	}

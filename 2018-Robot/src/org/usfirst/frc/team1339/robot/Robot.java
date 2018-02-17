@@ -7,8 +7,10 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -33,6 +35,7 @@ public class Robot extends TimedRobot {
 		CommandBase.init();
 		
 		CommandBase.server.autonomousSelector.add("Chill", null);
+		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterToSwitch());
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 	}
@@ -64,6 +67,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
 		autonomousCommand = CommandBase.server.autonomousSelector.getCurrentModeCommand();
 		if (autonomousCommand != null) {
 			autonomousCommand.start();

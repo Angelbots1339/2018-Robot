@@ -309,7 +309,6 @@ public class Chassis extends Subsystem {
     }
 
     public void initializeMotionProfile(String filename) {
-    	System.out.println("Initialized");
     	resetEncoders();
     	setBrakeMode(true);
     	log(rMaster.changeMotionControlFramePeriod(10));
