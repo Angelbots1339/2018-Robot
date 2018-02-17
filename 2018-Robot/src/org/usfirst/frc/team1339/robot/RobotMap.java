@@ -81,6 +81,16 @@ public class RobotMap {
 	public static final double talonKi = 0.0;
 	public static final double talonKd = 10;
 	
+	//TalonSRX Position Closed Loop PID on Elevator
+	public static final double elevatorKp = 0.0;
+	public static final double elevatorKi = 0.0;
+	public static final double elevatorKd = 0.0;
+	
+	//TalonSRX Position Closed Loop PID on Wrist
+	public static final double wristKp = 0.0;
+	public static final double wristKi = 0.0;
+	public static final double wristKd = 0.0;
+
 	//Solenoids
 	public final static int frontInSol = 1;
 	public final static int frontOutSol = 2;
@@ -89,7 +99,16 @@ public class RobotMap {
 	
 	//Sensors
 	public final static int beamBreakId = 0;
+	public final static int gyroId = 0;
 	
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
+	
+	//Gyro PID Values
+	public final static double gyroKp = 0.0075;
+	public final static double gyroKi = 0.0000;
+	public final static double gyroKd = 0.04;
+	
+	//Gyro error
+	public final static double gyroKe = 1.03;
 }
