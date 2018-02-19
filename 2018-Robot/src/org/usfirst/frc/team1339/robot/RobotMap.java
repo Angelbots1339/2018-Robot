@@ -87,15 +87,15 @@ public class RobotMap {
 	public static final double elevatorKd = 6;
 	
 	//TalonSRX Position Closed Loop PID on Wrist
-	public static final double wristKp = 0.0025;
+	public static final double wristKp = 0.025;
 	public static final double wristKi = 0.0;
-	public static final double wristKd = 0.01;
+	public static final double wristKd = 0.1;
 
 	//Solenoids
-	public final static int frontInSol = 1;
-	public final static int frontOutSol = 0;
-	public final static int backInSol = 3;
-	public final static int backOutSol = 2;
+	public final static int frontInSol = 1;//1 
+	public final static int frontOutSol = 0;//0
+	public final static int backInSol = 3;//3
+	public final static int backOutSol = 2;//2
 	public final static int climbOutSol = 5;
 	public final static int climbInSol = 6;
 	

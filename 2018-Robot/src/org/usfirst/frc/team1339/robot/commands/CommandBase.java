@@ -32,7 +32,7 @@ public abstract class CommandBase extends Command {
     	wrist = new Wrist();
     	pinchers = new Pinchers();
     	
-    	server = new Server(8099);
+    	server = new Server(8080);
 
         oi = new OI();
     }

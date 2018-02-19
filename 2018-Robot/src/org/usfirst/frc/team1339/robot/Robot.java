@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 		
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**

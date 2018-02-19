@@ -1,15 +1,12 @@
 package org.usfirst.frc.team1339.robot.subsystems;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
-import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.robot.commands.DriveIntake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
 

@@ -36,6 +36,7 @@ public class Elevator extends Subsystem {
 
 		elevatorSlave = new TalonSRX(RobotMap.bottomElevatorMotor);
 		elevatorSlave.follow(elevatorMaster);
+		elevatorSlave.setInverted(true); //Only for final
 
 		climber = new TalonSRX(RobotMap.climbMotor);
 

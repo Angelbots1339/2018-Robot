@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1339.utils;
 
 public class WristConversions {
-	private static double rotSmallPerRotBig = 1400 / 3;
-	private static double clicksPerRotSmall = 409.6;
+	private static double rotSmallPerRotBig = 140 / 3;
+	private static double clicksPerRotSmall = 4096;
 	private static double degreesPerRotation = 360;
 	
 	public static double clicksToDegrees(int clicks) {

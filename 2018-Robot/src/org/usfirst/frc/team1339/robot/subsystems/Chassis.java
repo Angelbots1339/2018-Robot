@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.ArcadeDrive;
+import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.ChassisConversions;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
 import org.usfirst.frc.team1339.utils.SynchronousPID;
@@ -56,7 +57,7 @@ public class Chassis extends Subsystem {
     	setPIDF(lMaster, 0, RobotMap.talonKf, RobotMap.talonKp, RobotMap.talonKi, RobotMap.talonKd);
     	
     	lFrontSlave = new TalonSRX(RobotMap.leftFrontDriveMotor);
-    	lFrontSlave.setInverted(true); //Da cim not work :reverse::fire:
+    	//lFrontSlave.setInverted(true); //Da cim not work :reverse::fire:
     	lFrontSlave.follow(lMaster);
     	
     	lBackSlave = new TalonSRX(RobotMap.leftBackDriveMotor);
@@ -119,6 +120,9 @@ public class Chassis extends Subsystem {
 	}
     
 	public void publishSmartDashboard() {
+		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
+		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
+		
 		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);
 		SmartDashboard.putNumber("Right Position Meters", ChassisConversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
 		//SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
