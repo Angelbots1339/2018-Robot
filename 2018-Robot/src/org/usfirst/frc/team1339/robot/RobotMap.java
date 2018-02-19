@@ -87,7 +87,7 @@ public class RobotMap {
 	public static final double elevatorKd = 6;
 	
 	//TalonSRX Position Closed Loop PID on Wrist
-	public static final double wristKp = 0.025;
+	public static final double wristKp = 0.04;
 	public static final double wristKi = 0.0;
 	public static final double wristKd = 0.1;
 
@@ -104,17 +104,14 @@ public class RobotMap {
 	public final static int climbInSol = 6;
 	
 	//Sensors
-	public final static int ultraIn = 5;
-	public final static int ultraOut = 6;
-	
 	public final static int gyroId = 0;
 	
 	public final static int wristUpId = 0;
 	public final static int wristDownId = 2;
 	public final static int elevatorUpId = 5; // We don't know
 	public final static int carriageDownId = 1;
-	public final static int ultrasonicInput = 3;
-	public final static int ultrasonicOutput = 4;
+	public final static int ultrasonicInput = 4;
+	public final static int ultrasonicOutput = 3;
 	
 	//Gyro PID Values
 	public final static double gyroKp = 0.0075;

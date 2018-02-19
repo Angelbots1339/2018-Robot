@@ -53,7 +53,7 @@ public class OI {
 	
 	public OI(){
 		
-		aButton.whenPressed(new PIDWrist(-75));
+		aButton.whenPressed(new PIDWrist(-76.5));
 		xButton.whenPressed(new ClawOpen());
 		yButton.whenPressed(new ClawMed());
 		bButton.whenPressed(new ClawClosed());
