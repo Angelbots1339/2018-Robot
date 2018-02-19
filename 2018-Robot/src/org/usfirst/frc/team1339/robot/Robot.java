@@ -10,7 +10,6 @@ package org.usfirst.frc.team1339.robot;
 import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -49,11 +48,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		CommandBase.leds.disabledInit();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		CommandBase.leds.disabledPeriodic();
 	}
 
 	/**
@@ -75,6 +76,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.start();
 		}
 		CommandBase.chassis.resetEncoders();
+		CommandBase.leds.autoInit();
 	}
 
 	/**
@@ -83,6 +85,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		CommandBase.leds.autoPeriodic();
 	}
 
 	@Override
@@ -95,6 +98,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.cancel();
 		}
 		CommandBase.chassis.resetSensors();
+		CommandBase.leds.teleOpInit();
 	}
 
 	/**
@@ -107,6 +111,8 @@ public class Robot extends TimedRobot {
 		CommandBase.intake.publishWebServer();
 		CommandBase.elevator.publishSmartDashboard();
 		CommandBase.wrist.publishWebServer();
+		
+		CommandBase.leds.teleOpPeriodic();
 	}
 
 	/**

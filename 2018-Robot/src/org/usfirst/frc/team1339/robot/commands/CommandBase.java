@@ -1,7 +1,12 @@
 package org.usfirst.frc.team1339.robot.commands;
 
 import org.usfirst.frc.team1339.robot.OI;
-import org.usfirst.frc.team1339.robot.subsystems.*;
+import org.usfirst.frc.team1339.robot.subsystems.Chassis;
+import org.usfirst.frc.team1339.robot.subsystems.Elevator;
+import org.usfirst.frc.team1339.robot.subsystems.Intake;
+import org.usfirst.frc.team1339.robot.subsystems.Pinchers;
+import org.usfirst.frc.team1339.robot.subsystems.Wrist;
+import org.usfirst.frc.team1339.utils.LEDs;
 import org.usfirst.frc.team1339.utils.Server;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +25,8 @@ public abstract class CommandBase extends Command {
     public static Intake intake;
     public static Wrist wrist;
     public static Pinchers pinchers;
+    
+    public static LEDs leds;
 
 	public static Server server;
 
@@ -31,6 +38,8 @@ public abstract class CommandBase extends Command {
     	intake = new Intake();
     	wrist = new Wrist();
     	pinchers = new Pinchers();
+    	
+    	leds = new LEDs();
     	
     	server = new Server(8080);
 
