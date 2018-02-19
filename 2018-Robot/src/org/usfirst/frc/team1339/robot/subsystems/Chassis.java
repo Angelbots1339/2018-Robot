@@ -8,6 +8,7 @@ import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.ArcadeDrive;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.ChassisConversions;
+import org.usfirst.frc.team1339.utils.Interpolation;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
 import org.usfirst.frc.team1339.utils.SynchronousPID;
 
@@ -30,10 +31,12 @@ public class Chassis extends Subsystem {
 
     private TalonSRX lMaster, lFrontSlave, lBackSlave, rMaster, rFrontSlave, rBackSlave;
     
+    private Interpolation rampInterpolator;
+    
 	private PrintWriter log;
 	private File fileCreator;
     
-    private double deadband = 0.02;
+    private double deadband = 0.02, ramp = 0;
     
 	private double initialTime;
 	private boolean recording = false;
@@ -85,6 +88,8 @@ public class Chassis extends Subsystem {
 		notifier = new Notifier(new PeriodicRunnable());
 		
 		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
+		
+		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.middleRamp, RobotMap.upperLimitRamp);
     }
 
     public void initDefaultCommand() {
@@ -219,8 +224,10 @@ public class Chassis extends Subsystem {
     }
     
     private double limit(double value) {
-    	
-    	double limit = .6;
+    	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
+    	lMaster.configOpenloopRamp(ramp, 0);
+    	rMaster.configOpenloopRamp(ramp, 0);
+    	double limit = 1;
     	return Math.max(Math.min(limit, value), -limit);
     }
     

@@ -120,5 +120,8 @@ public class RobotMap {
 	//Gyro error
 	public final static double gyroKe = 1.03;
 	
-	
+	//Ramp up
+	public final static double[] lowerLimitRamp = {0.0, 0.0};
+	public final static double[] middleRamp = {90, 0.25};
+	public final static double[] upperLimitRamp = {170.0, 1.0};
 }
