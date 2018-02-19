@@ -16,6 +16,8 @@ public class DriveIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	double output = (oi.getRightBumper().get() ? 0.6 : 0) - (oi.getLeftBumper().get() ? 0.5 : 0);
+    	intake.setIntake(output);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -6,13 +6,11 @@ import java.io.PrintWriter;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.ArcadeDrive;
-import org.usfirst.frc.team1339.robot.commands.CommandBase;
-import org.usfirst.frc.team1339.utils.Conversions;
+import org.usfirst.frc.team1339.utils.ChassisConversions;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
 import org.usfirst.frc.team1339.utils.SynchronousPID;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -122,14 +120,14 @@ public class Chassis extends Subsystem {
     
 	public void publishSmartDashboard() {
 		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);
-		SmartDashboard.putNumber("Right Position Meters", Conversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
+		SmartDashboard.putNumber("Right Position Meters", ChassisConversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
 		//SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Right Velocity MPS", Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("Right Velocity MPS", ChassisConversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
 		//SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
 
-		SmartDashboard.putNumber("Left Position Meters", Conversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)));
+		SmartDashboard.putNumber("Left Position Meters", ChassisConversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)));
 		//SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Left Velocity MPS", Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
+		SmartDashboard.putNumber("Left Velocity MPS", ChassisConversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
 		//SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
 		
 		SmartDashboard.putNumber("gyro", getGyroAngle());
@@ -140,12 +138,12 @@ public class Chassis extends Subsystem {
 		SmartDashboard.putNumber("right executing", rightProfiler.counter);
 		SmartDashboard.putNumber("left executing", leftProfiler.counter);
 		
-		MotionProfileStatus lStatus = new MotionProfileStatus();
+		/*MotionProfileStatus lStatus = new MotionProfileStatus();
 		lMaster.getMotionProfileStatus(lStatus);
 		SmartDashboard.putBoolean("has Underrun left", lStatus.hasUnderrun);
 		MotionProfileStatus rStatus = new MotionProfileStatus();
 		rMaster.getMotionProfileStatus(rStatus);
-		SmartDashboard.putBoolean("has Underrun right", rStatus.hasUnderrun);
+		SmartDashboard.putBoolean("has Underrun right", rStatus.hasUnderrun);*/
 		
 		if(rMaster.getControlMode() == ControlMode.MotionProfile) {
 			SmartDashboard.putNumberArray("Right MP Position",
@@ -217,6 +215,7 @@ public class Chassis extends Subsystem {
     }
     
     private double limit(double value) {
+    	
     	double limit = .6;
     	return Math.max(Math.min(limit, value), -limit);
     }
@@ -290,10 +289,10 @@ public class Chassis extends Subsystem {
     public void recordArcadeDrive(double throttle, double turn) {
     	if (log != null) {
     		double currentTime = Timer.getFPGATimestamp();
-    		log.println(Conversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)) + ","
-    				+ Conversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)) + ","
-    				+ Conversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)) + ","
-    				+ Conversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)) + ","
+    		log.println(ChassisConversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)) + ","
+    				+ ChassisConversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)) + ","
+    				+ ChassisConversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)) + ","
+    				+ ChassisConversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)) + ","
     				+ (currentTime-initialTime));
     		initialTime = currentTime;
     	} else {

@@ -1,8 +1,7 @@
 package org.usfirst.frc.team1339.robot.commands;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
-
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team1339.utils.ElevatorConversions;
 
 /**
  *
@@ -11,26 +10,27 @@ public class PIDElevator extends CommandBase {
 
 	double setpoint;
 	
-    public PIDElevator(double setpoint) {
+    public PIDElevator(double setpointInCm) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(elevator);
-    	this.setpoint = setpoint;
+    	this.setpoint = ElevatorConversions.cmsToClicks(setpointInCm);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	wrist.setPID(0, RobotMap.elevatorKp, RobotMap.elevatorKi, RobotMap.elevatorKd);
+    	elevator.setPID(0, RobotMap.elevatorKp, RobotMap.elevatorKi, RobotMap.elevatorKd);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	elevator.PIDElevator(setpoint);
+    	//System.out.println("Executing ElevetorPID");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return elevator.onTarget(setpoint, 10);// || elevator.isCarriageDown() || elevator.isElevatorUp();
+        return  elevator.isCarriageGoingDown() || elevator.isElevatorGoingUp() || oi.getOneButton().get();
     }
 
     // Called once after isFinished returns true

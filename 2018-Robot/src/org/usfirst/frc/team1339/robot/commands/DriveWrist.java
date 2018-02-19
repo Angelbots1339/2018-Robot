@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1339.robot.commands;
 
+import org.usfirst.frc.team1339.robot.RobotMap;
+
 /**
  *
  */
 public class DriveWrist extends CommandBase {
-
+	
     public DriveWrist() {
         requires(wrist);
     }
@@ -15,7 +17,11 @@ public class DriveWrist extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double output = (oi.getRightBumper().get() ? 0.25 : 0) - (oi.getLeftBumper().get() ? 0.25 : 0);
+    	double output = oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger) -
+    			oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger);
+    	//double output = (oi.getRightBumper().get() ? 0.25 : 0) - (oi.getLeftBumper().get() ? 0.25 : 0);
+    	
+    	
     	wrist.setOutput(output);
     }
 

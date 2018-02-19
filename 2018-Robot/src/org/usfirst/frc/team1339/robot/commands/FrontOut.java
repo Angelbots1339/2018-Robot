@@ -7,13 +7,13 @@ public class FrontOut extends CommandBase {
 
     public FrontOut() {
     	requires(pinchers);
+    	setTimeout(0.05);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	pinchers.setFrontIn(false);
     	pinchers.setFrontOut(true);
-    	setTimeout(0.05);
     }
 
     // Called repeatedly when this Command is scheduled to run

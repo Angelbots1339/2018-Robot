@@ -1,8 +1,10 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.ShiftHigh;
-import org.usfirst.frc.team1339.robot.commands.ShiftLow;
+import org.usfirst.frc.team1339.robot.commands.DriveClimber;
+import org.usfirst.frc.team1339.robot.commands.DriveElevator;
+import org.usfirst.frc.team1339.robot.commands.PIDElevator;
+import org.usfirst.frc.team1339.robot.commands.PIDWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
@@ -32,6 +34,7 @@ public class OI {
 	private JoystickButton leftStickButton = new JoystickButton(xboxStick, RobotMap.xboxLeftStickButton);
 	
 	//Operator Buttons
+	private JoystickButton oneButton = new JoystickButton(operatorStick, RobotMap.operatorOneButton);
 	private JoystickButton twoButton = new JoystickButton(operatorStick, RobotMap.operatorTwoButton);
 	private JoystickButton threeButton = new JoystickButton(operatorStick, RobotMap.operatorThreeButton);
 	private JoystickButton fourButton = new JoystickButton(operatorStick, RobotMap.operatorFourButton);
@@ -43,16 +46,23 @@ public class OI {
 	 *  XBOX A ---> Follow reverse circle
 	 *  XBOX Y ---> Follow path from FMS data
 	 *  XBOX X ---> Follow circle path
+	 *  
 	 *  XBOX Right Bumper ---> Take off limiter
 	 *  XBOX Left Bumper ---> Apply Limiter
 	 * */
 	
 	public OI(){
+		
+		aButton.whenPressed(new PIDWrist(-79));
 		xButton.whenPressed(new ClawOpen());
 		yButton.whenPressed(new ClawMed());
 		bButton.whenPressed(new ClawClosed());
 		//rightBumper.whenPressed(new ShiftHigh());
 		//leftBumper.whenPressed(new ShiftLow());
+		
+		threeButton.whenPressed(new DriveClimber());
+		fourButton.whenPressed(new DriveElevator());
+		sixButton.whenPressed(new PIDElevator(120));
 	}
 	
 	//Get Functions
@@ -91,6 +101,9 @@ public class OI {
 	}
 	public JoystickButton getMenuButton(){
 		return menuButton;
+	}
+	public JoystickButton getOneButton(){
+		return oneButton;
 	}
 	public JoystickButton getTwoButton(){
 		return twoButton;

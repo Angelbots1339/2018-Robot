@@ -65,8 +65,8 @@ public class MotionProfiling {
 		/* This is fast since it's just into our TOP buffer */
 		for (int i = 0; i < totalCnt; ++i) {
 			
-			double position = Conversions.metersToClicks(log.get(i).position);
-			double velocity = Conversions.metersPerSecToClickVel(log.get(i).velocity);
+			double position = ChassisConversions.metersToClicks(log.get(i).position);
+			double velocity = ChassisConversions.metersPerSecToClickVel(log.get(i).velocity);
 			/* for each point, fill our structure and pass it to API */
 			point.position = position;
 			point.velocity = velocity;

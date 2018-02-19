@@ -63,7 +63,7 @@ public class RobotMap {
 	
 	//Intake Motors
 	public final static int rightIntakeMotor = 4;
-	public final static int leftIntakeMotor = 9;
+	public final static int leftIntakeMotor = 5;
 	
 	//Elevator Motors
 	public final static int topElevatorMotor = 7;
@@ -73,7 +73,7 @@ public class RobotMap {
 	public final static int wristMotor = 6;
 	
 	//Climbing Motors
-	public final static int climbMotor = 5;
+	public final static int climbMotor = 9;
 	
 	//TalonSRX Motion Profiling PIDF
 	public static final double talonKf = 1.4; //1.77 1.4
@@ -82,20 +82,22 @@ public class RobotMap {
 	public static final double talonKd = 10;
 	
 	//TalonSRX Position Closed Loop PID on Elevator
-	public static final double elevatorKp = 0.0;
+	public static final double elevatorKp = 0.1;
 	public static final double elevatorKi = 0.0;
-	public static final double elevatorKd = 0.0;
+	public static final double elevatorKd = 6;
 	
 	//TalonSRX Position Closed Loop PID on Wrist
-	public static final double wristKp = 0.0;
+	public static final double wristKp = 0.0025;
 	public static final double wristKi = 0.0;
-	public static final double wristKd = 0.0;
+	public static final double wristKd = 0.01;
 
 	//Solenoids
 	public final static int frontInSol = 1;
-	public final static int frontOutSol = 2;
+	public final static int frontOutSol = 0;
 	public final static int backInSol = 3;
-	public final static int backOutSol = 4;
+	public final static int backOutSol = 2;
+	public final static int climbOutSol = 5;
+	public final static int climbInSol = 6;
 	
 	//Sensors
 	public final static int ultraIn = 5;
@@ -106,9 +108,11 @@ public class RobotMap {
 	public final static double kTurnLimiter = 0.8;
 	
 	public final static int wristUpId = 0;
-	public final static int wristDownId = 0;
-	public final static int elevatorUpId = 0;
-	public final static int carriageDownId = 0;
+	public final static int wristDownId = 2;
+	public final static int elevatorUpId = 5; // We don't know
+	public final static int carriageDownId = 1;
+	public final static int ultrasonicInput = 3;
+	public final static int ultrasonicOutput = 4;
 	
 	//Gyro PID Values
 	public final static double gyroKp = 0.0075;
@@ -117,5 +121,6 @@ public class RobotMap {
 	
 	//Gyro error
 	public final static double gyroKe = 1.03;
+	
 	
 }

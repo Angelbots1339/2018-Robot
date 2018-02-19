@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1339.utils;
 
-public class Conversions {
+public class ChassisConversions {
 	
 	public static double wheelDiameter = 6.1;
 	public static int clicksPerRot = 1024;

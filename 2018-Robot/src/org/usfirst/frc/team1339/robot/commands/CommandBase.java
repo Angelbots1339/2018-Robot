@@ -20,7 +20,6 @@ public abstract class CommandBase extends Command {
     public static Intake intake;
     public static Wrist wrist;
     public static Pinchers pinchers;
-    public static Climber climber;
 
 	public static Server server;
 
@@ -32,7 +31,6 @@ public abstract class CommandBase extends Command {
     	intake = new Intake();
     	wrist = new Wrist();
     	pinchers = new Pinchers();
-    	climber = new Climber();
     	
     	server = new Server(8099);
 

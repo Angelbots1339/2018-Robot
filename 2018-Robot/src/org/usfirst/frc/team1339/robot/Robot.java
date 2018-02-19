@@ -10,6 +10,7 @@ package org.usfirst.frc.team1339.robot;
 import org.usfirst.frc.team1339.robot.commands.CenterToSwitch;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -37,6 +38,8 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterToSwitch());
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
+		
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
@@ -103,6 +106,7 @@ public class Robot extends TimedRobot {
 		CommandBase.chassis.publishSmartDashboard();
 		CommandBase.intake.publishWebServer();
 		CommandBase.elevator.publishSmartDashboard();
+		CommandBase.wrist.publishWebServer();
 	}
 
 	/**
