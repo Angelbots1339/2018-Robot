@@ -100,8 +100,6 @@ public class RobotMap {
 	public final static int climbInSol = 6;
 	
 	//Sensors
-	public final static int ultraIn = 5;
-	public final static int ultraOut = 6;
 	public final static int gyroId = 0;
 	
 	public final static double kThrottleLimiter = 0.5;
