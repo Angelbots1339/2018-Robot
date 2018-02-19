@@ -91,19 +91,23 @@ public class RobotMap {
 	public static final double wristKi = 0.0;
 	public static final double wristKd = 0.1;
 
+	//LEDs
+	public final static int rightLEDStripId = 1;
+	public final static int leftLEDStripId = 2;
+	
 	//Solenoids
-	public final static int frontInSol = 1;//1 
-	public final static int frontOutSol = 0;//0
-	public final static int backInSol = 3;//3
-	public final static int backOutSol = 2;//2
+	public final static int frontInSol = 1;
+	public final static int frontOutSol = 0;
+	public final static int backInSol = 3;
+	public final static int backOutSol = 2;
 	public final static int climbOutSol = 5;
 	public final static int climbInSol = 6;
 	
 	//Sensors
-	public final static int gyroId = 0;
+	public final static int ultraIn = 5;
+	public final static int ultraOut = 6;
 	
-	public final static double kThrottleLimiter = 0.5;
-	public final static double kTurnLimiter = 0.8;
+	public final static int gyroId = 0;
 	
 	public final static int wristUpId = 0;
 	public final static int wristDownId = 2;
@@ -120,5 +124,7 @@ public class RobotMap {
 	//Gyro error
 	public final static double gyroKe = 1.03;
 	
-	
+	//Chassis limiter
+	public final static double kThrottleLimiter = 0.5;
+	public final static double kTurnLimiter = 0.8;
 }
