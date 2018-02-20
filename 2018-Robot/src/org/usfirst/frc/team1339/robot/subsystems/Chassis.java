@@ -89,7 +89,7 @@ public class Chassis extends Subsystem {
 		
 		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
 		
-		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.middleRamp, RobotMap.upperLimitRamp);
+		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.upperLimitRamp);
     }
 
     public void initDefaultCommand() {
@@ -224,10 +224,10 @@ public class Chassis extends Subsystem {
     }
     
     private double limit(double value) {
-    	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
+    	ramp = rampInterpolator.lagrangePolynomialLinear(CommandBase.elevator.getPosition());
     	lMaster.configOpenloopRamp(ramp, 0);
     	rMaster.configOpenloopRamp(ramp, 0);
-    	double limit = 1;
+    	double limit = 0.6;
     	return Math.max(Math.min(limit, value), -limit);
     }
     

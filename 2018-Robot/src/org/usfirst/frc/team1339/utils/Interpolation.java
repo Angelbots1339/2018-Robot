@@ -24,6 +24,13 @@ public class Interpolation {
 		y_3 = point3[1];
 	}
 	
+	public Interpolation(double[] point1, double[] point2) {
+		x_1 = point1[0];
+		y_1 = point1[1];
+		x_2 = point2[0];
+		y_2 = point2[1];
+	}
+	
 	public Interpolation(){
 		
 	}
@@ -62,6 +69,12 @@ public class Interpolation {
 		double secondCoefficient = (x - x_1)*(x - x_3) / ((x_2 - x_1)*(x_2 - x_3));
 		double thirdCoefficient = (x - x_1)*(x - x_2) / ((x_3 - x_1)*(x_3 - x_2));
 		double y = firstCoefficient * y_1 + secondCoefficient * y_2 + thirdCoefficient * y_3;
+		return y;
+	}
+	
+	public double lagrangePolynomialLinear(double x) {
+		double slope = (y_2 - y_1) / (x_2 - x_1);
+		double y = x * slope;
 		return y;
 	}
 	
