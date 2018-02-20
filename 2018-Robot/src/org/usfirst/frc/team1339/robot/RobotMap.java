@@ -120,7 +120,11 @@ public class RobotMap {
 	
 	//Gyro error
 	public final static double gyroKe = 1.03;
-	
+
+	//Ramp up
+	public final static double[] lowerLimitRamp = {0.0, 0.0};
+	public final static double[] upperLimitRamp = {180.0, 2.0};
+  
 	//Chassis limiter
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
