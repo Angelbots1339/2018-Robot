@@ -90,6 +90,8 @@ public class Chassis extends Subsystem {
 		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
 		
 		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.upperLimitRamp);
+		lMaster.configOpenloopRamp(0, 0);
+		rMaster.configOpenloopRamp(0, 0);
     }
 
     public void initDefaultCommand() {
@@ -139,7 +141,7 @@ public class Chassis extends Subsystem {
 		SmartDashboard.putNumber("Left Velocity MPS", ChassisConversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
 		//SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
 		
-		SmartDashboard.putNumber("gyro", getGyroAngle());
+		CommandBase.server.valueDisplay.putValue("gyro", getGyroAngle());
 		
 		SmartDashboard.putBoolean("Recording", recording);
 		SmartDashboard.putBoolean("Following", following);
@@ -319,6 +321,9 @@ public class Chassis extends Subsystem {
     	log(rMaster.changeMotionControlFramePeriod(10));
     	log(lMaster.changeMotionControlFramePeriod(10));
     	
+    	lMaster.configOpenloopRamp(0, 0);
+    	rMaster.configOpenloopRamp(0, 0);
+    	
     	rightProfiler.initialize(filename);
     	leftProfiler.initialize(filename);
     	
@@ -345,7 +350,7 @@ public class Chassis extends Subsystem {
     	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
-    	//setBrakeMode(false);
+    	setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {

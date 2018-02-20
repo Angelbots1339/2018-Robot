@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 		
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
@@ -49,11 +49,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		CommandBase.leds.disabledInit();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		CommandBase.leds.disabledPeriodic();
+		CommandBase.intake.publishWebServer();
 	}
 
 	/**
@@ -75,6 +78,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.start();
 		}
 		CommandBase.chassis.resetEncoders();
+		CommandBase.leds.autoInit();
 	}
 
 	/**
@@ -83,6 +87,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		CommandBase.leds.autoPeriodic();
 	}
 
 	@Override
@@ -95,6 +100,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.cancel();
 		}
 		CommandBase.chassis.resetSensors();
+		CommandBase.leds.teleOpInit();
 	}
 
 	/**
@@ -107,6 +113,8 @@ public class Robot extends TimedRobot {
 		CommandBase.intake.publishWebServer();
 		CommandBase.elevator.publishSmartDashboard();
 		CommandBase.wrist.publishWebServer();
+		
+		CommandBase.leds.teleOpPeriodic();
 	}
 
 	/**

@@ -1,9 +1,9 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.DriveClimber;
-import org.usfirst.frc.team1339.robot.commands.DriveElevator;
+import org.usfirst.frc.team1339.robot.commands.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
+import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.PIDWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
@@ -53,16 +53,19 @@ public class OI {
 	
 	public OI(){
 		
-		aButton.whenPressed(new PIDWrist(-75));
+		aButton.whenPressed(new PIDWrist(-82));
 		xButton.whenPressed(new ClawOpen());
 		yButton.whenPressed(new ClawMed());
 		bButton.whenPressed(new ClawClosed());
 		//rightBumper.whenPressed(new ShiftHigh());
 		//leftBumper.whenPressed(new ShiftLow());
-		
-		threeButton.whenPressed(new DriveClimber());
-		fourButton.whenPressed(new DriveElevator());
-		sixButton.whenPressed(new PIDElevator(120));
+		//viewButton.whenPressed(new CenterSwitchAuto());
+		viewButton.whenPressed(new PIDGyro(180, 2));
+		//threeButton.whenPressed(new DriveClimber());
+		//fourButton.whenPressed(new DriveElevator());
+		threeButton.whenPressed(new PIDElevator(0));
+		fiveButton.whenPressed(new PIDElevator(65));
+		sixButton.whenPressed(new PIDElevator(170));
 	}
 	
 	//Get Functions

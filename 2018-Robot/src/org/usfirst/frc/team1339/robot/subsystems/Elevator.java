@@ -120,5 +120,6 @@ public class Elevator extends Subsystem {
 	}
 	
 	public double getPosition() { return ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0));}
+	public double getPositionClicks() { return elevatorMaster.getSelectedSensorPosition(0);}
 }
 
