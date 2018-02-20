@@ -1,13 +1,15 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.CenterSwitchAuto;
+import org.usfirst.frc.team1339.robot.commands.DriveClimber;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
 import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.PIDWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
+import org.usfirst.frc.team1339.robot.commands.groups.GoToClimber;
+import org.usfirst.frc.team1339.robot.commands.groups.GoToElevator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -41,6 +43,11 @@ public class OI {
 	private JoystickButton fiveButton = new JoystickButton(operatorStick, RobotMap.operatorFiveButton);
 	private JoystickButton sixButton = new JoystickButton(operatorStick, RobotMap.operatorSixButton);
 	private JoystickButton sevenButton = new JoystickButton(operatorStick, RobotMap.operatorSevenButton);
+	private JoystickButton eightButton = new JoystickButton(operatorStick, RobotMap.operatorEightButton);
+	private JoystickButton nineButton = new JoystickButton(operatorStick, RobotMap.operatorNineButton);
+	private JoystickButton tenButton = new JoystickButton(operatorStick, RobotMap.operatorTenButton);
+	private JoystickButton elevenButton = new JoystickButton(operatorStick, RobotMap.operatorElevenButton);
+	private JoystickButton twelveButton = new JoystickButton(operatorStick, RobotMap.operatorTwelveButton);
 	
 	/*	XBOX B ---> Cancels profile
 	 *  XBOX A ---> Follow reverse circle
@@ -60,9 +67,9 @@ public class OI {
 		//rightBumper.whenPressed(new ShiftHigh());
 		//leftBumper.whenPressed(new ShiftLow());
 		//viewButton.whenPressed(new CenterSwitchAuto());
-		viewButton.whenPressed(new PIDGyro(180, 2));
-		//threeButton.whenPressed(new DriveClimber());
-		//fourButton.whenPressed(new DriveElevator());
+		//viewButton.whenPressed(new PIDGyro(180, 2));
+		sevenButton.whenPressed(new GoToClimber());
+		eightButton.whenPressed(new GoToElevator());
 		threeButton.whenPressed(new PIDElevator(0));
 		fiveButton.whenPressed(new PIDElevator(65));
 		sixButton.whenPressed(new PIDElevator(170));

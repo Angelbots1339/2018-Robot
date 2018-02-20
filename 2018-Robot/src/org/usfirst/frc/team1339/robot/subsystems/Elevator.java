@@ -61,7 +61,8 @@ public class Elevator extends Subsystem {
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
-		System.out.println(ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
+		CommandBase.server.valueDisplay.putValue("Carriage down", carriageDown.get());
+		//System.out.println(ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 	}
 
 	public void setElevator(double output) {
@@ -120,6 +121,7 @@ public class Elevator extends Subsystem {
 	}
 	
 	public double getPosition() { return ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0));}
+	
 	public double getPositionClicks() { return elevatorMaster.getSelectedSensorPosition(0);}
 }
 

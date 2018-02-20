@@ -15,6 +15,7 @@ public class PIDWrist extends CommandBase {
         // eg. requires(chassis);
     	requires(wrist);
     	setpoint = WristConversions.degreesToClicks(degrees);
+
     }
 
     // Called just before this Command runs the first time
@@ -31,7 +32,9 @@ public class PIDWrist extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return wrist.isWristGoingDown() || wrist.isWristGoingUp() || oi.getMenuButton().get();
+        return wrist.isWristGoingDown() ||
+        		wrist.isWristGoingUp() ||
+        		oi.getMenuButton().get();
     }
 
     // Called once after isFinished returns true

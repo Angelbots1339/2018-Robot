@@ -9,6 +9,7 @@ import org.usfirst.frc.team1339.utils.ElevatorConversions;
 public class PIDElevator extends CommandBase {
 
 	double setpoint;
+	boolean autoMode;
 	
     public PIDElevator(double setpointInCm) {
         // Use requires() here to declare subsystem dependencies
@@ -30,7 +31,9 @@ public class PIDElevator extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return  elevator.isCarriageGoingDown() || elevator.isElevatorGoingUp() || oi.getOneButton().get();
+        return  elevator.isCarriageGoingDown() ||
+        		elevator.isElevatorGoingUp() ||
+        		oi.getOneButton().get();
     }
 
     // Called once after isFinished returns true

@@ -23,6 +23,7 @@ public class Intake extends Subsystem {
 		rMotor = new TalonSRX(RobotMap.rightIntakeMotor);
 		
 		ultra = new Ultrasonic(RobotMap.ultrasonicOutput, RobotMap.ultrasonicInput);
+		ultra.setAutomaticMode(true);
 	}
 
     public void initDefaultCommand() {
@@ -30,6 +31,7 @@ public class Intake extends Subsystem {
     }
     
     public void publishWebServer() {
+    	CommandBase.server.valueDisplay.putValue("ultra there", ultra.isEnabled());
     	CommandBase.server.valueDisplay.putValue("Ultrasonic", ultra.getRangeMM());
     	CommandBase.server.valueDisplay.putValue("Haz box", hazBox());
     }

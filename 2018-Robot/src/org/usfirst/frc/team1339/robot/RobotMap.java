@@ -52,6 +52,11 @@ public class RobotMap {
 	public final static int operatorFiveButton = 5;
 	public final static int operatorSixButton = 6;
 	public final static int operatorSevenButton = 7;
+	public final static int operatorEightButton = 8;
+	public final static int operatorNineButton = 9;
+	public final static int operatorTenButton = 10;
+	public final static int operatorElevenButton = 11;
+	public final static int operatorTwelveButton = 12;
 	
 	//Drive Motors
 	public final static int rightTopDriveMotor = 1;
@@ -101,7 +106,7 @@ public class RobotMap {
 	public final static int backInSol = 3;
 	public final static int backOutSol = 2;
 	public final static int climbOutSol = 5;
-	public final static int climbInSol = 6;
+	public final static int climbInSol = 7;
 	
 	//Sensors
 	public final static int gyroId = 0;
@@ -110,8 +115,8 @@ public class RobotMap {
 	public final static int wristDownId = 2;
 	public final static int elevatorUpId = 5; // We don't know
 	public final static int carriageDownId = 1;
-	public final static int ultrasonicInput = 4;
-	public final static int ultrasonicOutput = 3;
+	public final static int ultrasonicInput = 3;
+	public final static int ultrasonicOutput = 4;
 	
 	//Gyro PID Values
 	public final static double gyroKp = 0.0075;
