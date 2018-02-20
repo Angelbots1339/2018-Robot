@@ -85,6 +85,9 @@ public class Chassis extends Subsystem {
 		notifier = new Notifier(new PeriodicRunnable());
 		
 		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
+		
+		lMaster.configOpenloopRamp(0, 0);
+		rMaster.configOpenloopRamp(0, 0);
     }
 
     public void initDefaultCommand() {
@@ -134,7 +137,7 @@ public class Chassis extends Subsystem {
 		SmartDashboard.putNumber("Left Velocity MPS", ChassisConversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
 		//SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
 		
-		SmartDashboard.putNumber("gyro", getGyroAngle());
+		CommandBase.server.valueDisplay.putValue("gyro", getGyroAngle());
 		
 		SmartDashboard.putBoolean("Recording", recording);
 		SmartDashboard.putBoolean("Following", following);
@@ -219,8 +222,7 @@ public class Chassis extends Subsystem {
     }
     
     private double limit(double value) {
-    	
-    	double limit = .6;
+    	double limit = 0.6;
     	return Math.max(Math.min(limit, value), -limit);
     }
     
