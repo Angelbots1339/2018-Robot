@@ -314,6 +314,9 @@ public class Chassis extends Subsystem {
     	log(rMaster.changeMotionControlFramePeriod(10));
     	log(lMaster.changeMotionControlFramePeriod(10));
     	
+    	lMaster.configOpenloopRamp(0, 0);
+    	rMaster.configOpenloopRamp(0, 0);
+    	
     	rightProfiler.initialize(filename);
     	leftProfiler.initialize(filename);
     	
@@ -340,7 +343,7 @@ public class Chassis extends Subsystem {
     	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
-    	//setBrakeMode(false);
+    	setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {

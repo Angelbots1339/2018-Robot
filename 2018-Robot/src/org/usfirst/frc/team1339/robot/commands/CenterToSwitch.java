@@ -36,7 +36,7 @@ public class CenterToSwitch extends CommandBase {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return chassis.isTrajectoryFinished() ||
-        		oi.getBButton().get() ||
+        		oi.getLeftBumper().get() ||
         		name.equals("null");
     }
 

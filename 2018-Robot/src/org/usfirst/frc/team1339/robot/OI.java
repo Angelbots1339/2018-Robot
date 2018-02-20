@@ -1,9 +1,9 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.DriveClimber;
-import org.usfirst.frc.team1339.robot.commands.DriveElevator;
+import org.usfirst.frc.team1339.robot.commands.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
+import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.PIDWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
@@ -59,7 +59,8 @@ public class OI {
 		bButton.whenPressed(new ClawClosed());
 		//rightBumper.whenPressed(new ShiftHigh());
 		//leftBumper.whenPressed(new ShiftLow());
-		
+		//viewButton.whenPressed(new CenterSwitchAuto());
+		viewButton.whenPressed(new PIDGyro(180, 2));
 		//threeButton.whenPressed(new DriveClimber());
 		//fourButton.whenPressed(new DriveElevator());
 		threeButton.whenPressed(new PIDElevator(0));
