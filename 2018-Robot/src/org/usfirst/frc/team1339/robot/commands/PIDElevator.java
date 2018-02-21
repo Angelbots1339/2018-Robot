@@ -89,7 +89,7 @@ public class PIDElevator extends CommandBase {
     protected boolean isFinished() {
         return  elevator.isCarriageGoingDown() ||
         		elevator.isElevatorGoingUp() ||
-        		oi.getOneButton().get();
+        		Math.abs(oi.getMadCatzStick().getRawAxis(RobotMap.operatorYAxis)) > 0.1;
     }
 
     // Called once after isFinished returns true

@@ -144,7 +144,11 @@ public class RobotMap {
 	public final static int highSwitch = ElevatorConversions.cmsToClicks(80);
 	public final static int lowScale = ElevatorConversions.cmsToClicks(140);
 	public final static int highScale = ElevatorConversions.cmsToClicks(170);
+
+	//Ultrasonic thresholds
+	public final static double threshold = 80;
+	public final static double squeezeThreshold = 110;
 	
-	
-	
+	//Elevator Heights
+	public final static double driveHeight = 5; //centimeters
 }

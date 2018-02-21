@@ -74,13 +74,12 @@ public class Elevator extends Subsystem {
 	}
 
 	public void publishSmartDashboard() {
-		SmartDashboard.putNumber("Elevator Enc",
-				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
+		//SmartDashboard.putNumber("Elevator Enc",
+		//		ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Carriage down", carriageDown.get());
-		CommandBase.server.valueDisplay.putValue("Carriage Up", elevatorUp.get());
-		//System.out.println(ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
+		CommandBase.server.valueDisplay.putValue("Elevator Up", elevatorUp.get());
 		CommandBase.server.valueDisplay.putValue("Elevator Position", position);
 		CommandBase.server.valueDisplay.putValue("Elevator State", state);
 	}

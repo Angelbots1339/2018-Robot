@@ -40,9 +40,8 @@ public class Wrist extends Subsystem {
     public void publishWebServer() {
     	CommandBase.server.valueDisplay.putValue("Wrist Degrees",
     			WristConversions.clicksToDegrees(wristMotor.getSelectedSensorPosition(0)));
-//    	CommandBase.server.valueDisplay.putValue("Wrist Up Limit", value);
-    	CommandBase.server.valueDisplay.putValue("wrist up limit", wristUp.get());
-    	CommandBase.server.valueDisplay.putValue("wrist down limit", wristDown.get());
+    	CommandBase.server.valueDisplay.putValue("Wrist Up Limit", wristUp.get());
+    	CommandBase.server.valueDisplay.putValue("Wrist Down Limit", wristDown.get());
     	
     }
     
