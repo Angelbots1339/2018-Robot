@@ -12,6 +12,14 @@ public class Pinchers extends Subsystem {
 	
 	Solenoid backIn, backOut, frontIn, frontOut;
 	
+	public static enum ClawPosition{
+		OPEN,
+		CLOSED,
+		MED,
+	}
+	
+	private static ClawPosition position = ClawPosition.MED;
+	
 	public Pinchers() {
 		backIn = new Solenoid(RobotMap.backInSol);
 		backOut = new Solenoid(RobotMap.backOutSol);
@@ -34,5 +42,10 @@ public class Pinchers extends Subsystem {
     public void setFrontOut(boolean value) {
     	frontOut.set(value);
     }
+    
+    public static void setClawPosition(ClawPosition num) { position = num; }
+    
+    public static ClawPosition getClawPosition() { return position; }
+
 }
 

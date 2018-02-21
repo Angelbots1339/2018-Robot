@@ -3,11 +3,13 @@ package org.usfirst.frc.team1339.robot.subsystems;
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.robot.commands.DriveIntake;
+import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
@@ -16,8 +18,7 @@ public class Intake extends Subsystem {
 	private TalonSRX rMotor;
 	
 	private Ultrasonic ultra;
-	private final double threshold = 40;
-	
+		
 	public Intake() {
 		lMotor = new TalonSRX(RobotMap.leftIntakeMotor);
 		rMotor = new TalonSRX(RobotMap.rightIntakeMotor);
@@ -31,9 +32,8 @@ public class Intake extends Subsystem {
     }
     
     public void publishWebServer() {
-    	CommandBase.server.valueDisplay.putValue("ultra there", ultra.isEnabled());
     	CommandBase.server.valueDisplay.putValue("Ultrasonic", ultra.getRangeMM());
-    	CommandBase.server.valueDisplay.putValue("Haz box", hazBox());
+    	CommandBase.server.valueDisplay.putValue("Haz box", hazBox(RobotMap.threshold));
     }
     
     public void setIntake(double output) {
@@ -41,7 +41,7 @@ public class Intake extends Subsystem {
     	rMotor.set(ControlMode.PercentOutput, output);
     }
     
-    public boolean hazBox() {
+    public boolean hazBox(double threshold) {
     	return ultra.getRangeMM() < threshold;
     }
 }
