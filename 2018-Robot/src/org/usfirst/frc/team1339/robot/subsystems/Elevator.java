@@ -19,7 +19,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Elevator extends Subsystem {
-
+	/*
+	public static enum ElevatorState{
+		LOW,
+		MID,
+		HIGH
+	}
+	public static enum ElevatorPosition{
+		ZERO,
+		SWITCH,
+		SCALE
+	}
+	*/
 	private TalonSRX elevatorMaster;
 	private TalonSRX elevatorSlave;
 	private TalonSRX climber;
@@ -28,6 +39,9 @@ public class Elevator extends Subsystem {
 
 	private DigitalInput elevatorUp;
 	private DigitalInput carriageDown;
+	
+	public int position; //0 = bottom(0) ; 1 = switch(65) ; 2 = scale(150)
+	public int state;
 
 	public Elevator() {
 		elevatorMaster = new TalonSRX(RobotMap.topElevatorMotor);
@@ -45,6 +59,9 @@ public class Elevator extends Subsystem {
 
 		elevatorUp = new DigitalInput(RobotMap.elevatorUpId);
 		carriageDown = new DigitalInput(RobotMap.carriageDownId);
+		
+		position = 0;
+		state = 0;
 	}
 
 	public void initDefaultCommand() {
@@ -62,7 +79,10 @@ public class Elevator extends Subsystem {
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Carriage down", carriageDown.get());
+		CommandBase.server.valueDisplay.putValue("Carriage Up", elevatorUp.get());
 		//System.out.println(ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
+		CommandBase.server.valueDisplay.putValue("Elevator Position", position);
+		CommandBase.server.valueDisplay.putValue("Elevator State", state);
 	}
 
 	public void setElevator(double output) {

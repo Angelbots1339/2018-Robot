@@ -1,15 +1,21 @@
 package org.usfirst.frc.team1339.robot.commands;
 
-import org.usfirst.frc.team1339.robot.RobotMap;
+import org.usfirst.frc.team1339.utils.WristConversions;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveIntake extends CommandBase {
+public class WristToggle extends CommandBase {
 
-    public DriveIntake() {
+	boolean toggle = false;
+	boolean pressed = false;
+	
+    public WristToggle() {
         // Use requires() here to declare subsystem dependencies
-        requires(intake);
+        // eg. requires(chassis);
+    	requires(wrist);
     }
 
     // Called just before this Command runs the first time
@@ -18,9 +24,17 @@ public class DriveIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	boolean intaking = oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger)>.5;
-    	double output = (intaking ? 0.8 : 0) - (oi.getLeftBumper().get() ? 0.5 : 0);
-    	intake.setIntake(output);
+    	if (oi.getXButton().get() && !pressed) {
+    		wrist.toggle = 0;
+    		toggle = !toggle;
+    		pressed = true;
+    	}
+    	if(pressed && !oi.getXButton().get()) {
+    		pressed = false;
+    	}
+    	if(wrist.toggle == -1) wrist.setOutput(0);
+    	else if(toggle) wrist.PIDWrist(WristConversions.degreesToClicks(-82));
+    	else wrist.PIDWrist(WristConversions.degreesToClicks(-30));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,12 +44,10 @@ public class DriveIntake extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-    	intake.setIntake(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	intake.setIntake(0);
     }
 }

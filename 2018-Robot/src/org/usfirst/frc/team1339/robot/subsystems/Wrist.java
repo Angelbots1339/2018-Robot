@@ -2,7 +2,7 @@ package org.usfirst.frc.team1339.robot.subsystems;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
-import org.usfirst.frc.team1339.robot.commands.DriveWrist;
+import org.usfirst.frc.team1339.robot.commands.WristToggle;
 import org.usfirst.frc.team1339.utils.WristConversions;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -20,9 +20,11 @@ public class Wrist extends Subsystem {
 	TalonSRX wristMotor;
 	private DigitalInput wristUp;
 	private DigitalInput wristDown;
+	public int toggle = -1;
 	
 
 	public Wrist() {
+		toggle = 0;
 		wristMotor = new TalonSRX(RobotMap.wristMotor);
 		wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		wristMotor.setInverted(true);
@@ -32,13 +34,15 @@ public class Wrist extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWrist());
+        setDefaultCommand(new WristToggle());
     }
     
     public void publishWebServer() {
     	CommandBase.server.valueDisplay.putValue("Wrist Degrees",
     			WristConversions.clicksToDegrees(wristMotor.getSelectedSensorPosition(0)));
 //    	CommandBase.server.valueDisplay.putValue("Wrist Up Limit", value);
+    	CommandBase.server.valueDisplay.putValue("wrist up limit", wristUp.get());
+    	CommandBase.server.valueDisplay.putValue("wrist down limit", wristDown.get());
     	
     }
     

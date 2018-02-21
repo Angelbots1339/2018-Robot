@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.utils.ElevatorConversions;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -89,7 +91,7 @@ public class RobotMap {
 	//TalonSRX Position Closed Loop PID on Elevator
 	public static final double elevatorKp = 0.1;
 	public static final double elevatorKi = 0.0;
-	public static final double elevatorKd = 6;
+	public static final double elevatorKd = 10;
 	
 	//TalonSRX Position Closed Loop PID on Wrist
 	public static final double wristKp = 0.04;
@@ -133,4 +135,16 @@ public class RobotMap {
 	//Chassis limiter
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
+	
+	//Elevator Positions
+	public final static int posSwitch = ElevatorConversions.cmsToClicks(65);
+	public final static int posScale = ElevatorConversions.cmsToClicks(155);
+	
+	public final static int lowSwitch = ElevatorConversions.cmsToClicks(55);
+	public final static int highSwitch = ElevatorConversions.cmsToClicks(80);
+	public final static int lowScale = ElevatorConversions.cmsToClicks(140);
+	public final static int highScale = ElevatorConversions.cmsToClicks(170);
+	
+	
+	
 }

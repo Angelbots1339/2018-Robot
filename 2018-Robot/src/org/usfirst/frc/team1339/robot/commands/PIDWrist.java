@@ -10,12 +10,11 @@ public class PIDWrist extends CommandBase {
 	
 	double setpoint;
 
-    public PIDWrist(double degrees) {
+    public PIDWrist(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(wrist);
-    	setpoint = WristConversions.degreesToClicks(degrees);
-
+    	this.setpoint = WristConversions.degreesToClicks(setpoint);
     }
 
     // Called just before this Command runs the first time
@@ -25,9 +24,7 @@ public class PIDWrist extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//System.out.println(wrist.getOutput());
     	wrist.PIDWrist(setpoint);
-    	//System.out.println("PIDWrist executing peasants");
     }
 
     // Make this return true when this Command no longer needs to run execute()

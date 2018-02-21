@@ -1,15 +1,15 @@
 package org.usfirst.frc.team1339.robot.commands;
 
-import org.usfirst.frc.team1339.robot.RobotMap;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveIntake extends CommandBase {
+public class WristToogle extends Command {
 
-    public DriveIntake() {
+    public WristToogle() {
         // Use requires() here to declare subsystem dependencies
-        requires(intake);
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -18,9 +18,6 @@ public class DriveIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	boolean intaking = oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger)>.5;
-    	double output = (intaking ? 0.8 : 0) - (oi.getLeftBumper().get() ? 0.5 : 0);
-    	intake.setIntake(output);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,12 +27,10 @@ public class DriveIntake extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-    	intake.setIntake(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	intake.setIntake(0);
     }
 }

@@ -1,15 +1,10 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.DriveClimber;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
-import org.usfirst.frc.team1339.robot.commands.PIDGyro;
-import org.usfirst.frc.team1339.robot.commands.PIDWrist;
-import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
+import org.usfirst.frc.team1339.robot.commands.ResetWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
-import org.usfirst.frc.team1339.robot.commands.groups.GoToClimber;
-import org.usfirst.frc.team1339.robot.commands.groups.GoToElevator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -60,19 +55,29 @@ public class OI {
 	
 	public OI(){
 		
-		aButton.whenPressed(new PIDWrist(-82));
-		xButton.whenPressed(new ClawOpen());
-		yButton.whenPressed(new ClawMed());
-		bButton.whenPressed(new ClawClosed());
+		//aButton.whenPressed(new PIDWrist(-82));
+		//xButton.whenPressed(new ClawOpen());
+		//yButton.whenPressed(new ClawMed());
+		//bButton.whenPressed(new ClawClosed());
 		//rightBumper.whenPressed(new ShiftHigh());
 		//leftBumper.whenPressed(new ShiftLow());
 		//viewButton.whenPressed(new CenterSwitchAuto());
 		//viewButton.whenPressed(new PIDGyro(180, 2));
-		sevenButton.whenPressed(new GoToClimber());
-		eightButton.whenPressed(new GoToElevator());
-		threeButton.whenPressed(new PIDElevator(0));
-		fiveButton.whenPressed(new PIDElevator(65));
-		sixButton.whenPressed(new PIDElevator(170));
+		//sevenButton.whenPressed(new GoToClimber());
+		//eightButton.whenPressed(new GoToElevator());
+		//threeButton.whenPressed(new PIDElevator(0));
+		//fiveButton.whenPressed(new PIDElevator(65));
+		//sixButton.whenPressed(new PIDElevator(170));
+		
+		//xButton.whenPressed(new PIDWrist()); 
+		viewButton.whenPressed(new ResetWrist());
+		yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
+		bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
+		aButton.whenPressed(new PIDElevator(0)); //bottom
+		rightStickButton.whenPressed(new ClawOpen());
+		rightStickButton.whenReleased(new ClawMed());
+		//rightBumper.whenPressed(new PIDElevator(-1, 2));
+		
 	}
 	
 	//Get Functions
