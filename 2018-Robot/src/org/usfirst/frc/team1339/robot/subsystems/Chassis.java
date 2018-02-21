@@ -89,7 +89,7 @@ public class Chassis extends Subsystem {
 		
 		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
 		
-		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.upperLimitRamp);
+		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.midLimitRamp, RobotMap.upperLimitRamp);
 		lMaster.configOpenloopRamp(0, 0);
 		rMaster.configOpenloopRamp(0, 0);
     }
@@ -209,6 +209,7 @@ public class Chassis extends Subsystem {
             rightMotorOutput = maxInput;
           }
         } else {
+        	turn*=1.5;
           // Third quadrant, else fourth quadrant
           if (turn >= 0.0) {
             leftMotorOutput = throttle + turn;
@@ -226,7 +227,7 @@ public class Chassis extends Subsystem {
     }
     
     private double limit(double value) {
-    	ramp = rampInterpolator.lagrangePolynomialLinear(CommandBase.elevator.getPosition());
+    	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
     	lMaster.configOpenloopRamp(ramp, 0);
     	rMaster.configOpenloopRamp(ramp, 0);
     	double limit = 0.6;

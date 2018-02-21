@@ -1,48 +1,40 @@
 package org.usfirst.frc.team1339.robot.commands;
 
-import org.usfirst.frc.team1339.robot.RobotMap;
-import org.usfirst.frc.team1339.utils.WristConversions;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class PIDWrist extends CommandBase {
-	
-	double setpoint;
+public class ResetElevator extends CommandBase {
 
-    public PIDWrist(double setpoint) {
+    public ResetElevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(wrist);
-    	this.setpoint = WristConversions.degreesToClicks(setpoint);
+    	requires(elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	wrist.setPID(0, RobotMap.wristKp, RobotMap.wristKi, RobotMap.wristKd);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	wrist.PIDWrist(setpoint);
+    	elevator.setElevator(-0.25);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return wrist.isWristGoingDown() ||
-        		wrist.isWristGoingUp();
+        return elevator.isCarriageDown();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	wrist.setOutput(0);
-    	//System.out.println("Wrist ended");
+    	elevator.setElevator(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	wrist.setOutput(0);
-    	//System.out.println("Wrist interrupted");
+    	elevator.setElevator(0);
     }
 }

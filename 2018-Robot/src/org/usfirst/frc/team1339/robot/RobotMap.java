@@ -130,6 +130,7 @@ public class RobotMap {
 
 	//Ramp up
 	public final static double[] lowerLimitRamp = {0.0, 0.0};
+	public final static double[] midLimitRamp = {65, 0.25};
 	public final static double[] upperLimitRamp = {180.0, 2.0};
   
 	//Chassis limiter
@@ -138,12 +139,12 @@ public class RobotMap {
 	
 	//Elevator Positions
 	public final static int posSwitch = ElevatorConversions.cmsToClicks(65);
-	public final static int posScale = ElevatorConversions.cmsToClicks(155);
+	public final static int posScale = ElevatorConversions.cmsToClicks(170);
 	
 	public final static int lowSwitch = ElevatorConversions.cmsToClicks(55);
 	public final static int highSwitch = ElevatorConversions.cmsToClicks(80);
-	public final static int lowScale = ElevatorConversions.cmsToClicks(140);
-	public final static int highScale = ElevatorConversions.cmsToClicks(170);
+	public final static int lowScale = ElevatorConversions.cmsToClicks(150);
+	public final static int highScale = ElevatorConversions.cmsToClicks(178);
 	
 	
 	

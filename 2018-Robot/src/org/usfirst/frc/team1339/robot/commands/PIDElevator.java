@@ -28,6 +28,7 @@ public class PIDElevator extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	elevator.state = 0;
     	elevator.setPID(0, RobotMap.elevatorKp, RobotMap.elevatorKi, RobotMap.elevatorKd);
     	elevator.position = tposition;
     }
@@ -39,7 +40,6 @@ public class PIDElevator extends CommandBase {
     	if (oi.getRightBumper().get() && !toggle1) {
     		toggle2 = false;
     		toggle1 = true;
-    		System.out.println(elevator.position);
     		elevator.state = Math.min(elevator.state+1, 1);
     	}
     	
@@ -79,9 +79,7 @@ public class PIDElevator extends CommandBase {
     	if(oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger)<0.5) {
     		toggle2 = false;
     	}
-    	
-    	System.out.println(setpoint);
-    	
+    	    	
     	elevator.PIDElevator(setpoint);
     }
 

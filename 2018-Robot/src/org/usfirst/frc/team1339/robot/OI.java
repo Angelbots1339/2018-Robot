@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
+import org.usfirst.frc.team1339.robot.commands.ResetElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
@@ -71,6 +72,7 @@ public class OI {
 		
 		//xButton.whenPressed(new PIDWrist()); 
 		viewButton.whenPressed(new ResetWrist());
+		menuButton.whenPressed(new ResetElevator());
 		yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
 		bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
 		aButton.whenPressed(new PIDElevator(0)); //bottom
