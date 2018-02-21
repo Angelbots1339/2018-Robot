@@ -133,4 +133,11 @@ public class RobotMap {
 	//Chassis limiter
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
+	
+	//Ultrasonic thresholds
+	public final static double threshold = 80;
+	public final static double squeezeThreshold = 110;
+	
+	//Elevator Heights
+	public final static double driveHeight = 5; //centimeters
 }
