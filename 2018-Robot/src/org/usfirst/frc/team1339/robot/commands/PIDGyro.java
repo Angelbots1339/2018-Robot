@@ -33,15 +33,12 @@ public class PIDGyro extends CommandBase {
     	//	counter++;
     	//}
     	System.out.println(smallRate());
-    	if(chassis.getGyroRate()>4){
-    		increased=true;
-    	}
     	//else counter = 0;
     	chassis.gyroPID();
     }
     
     private boolean smallRate() {
-    	return chassis.getGyroRate()<0.3 && increased && chassis.gyroPID.onTarget(tolerance);
+    	return chassis.getGyroRate()<0.3 && chassis.gyroPID.onTarget(tolerance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
