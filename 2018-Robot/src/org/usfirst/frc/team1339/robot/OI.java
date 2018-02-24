@@ -1,7 +1,10 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
+import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
+import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.ResetElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetWrist;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
@@ -70,14 +73,16 @@ public class OI {
 		//fiveButton.whenPressed(new PIDElevator(65));
 		//sixButton.whenPressed(new PIDElevator(170));
 		
+		aButton.whenPressed(new PIDGyro(-135, 3, 23));
+		yButton.whenPressed(new TwoCube());
 		//xButton.whenPressed(new PIDWrist()); 
-		viewButton.whenPressed(new ResetWrist());
-		menuButton.whenPressed(new ResetElevator());
-		yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
-		bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
-		aButton.whenPressed(new PIDElevator(0)); //bottom
-		rightStickButton.whenPressed(new ClawOpen());
-		rightStickButton.whenReleased(new ClawMed());
+		//viewButton.whenPressed(new ResetWrist());
+		//menuButton.whenPressed(new ResetElevator());
+		//yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
+		//bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
+		//aButton.whenPressed(new PIDElevator(0)); //bottom
+		//rightStickButton.whenPressed(new ClawOpen());
+		//rightStickButton.whenReleased(new ClawMed());
 		//rightBumper.whenPressed(new PIDElevator(-1, 2));
 		
 	}

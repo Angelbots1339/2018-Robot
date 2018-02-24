@@ -7,29 +7,46 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PIDGyro extends CommandBase {
 	
-	double setpoint, tolerance;
+	double setpoint, tolerance, counter = 0;
+	private boolean increased=false;
 
-    public PIDGyro(double setpoint, double tolerance) {
+    public PIDGyro(double setpoint, double tolerance, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(chassis);
+    	//chassis.resetGyro();
     	this.setpoint = setpoint;
     	this.tolerance = tolerance;
+    	//setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//chassis.resetGyro();
     	chassis.gyroPID.setSetpoint(setpoint + chassis.getGyroAngle());
+    	increased = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//if(chassis.gyroPID.onTarget(tolerance)) {
+    	//	counter++;
+    	//}
+    	System.out.println(smallRate());
+    	if(chassis.getGyroRate()>4){
+    		increased=true;
+    	}
+    	//else counter = 0;
     	chassis.gyroPID();
+    }
+    
+    private boolean smallRate() {
+    	return chassis.getGyroRate()<0.3 && increased && chassis.gyroPID.onTarget(tolerance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return oi.getBButton().get(); //chassis.gyroPID.onTarget(2);
+        return oi.getBButton().get() || smallRate();// || isTimedOut(); || (counter > 5)
     }
 
     // Called once after isFinished returns true

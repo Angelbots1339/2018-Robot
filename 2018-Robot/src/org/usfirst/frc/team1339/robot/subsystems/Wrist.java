@@ -34,7 +34,7 @@ public class Wrist extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        setDefaultCommand(new WristToggle());
+        //setDefaultCommand(new WristToggle());
     }
     
     public void publishWebServer() {

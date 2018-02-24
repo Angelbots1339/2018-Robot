@@ -121,9 +121,9 @@ public class RobotMap {
 	public final static int ultrasonicOutput = 4;
 	
 	//Gyro PID Values
-	public final static double gyroKp = 0.0075;
+	public final static double gyroKp = 0.08;
 	public final static double gyroKi = 0.0000;
-	public final static double gyroKd = 0.0;
+	public final static double gyroKd = 0.3;//.2
 	
 	//Gyro error
 	public final static double gyroKe = 1.03;
@@ -144,7 +144,7 @@ public class RobotMap {
 	public final static int lowSwitch = ElevatorConversions.cmsToClicks(55);
 	public final static int highSwitch = ElevatorConversions.cmsToClicks(80);
 	public final static int lowScale = ElevatorConversions.cmsToClicks(150);
-	public final static int highScale = ElevatorConversions.cmsToClicks(178);
+	public final static int highScale = ElevatorConversions.cmsToClicks(181);
 	
 	
 	
