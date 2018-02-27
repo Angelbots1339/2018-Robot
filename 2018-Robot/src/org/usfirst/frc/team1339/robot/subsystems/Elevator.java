@@ -83,6 +83,8 @@ public class Elevator extends Subsystem {
 		//System.out.println(ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Elevator Position", position);
 		CommandBase.server.valueDisplay.putValue("Elevator State", state);
+		CommandBase.server.valueDisplay.putValue("Top Elevator Motor Current Draw", elevatorMaster.getOutputCurrent());
+		CommandBase.server.valueDisplay.putValue("Bottom Elevator Motor Current Draw", elevatorSlave.getOutputCurrent());
 	}
 
 	public void setElevator(double output) {

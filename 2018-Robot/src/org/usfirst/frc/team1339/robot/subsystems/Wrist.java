@@ -22,6 +22,7 @@ public class Wrist extends Subsystem {
 	private DigitalInput wristDown;
 	private double setpoint;
 	public int toggle;
+	boolean wristUpPressed = false;
 	
 
 	public Wrist() {
@@ -45,10 +46,20 @@ public class Wrist extends Subsystem {
     	CommandBase.server.valueDisplay.putValue("Wrist Setpoint", setpoint);
     	CommandBase.server.valueDisplay.putValue("wrist up limit", wristUp.get());
     	CommandBase.server.valueDisplay.putValue("wrist down limit", wristDown.get());
+    	CommandBase.server.valueDisplay.putValue("output", getOutput());
     	
     }
     
+    public void setWristPressed(boolean value) {
+    	wristUpPressed = value;
+    }
+    
     public void setOutput(double output) {
+    	if(isWristUp() && !wristUpPressed) {
+    		toggle = -1;
+    		wristUpPressed = true;
+    	}
+    	if(wristUpPressed && !isWristUp()) wristUpPressed = false;
     	if (isWristDown())
     		output = Math.max(0, output);
     	else if(isWristUp()) {
@@ -75,8 +86,16 @@ public class Wrist extends Subsystem {
     public double getOutput() {return wristMotor.getMotorOutputPercent();}
     
     public void PIDWrist(double setpoint) {
+    	if(isWristUp() && !wristUpPressed) {
+    		toggle = -1;
+    		wristUpPressed = true;
+    	}
+    	if(wristUpPressed && !isWristUp()) wristUpPressed = false;
     	this.setpoint = setpoint;
-    	if(isWristGoingUp() || isWristGoingDown()) setOutput(0);
+    	if(isWristGoingUp() || isWristGoingDown()) {
+    		toggle = -1;
+    		setOutput(0);
+    	}
     	else wristMotor.set(ControlMode.Position, setpoint);
     }
     

@@ -119,9 +119,6 @@ public class Chassis extends Subsystem {
 	public double getGyroAngle() {
 		return gyro.getAngle();
 	}
-	public double getGyroRate() {
-		return gyro.getRate();
-	}
 	
 	public double getGyroRate() {
 		return gyro.getRate();
@@ -161,6 +158,13 @@ public class Chassis extends Subsystem {
 		SmartDashboard.putNumber("right executing", rightProfiler.counter);
 		SmartDashboard.putNumber("left executing", leftProfiler.counter);
 		
+		CommandBase.server.valueDisplay.putValue("left front motor current", lFrontSlave.getOutputCurrent());
+		CommandBase.server.valueDisplay.putValue("right front motor current", rFrontSlave.getOutputCurrent());
+		CommandBase.server.valueDisplay.putValue("left back motor current", lBackSlave.getOutputCurrent());
+		CommandBase.server.valueDisplay.putValue("right back motor current", rBackSlave.getOutputCurrent());
+		CommandBase.server.valueDisplay.putValue("left top motor current", lMaster.getOutputCurrent());
+		CommandBase.server.valueDisplay.putValue("right top motor current", rMaster.getOutputCurrent());
+
 		/*MotionProfileStatus lStatus = new MotionProfileStatus();
 		lMaster.getMotionProfileStatus(lStatus);
 		SmartDashboard.putBoolean("has Underrun left", lStatus.hasUnderrun);
