@@ -16,11 +16,12 @@ public class Intake extends Subsystem {
 	private TalonSRX rMotor;
 	
 	private Ultrasonic ultra;
-	private final double threshold = 40;
 	
 	public Intake() {
 		lMotor = new TalonSRX(RobotMap.leftIntakeMotor);
 		rMotor = new TalonSRX(RobotMap.rightIntakeMotor);
+		
+		rMotor.setInverted(true);
 		
 		ultra = new Ultrasonic(RobotMap.ultrasonicOutput, RobotMap.ultrasonicInput);
 		ultra.setAutomaticMode(true);
@@ -33,7 +34,7 @@ public class Intake extends Subsystem {
     public void publishWebServer() {
     	CommandBase.server.valueDisplay.putValue("ultra there", ultra.isEnabled());
     	CommandBase.server.valueDisplay.putValue("Ultrasonic", ultra.getRangeMM());
-    	CommandBase.server.valueDisplay.putValue("Haz box", hazBox());
+    	CommandBase.server.valueDisplay.putValue("Haz box", hazBox(RobotMap.squeezeThreshold));
     }
     
     public void setIntake(double output) {
@@ -41,7 +42,7 @@ public class Intake extends Subsystem {
     	rMotor.set(ControlMode.PercentOutput, output);
     }
     
-    public boolean hazBox() {
+    public boolean hazBox(double threshold) {
     	return ultra.getRangeMM() < threshold;
     }
 }

@@ -9,12 +9,13 @@ public class PIDGyro extends CommandBase {
 	
 	double setpoint, tolerance;
 
-    public PIDGyro(double setpoint, double tolerance) {
+    public PIDGyro(double setpoint, double tolerance, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(chassis);
     	this.setpoint = setpoint;
     	this.tolerance = tolerance;
+    	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time
@@ -29,7 +30,7 @@ public class PIDGyro extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return oi.getBButton().get(); //chassis.gyroPID.onTarget(2);
+        return (chassis.getGyroRate() < 0.3 && chassis.gyroPID.onTarget(tolerance)) || isTimedOut();
     }
 
     // Called once after isFinished returns true

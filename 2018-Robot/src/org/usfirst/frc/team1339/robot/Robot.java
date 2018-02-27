@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.autonomous.CenterToSwitch;
+import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 		
 		CommandBase.server.autonomousSelector.add("Chill", null);
 		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterToSwitch());
+		CommandBase.server.autonomousSelector.add("Two Cube Left", new TwoCube());
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 		

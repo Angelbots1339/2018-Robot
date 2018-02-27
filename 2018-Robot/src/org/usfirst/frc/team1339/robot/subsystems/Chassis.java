@@ -49,7 +49,7 @@ public class Chassis extends Subsystem {
 	
 	public static SynchronousPID gyroPID;
 	
-	private AnalogGyro gyro = new AnalogGyro(RobotMap.gyroId);
+	private AnalogGyro gyro;
 	
 	Notifier notifier;
     
@@ -60,7 +60,7 @@ public class Chassis extends Subsystem {
     	setPIDF(lMaster, 0, RobotMap.talonKf, RobotMap.talonKp, RobotMap.talonKi, RobotMap.talonKd);
     	
     	lFrontSlave = new TalonSRX(RobotMap.leftFrontDriveMotor);
-    	//lFrontSlave.setInverted(true); //Da cim not work :reverse::fire:
+    	lFrontSlave.setInverted(true); //Da cim not work :reverse::fire:
     	lFrontSlave.follow(lMaster);
     	
     	lBackSlave = new TalonSRX(RobotMap.leftBackDriveMotor);
@@ -87,7 +87,11 @@ public class Chassis extends Subsystem {
 		
 		notifier = new Notifier(new PeriodicRunnable());
 		
+		gyro = new AnalogGyro(RobotMap.gyroId);
+		gyro.calibrate();
+		
 		gyroPID = new SynchronousPID(RobotMap.gyroKp, RobotMap.gyroKi, RobotMap.gyroKd);
+		
 		
 		rampInterpolator = new Interpolation(RobotMap.lowerLimitRamp, RobotMap.midLimitRamp, RobotMap.upperLimitRamp);
 		lMaster.configOpenloopRamp(0, 0);
@@ -115,6 +119,10 @@ public class Chassis extends Subsystem {
 	public double getGyroAngle() {
 		double correctedAngle = gyro.getAngle() * RobotMap.gyroKe;
 		return correctedAngle;
+	}
+	
+	public double getGyroRate() {
+		return gyro.getRate();
 	}
 	
 	private void setBrakeMode(boolean value) {
@@ -186,12 +194,12 @@ public class Chassis extends Subsystem {
         turn = Math.copySign(turn * turn, turn);
         
         throttle *= throttleLimiter;
-        turn *= turnLimiter;
+        //turn *= turnLimiter;
         
         throttle = limit(throttle);
         throttle = applyDeadband(throttle, deadband);
 
-        turn = limit(turn);
+        //turn = limit(turn);
         turn = applyDeadband(turn, deadband);
         
         double leftMotorOutput;
@@ -230,7 +238,8 @@ public class Chassis extends Subsystem {
     	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
     	lMaster.configOpenloopRamp(ramp, 0);
     	rMaster.configOpenloopRamp(ramp, 0);
-    	double limit = 0.6;
+    	double limit = 1;
+    	if(CommandBase.elevator.getPosition() > 65) limit = 0.6;
     	return Math.max(Math.min(limit, value), -limit);
     }
     

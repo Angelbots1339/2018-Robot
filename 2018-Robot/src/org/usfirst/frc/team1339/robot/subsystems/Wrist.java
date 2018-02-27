@@ -20,11 +20,12 @@ public class Wrist extends Subsystem {
 	TalonSRX wristMotor;
 	private DigitalInput wristUp;
 	private DigitalInput wristDown;
-	public int toggle = -1;
+	private double setpoint;
+	public int toggle;
 	
 
 	public Wrist() {
-		toggle = 0;
+		toggle = -1;
 		wristMotor = new TalonSRX(RobotMap.wristMotor);
 		wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		wristMotor.setInverted(true);
@@ -40,7 +41,8 @@ public class Wrist extends Subsystem {
     public void publishWebServer() {
     	CommandBase.server.valueDisplay.putValue("Wrist Degrees",
     			WristConversions.clicksToDegrees(wristMotor.getSelectedSensorPosition(0)));
-//    	CommandBase.server.valueDisplay.putValue("Wrist Up Limit", value);
+    	CommandBase.server.valueDisplay.putValue("Wrist Encoder", wristMotor.getSelectedSensorPosition(0));
+    	CommandBase.server.valueDisplay.putValue("Wrist Setpoint", setpoint);
     	CommandBase.server.valueDisplay.putValue("wrist up limit", wristUp.get());
     	CommandBase.server.valueDisplay.putValue("wrist down limit", wristDown.get());
     	
@@ -73,7 +75,9 @@ public class Wrist extends Subsystem {
     public double getOutput() {return wristMotor.getMotorOutputPercent();}
     
     public void PIDWrist(double setpoint) {
-    	wristMotor.set(ControlMode.Position, setpoint);
+    	this.setpoint = setpoint;
+    	if(isWristGoingUp() || isWristGoingDown()) setOutput(0);
+    	else wristMotor.set(ControlMode.Position, setpoint);
     }
     
     public void setPID(int slot, double p, double i, double d) {

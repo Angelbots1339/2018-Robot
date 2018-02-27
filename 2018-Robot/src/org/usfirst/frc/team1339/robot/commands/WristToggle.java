@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1339.robot.commands;
 
+import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.utils.WristConversions;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +21,7 @@ public class WristToggle extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	wrist.setPID(0, RobotMap.wristKp, RobotMap.wristKi, RobotMap.wristKd);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,8 +35,8 @@ public class WristToggle extends CommandBase {
     		pressed = false;
     	}
     	if(wrist.toggle == -1) wrist.setOutput(0);
-    	else if(toggle) wrist.PIDWrist(WristConversions.degreesToClicks(-82));
-    	else wrist.PIDWrist(WristConversions.degreesToClicks(-30));
+    	else if(toggle) wrist.PIDWrist(RobotMap.wristHorizontal);
+    	else wrist.PIDWrist(RobotMap.wristFortyFive);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -119,7 +119,8 @@ public class Elevator extends Subsystem {
     }
 
 	public void PIDElevator(double setpoint) {
-		elevatorMaster.set(ControlMode.Position, setpoint);
+		if(isElevatorGoingUp() || isCarriageGoingDown()) setElevator(0);
+		else elevatorMaster.set(ControlMode.Position, setpoint);
 	}
 
 	public void setPID(int slot, double p, double i, double d) {
