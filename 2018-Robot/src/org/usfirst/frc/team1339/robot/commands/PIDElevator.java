@@ -4,16 +4,20 @@ import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.subsystems.Elevator;
 import org.usfirst.frc.team1339.utils.ElevatorConversions;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  *
  */
 public class PIDElevator extends CommandBase {
 
 	double setpoint;
-	boolean autoMode;
+	boolean driveHeightInitialized = false, timedout = false;
 	boolean toggle1=false;
 	boolean toggle2=false;
 	int tposition = 0;
+	private double driveHeightSetpoint = 0.0, time = 0.0;
+	private final double timeout = 0.5;
 	
     public PIDElevator(int setPointInCm) {
         // Use requires() here to declare subsystem dependencies
@@ -24,6 +28,7 @@ public class PIDElevator extends CommandBase {
 		elevator.state = 0;
     	this.setpoint = ElevatorConversions.cmsToClicks(setPointInCm);
     	tposition = setPointInCm;
+    	//2301
     }
 
     // Called just before this Command runs the first time
@@ -31,6 +36,7 @@ public class PIDElevator extends CommandBase {
     	elevator.state = 0;
     	elevator.setPID(0, RobotMap.elevatorKp, RobotMap.elevatorKi, RobotMap.elevatorKd);
     	elevator.position = tposition;
+    	driveHeightInitialized = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,28 +56,17 @@ public class PIDElevator extends CommandBase {
     	}
     	
     	if(elevator.position == RobotMap.posSwitch) {
+    		driveHeightInitialized = false;
     		if(elevator.state == -1) setpoint = RobotMap.lowSwitch;
     		else if (elevator.state == 1) setpoint = RobotMap.highSwitch;
     		else setpoint = RobotMap.posSwitch;
     	}
     	else if (elevator.position == RobotMap.posScale) {
+    		driveHeightInitialized = false;
     		if(elevator.state == -1) setpoint = RobotMap.lowScale;
     		else if (elevator.state == 1) setpoint = RobotMap.highScale;
     		else setpoint = RobotMap.posScale;
     	}
-    	//else setpoint=0;
-    	/*case RobotMap.posSwitch:
-    		if (elevator.state == -1) setpoint = RobotMap.lowSwitch;
-    		else if (elevator.state == 1) setpoint = RobotMap.highSwitch;
-    		else setpoint = RobotMap.posSwitch;
-    		break;
-    	case RobotMap.posScale:
-    		if (elevator.state == -1) setpoint = RobotMap.lowScale;
-    		else if (elevator.state == 1) setpoint = RobotMap.highScale;
-    		break;
-    		
-    	}
-    	*/
     	if (!oi.getRightBumper().get()) {
     		toggle1 = false;
     	}
@@ -79,7 +74,30 @@ public class PIDElevator extends CommandBase {
     	if(oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger)<0.5) {
     		toggle2 = false;
     	}
-    	    	
+    	
+    	if(!driveHeightInitialized && elevator.getPositionClicks() < RobotMap.driveHeight
+    			&& intake.hazBox(RobotMap.squeezeThreshold)) {
+    		driveHeightInitialized = true;
+    		driveHeightSetpoint = RobotMap.driveHeight;
+    		time = Timer.getFPGATimestamp();
+    		timedout = false;
+    	}
+    	
+    	if(driveHeightInitialized && !intake.hazBox(RobotMap.squeezeThreshold)) {
+    		driveHeightInitialized = false;
+    	}
+    	
+    	/*if(driveHeightInitialized && elevator.position == 0) {
+    		if (!timedout) {
+    			if(Timer.getFPGATimestamp() > time + timeout) timedout = true;
+    		}
+    		else {
+    			elevator.PIDElevator(driveHeightSetpoint);
+    		}
+    	}
+    	else {
+    		elevator.PIDElevator(setpoint);
+    	}*/
     	elevator.PIDElevator(setpoint);
     }
 
@@ -87,7 +105,7 @@ public class PIDElevator extends CommandBase {
     protected boolean isFinished() {
         return  elevator.isCarriageGoingDown() ||
         		elevator.isElevatorGoingUp() ||
-        		oi.getOneButton().get();
+        		Math.abs(oi.getMadCatzStick().getRawAxis(RobotMap.operatorYAxis)) > 0.1;
     }
 
     // Called once after isFinished returns true

@@ -1,4 +1,5 @@
-package org.usfirst.frc.team1339.robot.commands;
+
+		package org.usfirst.frc.team1339.robot.commands;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 
@@ -19,7 +20,7 @@ public class DriveIntake extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	boolean intaking = oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger)>.5;
-    	double output = (intaking ? 0.8 : 0) - (oi.getLeftBumper().get() ? 0.5 : 0);
+    	double output = (intaking ? 0.8 : 0) - (oi.getLeftBumper().get() ? 1 : 0);
     	intake.setIntake(output);
     }
 

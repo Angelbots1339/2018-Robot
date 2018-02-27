@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.utils.ElevatorConversions;
+import org.usfirst.frc.team1339.utils.WristConversions;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -96,7 +97,7 @@ public class RobotMap {
 	//TalonSRX Position Closed Loop PID on Wrist
 	public static final double wristKp = 0.04;
 	public static final double wristKi = 0.0;
-	public static final double wristKd = 0.1;
+	public static final double wristKd = 0.01;
 
 	//LEDs
 	public final static int rightLEDStripId = 1;
@@ -105,8 +106,8 @@ public class RobotMap {
 	//Solenoids
 	public final static int frontInSol = 1;
 	public final static int frontOutSol = 0;
-	public final static int backInSol = 3;
-	public final static int backOutSol = 2;
+	public final static int backInSol = 2;
+	public final static int backOutSol = 3;
 	public final static int climbOutSol = 5;
 	public final static int climbInSol = 7;
 	
@@ -123,7 +124,7 @@ public class RobotMap {
 	//Gyro PID Values
 	public final static double gyroKp = 0.08;
 	public final static double gyroKi = 0.0000;
-	public final static double gyroKd = 0.3;//.2
+	public final static double gyroKd = 0.3;
 	
 	//Gyro error
 	public final static double gyroKe = 1.03;
@@ -133,6 +134,7 @@ public class RobotMap {
 	public final static double[] midLimitRamp = {65, 0.25};
 	public final static double[] upperLimitRamp = {180.0, 2.0};
   
+	
 	//Chassis limiter
 	public final static double kThrottleLimiter = 0.5;
 	public final static double kTurnLimiter = 0.8;
@@ -145,7 +147,16 @@ public class RobotMap {
 	public final static int highSwitch = ElevatorConversions.cmsToClicks(80);
 	public final static int lowScale = ElevatorConversions.cmsToClicks(150);
 	public final static int highScale = ElevatorConversions.cmsToClicks(181);
+  
+	public final static double driveHeight = ElevatorConversions.cmsToClicks(5);
 	
+	//Ultrasonic thresholds
+	public final static double threshold = 80;
+	public final static double squeezeThreshold = 110;
 	
+	//Wrist Positions Degrees
+	public final static double wristHorizontal = WristConversions.degreesToClicks(-82);
+	public final static double wristFortyFive = WristConversions.degreesToClicks(-30);
 	
+	//2301
 }

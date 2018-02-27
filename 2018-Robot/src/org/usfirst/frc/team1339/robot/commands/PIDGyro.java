@@ -17,7 +17,7 @@ public class PIDGyro extends CommandBase {
     	//chassis.resetGyro();
     	this.setpoint = setpoint;
     	this.tolerance = tolerance;
-    	//setTimeout(timeout);
+    	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time
@@ -32,18 +32,13 @@ public class PIDGyro extends CommandBase {
     	//if(chassis.gyroPID.onTarget(tolerance)) {
     	//	counter++;
     	//}
-    	System.out.println(smallRate());
     	//else counter = 0;
     	chassis.gyroPID();
-    }
-    
-    private boolean smallRate() {
-    	return chassis.getGyroRate()<0.3 && chassis.gyroPID.onTarget(tolerance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return oi.getBButton().get() || smallRate();// || isTimedOut(); || (counter > 5)
+        return (chassis.getGyroRate() < 0.3 && chassis.gyroPID.onTarget(tolerance)) || isTimedOut();
     }
 
     // Called once after isFinished returns true

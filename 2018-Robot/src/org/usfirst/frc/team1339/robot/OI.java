@@ -1,7 +1,7 @@
-
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
+import org.usfirst.frc.team1339.robot.commands.DisableWristToggle;
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
 import org.usfirst.frc.team1339.robot.commands.PIDGyro;
@@ -11,6 +11,8 @@ import org.usfirst.frc.team1339.robot.commands.ResetWrist;
 import org.usfirst.frc.team1339.robot.commands.WristToggle;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
+import org.usfirst.frc.team1339.robot.commands.groups.GoToClimber;
+import org.usfirst.frc.team1339.robot.commands.groups.GoToElevator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -86,6 +88,10 @@ public class OI {
 		aButton.whenPressed(new PIDElevator(0)); //bottom
 		rightStickButton.whenPressed(new ClawOpen());
 		rightStickButton.whenReleased(new ClawMed());
+		//oneButton.whenPressed(new TwoCube());
+		sevenButton.whenPressed(new GoToClimber());
+		eightButton.whenPressed(new GoToElevator());
+		twelveButton.whenPressed(new DisableWristToggle());
 		//rightBumper.whenPressed(new PIDElevator(-1, 2));
 		
 	}

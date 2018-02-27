@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterSwitchAuto extends CommandGroup {
 
     public CenterSwitchAuto() {
-    	//addParallel(new PIDWrist());
-    	addParallel(new PIDElevator(RobotMap.posScale));
+    	addParallel(new PIDWrist(RobotMap.wristHorizontal));
+    	addParallel(new PIDElevator(RobotMap.posSwitch));
     	addSequential(new CenterToSwitch());
-    	addSequential(new DriveIntakeTimeout(-0.5, 1));
+    	addSequential(new DriveIntakeTimeout(0.5, 1));
     }
 }
