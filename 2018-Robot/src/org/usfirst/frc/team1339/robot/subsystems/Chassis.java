@@ -117,8 +117,10 @@ public class Chassis extends Subsystem {
 	}
 	
 	public double getGyroAngle() {
-		double correctedAngle = gyro.getAngle() * RobotMap.gyroKe;
-		return correctedAngle;
+		return gyro.getAngle();
+	}
+	public double getGyroRate() {
+		return gyro.getRate();
 	}
 	
 	public double getGyroRate() {
@@ -135,6 +137,8 @@ public class Chassis extends Subsystem {
 	}
     
 	public void publishSmartDashboard() {
+		
+		CommandBase.server.valueDisplay.putValue("GyroRate", getGyroRate());
 		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
 		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
 		
@@ -259,7 +263,8 @@ public class Chassis extends Subsystem {
     	setBrakeMode(true);
     	gyroPID.calculate(getGyroAngle());
     	double output = gyroPID.get();
-    	setMotorValues(output, -output);
+    	//output *= .5;
+    	setMotorValues(limit(output), -limit(output));
     }
     
     /*
@@ -360,7 +365,7 @@ public class Chassis extends Subsystem {
     	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
-    	setBrakeMode(false);
+    	//setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {

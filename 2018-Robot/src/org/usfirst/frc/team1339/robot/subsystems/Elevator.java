@@ -65,7 +65,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveElevator());
+		//setDefaultCommand(new DriveElevator());
 	}
 
 	public void setElevMotorsBrakeMode(boolean brake) {

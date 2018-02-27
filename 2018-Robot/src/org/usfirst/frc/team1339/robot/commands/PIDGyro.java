@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PIDGyro extends CommandBase {
 	
-	double setpoint, tolerance;
+	double setpoint, tolerance, counter = 0;
+	private boolean increased=false;
 
     public PIDGyro(double setpoint, double tolerance, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(chassis);
+    	//chassis.resetGyro();
     	this.setpoint = setpoint;
     	this.tolerance = tolerance;
     	setTimeout(timeout);
@@ -20,11 +22,17 @@ public class PIDGyro extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//chassis.resetGyro();
     	chassis.gyroPID.setSetpoint(setpoint + chassis.getGyroAngle());
+    	increased = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//if(chassis.gyroPID.onTarget(tolerance)) {
+    	//	counter++;
+    	//}
+    	//else counter = 0;
     	chassis.gyroPID();
     }
 
