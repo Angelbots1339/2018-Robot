@@ -9,7 +9,10 @@ package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
+import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
+import org.usfirst.frc.team1339.robot.autonomous.RightToScaleAuto;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
+import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,9 +41,13 @@ public class Robot extends TimedRobot {
 		
 		CommandBase.server.autonomousSelector.add("Chill", null);
 		CommandBase.server.autonomousSelector.add("Drive Forward", new DriveForwardTimeout(0.6, 2));
-		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterSwitchAuto());
+		CommandBase.server.autonomousSelector.add("Center To Switch", new CenterSwitchAuto());
+		CommandBase.server.autonomousSelector.add("Right To Scale", new RightToScaleAuto());
+		CommandBase.server.autonomousSelector.add("Left To Scale", new LeftToScaleAuto());
+		
+		CommandBase.server.autonomousSelector.add("Circle", new ExecuteProfile("Circle"));
 		//CommandBase.server.autonomousSelector.add("Two Cube Left", new TwoCube());
-		CommandBase.server.autonomousSelector.setCurrentMode(0);
+		CommandBase.server.autonomousSelector.setCurrentMode(1);
 		CommandBase.server.start();
 		
 		CameraServer.getInstance().startAutomaticCapture();
