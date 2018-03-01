@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -130,17 +131,16 @@ public class Chassis extends Subsystem {
 	}
     
 	public void publishSmartDashboard() {
-		
 		CommandBase.server.valueDisplay.putValue("Gyro", getGyroAngle());
 		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
 		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
 				
-		//CommandBase.server.valueDisplay.putValue("left front motor current", lFrontSlave.getOutputCurrent());
-		//CommandBase.server.valueDisplay.putValue("right front motor current", rFrontSlave.getOutputCurrent());
-		//CommandBase.server.valueDisplay.putValue("left back motor current", lBackSlave.getOutputCurrent());
-		//CommandBase.server.valueDisplay.putValue("right back motor current", rBackSlave.getOutputCurrent());
-		//CommandBase.server.valueDisplay.putValue("left top motor current", lMaster.getOutputCurrent());
-		//CommandBase.server.valueDisplay.putValue("right top motor current", rMaster.getOutputCurrent());
+		SmartDashboard.putNumber("left front motor current", lFrontSlave.getOutputCurrent());
+		SmartDashboard.putNumber("right front motor current", rFrontSlave.getOutputCurrent());
+		SmartDashboard.putNumber("left back motor current", lBackSlave.getOutputCurrent());
+		SmartDashboard.putNumber("right back motor current", rBackSlave.getOutputCurrent());
+		SmartDashboard.putNumber("left top motor current", lMaster.getOutputCurrent());
+		SmartDashboard.putNumber("right top motor current", rMaster.getOutputCurrent());
 	}
 	
 	public void setHighGear(boolean highGear) {
@@ -160,10 +160,8 @@ public class Chassis extends Subsystem {
         throttle *= throttleLimiter;
         turn *= turnLimiter;
         
-        throttle = limit(throttle);
         throttle = applyDeadband(throttle, deadband);
 
-        //turn = limit(turn);
         turn = applyDeadband(turn, deadband);
         
         double leftMotorOutput;
@@ -191,9 +189,6 @@ public class Chassis extends Subsystem {
             rightMotorOutput = throttle - turn;
           }
         }
-
-        //leftMotorOutput *= limiter;
-        //rightMotorOutput *= limiter;
         
         setMotorValues(limit(leftMotorOutput), limit(rightMotorOutput));
     }
@@ -202,8 +197,7 @@ public class Chassis extends Subsystem {
     	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
     	lMaster.configOpenloopRamp(ramp, 0);
     	rMaster.configOpenloopRamp(ramp, 0);
-    	double limit = 1;
-    	if(CommandBase.elevator.getPosition() > 65) limit = 0.6;
+    	double limit = 0.6;
     	return Math.max(Math.min(limit, value), -limit);
     }
     
@@ -223,7 +217,6 @@ public class Chassis extends Subsystem {
     	setBrakeMode(true);
     	gyroPID.calculate(getGyroAngle());
     	double output = gyroPID.get();
-    	//output *= .5;
     	setMotorValues(limit(output), -limit(output));
     }
     

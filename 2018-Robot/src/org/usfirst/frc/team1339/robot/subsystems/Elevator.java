@@ -19,18 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Elevator extends Subsystem {
-	/*
-	public static enum ElevatorState{
-		LOW,
-		MID,
-		HIGH
-	}
-	public static enum ElevatorPosition{
-		ZERO,
-		SWITCH,
-		SCALE
-	}
-	*/
+
 	private TalonSRX elevatorMaster;
 	private TalonSRX elevatorSlave;
 	private TalonSRX climber;
@@ -40,7 +29,7 @@ public class Elevator extends Subsystem {
 	private DigitalInput elevatorUp;
 	private DigitalInput carriageDown;
 	
-	public int position; //0 = bottom(0) ; 1 = switch(65) ; 2 = scale(150)
+	public int position;
 	public int state;
 
 	public Elevator() {
@@ -50,7 +39,7 @@ public class Elevator extends Subsystem {
 
 		elevatorSlave = new TalonSRX(RobotMap.bottomElevatorMotor);
 		elevatorSlave.follow(elevatorMaster);
-		elevatorSlave.setInverted(true); //Only for final
+		elevatorSlave.setInverted(true);
 
 		climber = new TalonSRX(RobotMap.climbMotor);
 
@@ -65,7 +54,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public void initDefaultCommand() {
-		//setDefaultCommand(new DriveElevator());
+		setDefaultCommand(new DriveElevator());
 	}
 
 	public void setElevMotorsBrakeMode(boolean brake) {
@@ -74,17 +63,13 @@ public class Elevator extends Subsystem {
 	}
 
 	public void publishSmartDashboard() {
-		SmartDashboard.putNumber("Elevator Enc",
-				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Carriage down", carriageDown.get());
 		CommandBase.server.valueDisplay.putValue("Carriage Up", elevatorUp.get());
-		//System.out.println(ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
-		CommandBase.server.valueDisplay.putValue("Elevator Position", position);
-		CommandBase.server.valueDisplay.putValue("Elevator State", state);
-		CommandBase.server.valueDisplay.putValue("Top Elevator Motor Current Draw", elevatorMaster.getOutputCurrent());
-		CommandBase.server.valueDisplay.putValue("Bottom Elevator Motor Current Draw", elevatorSlave.getOutputCurrent());
+		
+		SmartDashboard.putNumber("Top Elevator Motor Current Draw", elevatorMaster.getOutputCurrent());
+		SmartDashboard.putNumber("Bottom Elevator Motor Current Draw", elevatorSlave.getOutputCurrent());
 	}
 
 	public void setElevator(double output) {
@@ -121,8 +106,7 @@ public class Elevator extends Subsystem {
     }
 
 	public void PIDElevator(double setpoint) {
-		if(isElevatorGoingUp() || isCarriageGoingDown()) setElevator(0);
-		else elevatorMaster.set(ControlMode.Position, setpoint);
+		elevatorMaster.set(ControlMode.Position, setpoint);
 	}
 
 	public void setPID(int slot, double p, double i, double d) {

@@ -149,7 +149,6 @@ public class RobotMap {
 	
 	//Ultrasonic thresholds
 	public final static double threshold = 80;
-	public final static double squeezeThreshold = 110;
 	
 	//Wrist Positions Degrees
 	public final static double wristHorizontal = WristConversions.degreesToClicks(-82);

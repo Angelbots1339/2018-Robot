@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.commands.DisableWristToggle;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetWrist;
+import org.usfirst.frc.team1339.robot.commands.WristToggle;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
 import org.usfirst.frc.team1339.robot.commands.groups.GoToClimber;
@@ -34,18 +34,16 @@ public class OI {
 	private JoystickButton leftStickButton = new JoystickButton(xboxStick, RobotMap.xboxLeftStickButton);
 	
 	//Operator Buttons
-	private JoystickButton oneButton = new JoystickButton(operatorStick, RobotMap.operatorOneButton);
-	private JoystickButton twoButton = new JoystickButton(operatorStick, RobotMap.operatorTwoButton);
-	private JoystickButton threeButton = new JoystickButton(operatorStick, RobotMap.operatorThreeButton);
-	private JoystickButton fourButton = new JoystickButton(operatorStick, RobotMap.operatorFourButton);
-	private JoystickButton fiveButton = new JoystickButton(operatorStick, RobotMap.operatorFiveButton);
-	private JoystickButton sixButton = new JoystickButton(operatorStick, RobotMap.operatorSixButton);
-	private JoystickButton sevenButton = new JoystickButton(operatorStick, RobotMap.operatorSevenButton);
-	private JoystickButton eightButton = new JoystickButton(operatorStick, RobotMap.operatorEightButton);
-	private JoystickButton nineButton = new JoystickButton(operatorStick, RobotMap.operatorNineButton);
-	private JoystickButton tenButton = new JoystickButton(operatorStick, RobotMap.operatorTenButton);
-	private JoystickButton elevenButton = new JoystickButton(operatorStick, RobotMap.operatorElevenButton);
-	private JoystickButton twelveButton = new JoystickButton(operatorStick, RobotMap.operatorTwelveButton);
+	private JoystickButton operatorAButton = new JoystickButton(xboxStick, RobotMap.xboxAButton);
+	private JoystickButton operatorBButton = new JoystickButton(xboxStick, RobotMap.xboxBButton);
+	private JoystickButton operatorXButton = new JoystickButton(xboxStick, RobotMap.xboxXButton);
+	private JoystickButton operatorYButton = new JoystickButton(xboxStick, RobotMap.xboxYButton);
+	private JoystickButton operatorRightBumper = new JoystickButton(xboxStick, RobotMap.xboxRightBumper);
+	private JoystickButton operatorLeftBumper = new JoystickButton(xboxStick, RobotMap.xboxLeftBumper);
+	private JoystickButton operatorViewButton = new JoystickButton(xboxStick, RobotMap.xboxViewButton);
+	private JoystickButton operatorMenuButton = new JoystickButton(xboxStick, RobotMap.xboxMenuButton);
+	private JoystickButton operatorRightStickButton = new JoystickButton(xboxStick, RobotMap.xboxRightStickButton);
+	private JoystickButton operatorLeftStickButton = new JoystickButton(xboxStick, RobotMap.xboxLeftStickButton);
 	
 	/*	XBOX B ---> Cancels profile
 	 *  XBOX A ---> Follow reverse circle
@@ -57,42 +55,22 @@ public class OI {
 	 * */
 	
 	public OI(){
-		
-		//aButton.whenPressed(new PIDWrist(-82));
-		//xButton.whenPressed(new ClawOpen());
-		//yButton.whenPressed(new ClawMed());
-		//bButton.whenPressed(new ClawClosed());
-		//rightBumper.whenPressed(new ShiftHigh());
-		//leftBumper.whenPressed(new ShiftLow());
-		//viewButton.whenPressed(new CenterSwitchAuto());
-		//viewButton.whenPressed(new PIDGyro(180, 2));
-		//sevenButton.whenPressed(new GoToClimber());
-		//eightButton.whenPressed(new GoToElevator());
-		//threeButton.whenPressed(new PIDElevator(0));
-		//fiveButton.whenPressed(new PIDElevator(65));
-		//sixButton.whenPressed(new PIDElevator(170));
-		
-		//aButton.whenPressed(new PIDGyro(-135, 3, 23));
-		//yButton.whenPressed(new TwoCube());
-		//xButton.whenPressed(new PIDWrist()); 
-		viewButton.whenPressed(new ResetWrist());
-		menuButton.whenPressed(new ResetElevator());
-		//xButton.whenPressed(new WristToggle());
+		xButton.whenPressed(new WristToggle());
 		yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
 		bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
 		aButton.whenPressed(new PIDElevator(0)); //bottom
 		rightStickButton.whenPressed(new ClawOpen());
 		rightStickButton.whenReleased(new ClawMed());
-		//oneButton.whenPressed(new TwoCube());
-		sevenButton.whenPressed(new GoToClimber());
-		eightButton.whenPressed(new GoToElevator());
-		twelveButton.whenPressed(new DisableWristToggle());
-		//rightBumper.whenPressed(new PIDElevator(-1, 2));
 		
+		viewButton.whenPressed(new ResetWrist());
+		menuButton.whenPressed(new ResetElevator());
+		
+		operatorYButton.whenPressed(new GoToElevator());
+		operatorAButton.whenPressed(new GoToClimber());
 	}
 	
 	//Get Functions
-	public Joystick getMadCatzStick(){
+	public Joystick getOperatorStick(){
 		return operatorStick;
 	}
 	public Joystick getXboxStick(){
@@ -128,25 +106,34 @@ public class OI {
 	public JoystickButton getMenuButton(){
 		return menuButton;
 	}
-	public JoystickButton getOneButton(){
-		return oneButton;
+	public JoystickButton getOperatorAButton(){
+		return operatorAButton;
 	}
-	public JoystickButton getTwoButton(){
-		return twoButton;
+	public JoystickButton getOperatorBButton(){
+		return operatorBButton;
 	}
-	public JoystickButton getThreeButton(){
-		return threeButton;
+	public JoystickButton getOperatorXButton(){
+		return operatorXButton;
 	}
-	public JoystickButton getFourButton(){
-		return fourButton;
+	public JoystickButton getOperatorYButton(){
+		return operatorYButton;
 	}
-	public JoystickButton getFiveButton(){
-		return fiveButton;
+	public JoystickButton getOperatorLeftBumper(){
+		return operatorLeftBumper;
 	}
-	public JoystickButton getSixButton(){
-		return sixButton;
+	public JoystickButton getOperatorRightBumper(){
+		return operatorRightBumper;
 	}
-	public JoystickButton getSevenButton(){
-		return sevenButton;
+	public JoystickButton getOperatorLeftStickButton(){
+		return operatorLeftStickButton;
+	}
+	public JoystickButton getOperatorRightStickButton(){
+		return operatorRightStickButton;
+	}
+	public JoystickButton getOperatorViewButton(){
+		return operatorViewButton;
+	}
+	public JoystickButton getOperatorMenuButton(){
+		return operatorMenuButton;
 	}
 }

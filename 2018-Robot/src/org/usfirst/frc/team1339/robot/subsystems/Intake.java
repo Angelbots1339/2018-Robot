@@ -30,12 +30,13 @@ public class Intake extends Subsystem {
     }
     
     public void publishWebServer() {
-    	CommandBase.server.valueDisplay.putValue("ultra there", ultra.isEnabled());
     	CommandBase.server.valueDisplay.putValue("Ultrasonic", ultra.getRangeMM());
-    	CommandBase.server.valueDisplay.putValue("Haz box", hazBox(RobotMap.squeezeThreshold));
+    	CommandBase.server.valueDisplay.putValue("Haz box", hazBox(RobotMap.threshold));
     }
     
     public void setIntake(double output) {
+    	CommandBase.leds.hazBox(hazBox(RobotMap.threshold));
+    	
     	lMotor.set(ControlMode.PercentOutput, output);
     	rMotor.set(ControlMode.PercentOutput, output);
     }

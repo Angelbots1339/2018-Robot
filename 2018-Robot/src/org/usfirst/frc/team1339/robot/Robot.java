@@ -9,7 +9,6 @@ package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
-import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -99,6 +98,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		CommandBase.chassis.setBrakeMode(false);
+		CommandBase.wrist.toggle = -1;
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

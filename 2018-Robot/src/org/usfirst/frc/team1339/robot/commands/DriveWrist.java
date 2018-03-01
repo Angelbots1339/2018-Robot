@@ -17,8 +17,8 @@ public class DriveWrist extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double output = oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger) - 
-    			oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger);
+    	double output = -oi.getOperatorStick().getRawAxis(RobotMap.xboxLeftYAxis);
+    	wrist.setOutput(output);
     }
 
     // Make this return true when this Command no longer needs to run execute()

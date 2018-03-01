@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1339.robot.commands;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
-import org.usfirst.frc.team1339.utils.WristConversions;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
@@ -41,7 +38,7 @@ public class WristToggle extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Math.abs(oi.getOperatorStick().getRawAxis(RobotMap.xboxLeftYAxis)) > 0.1;
     }
 
     // Called once after isFinished returns true

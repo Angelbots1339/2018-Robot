@@ -38,8 +38,6 @@ public class PIDElevator extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	//System.out.println("Executing ElevetorPID");
     	if (oi.getRightBumper().get() && !toggle1) {
     		toggle2 = false;
     		toggle1 = true;
@@ -102,7 +100,7 @@ public class PIDElevator extends CommandBase {
     protected boolean isFinished() {
         return  elevator.isCarriageGoingDown() ||
         		elevator.isElevatorGoingUp() ||
-        		Math.abs(oi.getMadCatzStick().getRawAxis(RobotMap.operatorYAxis)) > 0.1;
+        		Math.abs(oi.getOperatorStick().getRawAxis(RobotMap.xboxRightYAxis)) > 0.1;
     }
 
     // Called once after isFinished returns true
