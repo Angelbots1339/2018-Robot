@@ -7,11 +7,13 @@
 
 package org.usfirst.frc.team1339.robot;
 
-import org.usfirst.frc.team1339.robot.autonomous.CenterToSwitch;
+import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
+import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
 import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -36,8 +38,9 @@ public class Robot extends TimedRobot {
 		CommandBase.init();
 		
 		CommandBase.server.autonomousSelector.add("Chill", null);
-		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterToSwitch());
-		CommandBase.server.autonomousSelector.add("Two Cube Left", new TwoCube());
+		CommandBase.server.autonomousSelector.add("Drive Forward", new DriveForwardTimeout(0.6, 2));
+		CommandBase.server.autonomousSelector.add("Center to Switch", new CenterSwitchAuto());
+		//CommandBase.server.autonomousSelector.add("Two Cube Left", new TwoCube());
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 		
@@ -74,13 +77,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
+		RobotMap.gameMessage = DriverStation.getInstance().getGameSpecificMessage();
+		CommandBase.chassis.setBrakeMode(true);
 		autonomousCommand = CommandBase.server.autonomousSelector.getCurrentModeCommand();
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-		CommandBase.chassis.resetEncoders();
 		CommandBase.leds.autoInit();
+		
 	}
 
 	/**
@@ -94,6 +98,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		CommandBase.chassis.setBrakeMode(false);
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

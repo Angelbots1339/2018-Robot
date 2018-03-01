@@ -97,7 +97,7 @@ public class RobotMap {
 	//TalonSRX Position Closed Loop PID on Wrist
 	public static final double wristKp = 0.04;
 	public static final double wristKi = 0.0;
-	public static final double wristKd = 0.01;
+	public static final double wristKd = 0.1;
 
 	//LEDs
 	public final static int rightLEDStripId = 1;
@@ -106,8 +106,8 @@ public class RobotMap {
 	//Solenoids
 	public final static int frontInSol = 1;
 	public final static int frontOutSol = 0;
-	public final static int backInSol = 2;
-	public final static int backOutSol = 3;
+	public final static int backInSol = 3;
+	public final static int backOutSol = 2;
 	public final static int climbOutSol = 5;
 	public final static int climbInSol = 7;
 	
@@ -125,9 +125,6 @@ public class RobotMap {
 	public final static double gyroKp = 0.08;
 	public final static double gyroKi = 0.0000;
 	public final static double gyroKd = 0.3;
-	
-	//Gyro error
-	public final static double gyroKe = 1.03;
 
 	//Ramp up
 	public final static double[] lowerLimitRamp = {0.0, 0.0};
@@ -158,5 +155,6 @@ public class RobotMap {
 	public final static double wristHorizontal = WristConversions.degreesToClicks(-82);
 	public final static double wristFortyFive = WristConversions.degreesToClicks(-30);
 	
-	//2301
+	//Auto String
+	public static String gameMessage = "";
 }

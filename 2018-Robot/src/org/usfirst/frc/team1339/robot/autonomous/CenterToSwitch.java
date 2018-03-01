@@ -1,8 +1,7 @@
 package org.usfirst.frc.team1339.robot.autonomous;
 
+import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
-
-import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  *
@@ -17,11 +16,10 @@ public class CenterToSwitch extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	String data = DriverStation.getInstance().getGameSpecificMessage();
-    	if(data.length() > 0) {
-    		if(data.charAt(0) == 'L') {
+    	if(RobotMap.gameMessage.length() > 0) {
+    		if(RobotMap.gameMessage.charAt(0) == 'L') {
     			name = "LeftCenterToSwitch";
-    		} else if(data.charAt(0) == 'R') {
+    		} else if(RobotMap.gameMessage.charAt(0) == 'R') {
     			name = "RightCenterToSwitch";
     		}
     	}

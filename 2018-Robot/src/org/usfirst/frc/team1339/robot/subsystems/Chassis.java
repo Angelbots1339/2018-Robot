@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -39,8 +38,6 @@ public class Chassis extends Subsystem {
     private double deadband = 0.02, ramp = 0;
     
 	private double initialTime;
-	private boolean recording = false;
-	private boolean following = false;
 	
 	private double throttleLimiter = 1, turnLimiter = 1;
 	
@@ -60,7 +57,6 @@ public class Chassis extends Subsystem {
     	setPIDF(lMaster, 0, RobotMap.talonKf, RobotMap.talonKp, RobotMap.talonKi, RobotMap.talonKd);
     	
     	lFrontSlave = new TalonSRX(RobotMap.leftFrontDriveMotor);
-    	lFrontSlave.setInverted(true); //Da cim not work :reverse::fire:
     	lFrontSlave.follow(lMaster);
     	
     	lBackSlave = new TalonSRX(RobotMap.leftBackDriveMotor);
@@ -124,7 +120,7 @@ public class Chassis extends Subsystem {
 		return gyro.getRate();
 	}
 	
-	private void setBrakeMode(boolean value) {
+	public void setBrakeMode(boolean value) {
 		lMaster.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
 		lFrontSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
 		lBackSlave.setNeutralMode(value ? NeutralMode.Brake : NeutralMode.Coast);
@@ -135,56 +131,16 @@ public class Chassis extends Subsystem {
     
 	public void publishSmartDashboard() {
 		
-		CommandBase.server.valueDisplay.putValue("GyroRate", getGyroRate());
+		CommandBase.server.valueDisplay.putValue("Gyro", getGyroAngle());
 		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
 		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
-		
-		SmartDashboard.putBoolean("High Gear", throttleLimiter == 1);
-		SmartDashboard.putNumber("Right Position Meters", ChassisConversions.clicksToMeters(rMaster.getSelectedSensorPosition(0)));
-		//SmartDashboard.putNumber("Right Position Encoder", rMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Right Velocity MPS", ChassisConversions.clickVelToMetersPerSec(rMaster.getSelectedSensorVelocity(0)));
-		//SmartDashboard.putNumber("Right Velocity Enc", rMaster.getSelectedSensorVelocity(0));
-
-		SmartDashboard.putNumber("Left Position Meters", ChassisConversions.clicksToMeters(lMaster.getSelectedSensorPosition(0)));
-		//SmartDashboard.putNumber("Left Position Encoder", lMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Left Velocity MPS", ChassisConversions.clickVelToMetersPerSec(lMaster.getSelectedSensorVelocity(0)));
-		//SmartDashboard.putNumber("Left Velocity Enc", lMaster.getSelectedSensorVelocity(0));
-		
-		CommandBase.server.valueDisplay.putValue("gyro", getGyroAngle());
-		
-		SmartDashboard.putBoolean("Recording", recording);
-		SmartDashboard.putBoolean("Following", following);
-		
-		SmartDashboard.putNumber("right executing", rightProfiler.counter);
-		SmartDashboard.putNumber("left executing", leftProfiler.counter);
-		
-		CommandBase.server.valueDisplay.putValue("left front motor current", lFrontSlave.getOutputCurrent());
-		CommandBase.server.valueDisplay.putValue("right front motor current", rFrontSlave.getOutputCurrent());
-		CommandBase.server.valueDisplay.putValue("left back motor current", lBackSlave.getOutputCurrent());
-		CommandBase.server.valueDisplay.putValue("right back motor current", rBackSlave.getOutputCurrent());
-		CommandBase.server.valueDisplay.putValue("left top motor current", lMaster.getOutputCurrent());
-		CommandBase.server.valueDisplay.putValue("right top motor current", rMaster.getOutputCurrent());
-
-		/*MotionProfileStatus lStatus = new MotionProfileStatus();
-		lMaster.getMotionProfileStatus(lStatus);
-		SmartDashboard.putBoolean("has Underrun left", lStatus.hasUnderrun);
-		MotionProfileStatus rStatus = new MotionProfileStatus();
-		rMaster.getMotionProfileStatus(rStatus);
-		SmartDashboard.putBoolean("has Underrun right", rStatus.hasUnderrun);*/
-		
-		if(rMaster.getControlMode() == ControlMode.MotionProfile) {
-			SmartDashboard.putNumberArray("Right MP Position",
-					new double[] {rMaster.getActiveTrajectoryPosition(), rMaster.getSelectedSensorPosition(0)});
-			SmartDashboard.putNumber("Right MP Velocity", rMaster.getActiveTrajectoryVelocity());
-			SmartDashboard.putNumber("Right MP Error", rMaster.getClosedLoopError(0));
-		}
-		
-		if(lMaster.getControlMode() == ControlMode.MotionProfile) {
-			SmartDashboard.putNumberArray("Left MP Position",
-					new double[] {lMaster.getActiveTrajectoryPosition(), lMaster.getSelectedSensorPosition(0)});
-			SmartDashboard.putNumber("Left MP Velocity", lMaster.getActiveTrajectoryVelocity());
-			SmartDashboard.putNumber("Left MP Error", lMaster.getClosedLoopError(0));
-		}
+				
+		//CommandBase.server.valueDisplay.putValue("left front motor current", lFrontSlave.getOutputCurrent());
+		//CommandBase.server.valueDisplay.putValue("right front motor current", rFrontSlave.getOutputCurrent());
+		//CommandBase.server.valueDisplay.putValue("left back motor current", lBackSlave.getOutputCurrent());
+		//CommandBase.server.valueDisplay.putValue("right back motor current", rBackSlave.getOutputCurrent());
+		//CommandBase.server.valueDisplay.putValue("left top motor current", lMaster.getOutputCurrent());
+		//CommandBase.server.valueDisplay.putValue("right top motor current", rMaster.getOutputCurrent());
 	}
 	
 	public void setHighGear(boolean highGear) {
@@ -202,7 +158,7 @@ public class Chassis extends Subsystem {
         turn = Math.copySign(turn * turn, turn);
         
         throttle *= throttleLimiter;
-        //turn *= turnLimiter;
+        turn *= turnLimiter;
         
         throttle = limit(throttle);
         throttle = applyDeadband(throttle, deadband);
@@ -295,7 +251,6 @@ public class Chassis extends Subsystem {
 				fileCreator.createNewFile();
 				log = new PrintWriter(fileCreator);
 				System.out.println("Log created");
-				recording = true;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -312,7 +267,6 @@ public class Chassis extends Subsystem {
     		log.close();
     		log = null;
     		System.out.println("Log closed");
-    		recording = false;
     	} else {
     		System.out.println("Log already closed");
     	}
@@ -336,7 +290,6 @@ public class Chassis extends Subsystem {
 
     public void initializeMotionProfile(String filename) {
     	resetEncoders();
-    	setBrakeMode(true);
     	log(rMaster.changeMotionControlFramePeriod(10));
     	log(lMaster.changeMotionControlFramePeriod(10));
     	
@@ -347,7 +300,6 @@ public class Chassis extends Subsystem {
     	leftProfiler.initialize(filename);
     	
     	notifier.startPeriodic(0.005);
-    	following = true;
     }
     
     public void executeMotionProfile() {
@@ -366,10 +318,8 @@ public class Chassis extends Subsystem {
     
     public void cancelMotionProfile() {
     	notifier.stop();
-    	following = false;
     	leftProfiler.reset();
     	rightProfiler.reset();
-    	//setBrakeMode(false);
     }
     
     private void setPIDF(TalonSRX _talon, int slot, double kF, double kP, double kI, double kD) {

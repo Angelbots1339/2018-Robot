@@ -1,10 +1,7 @@
 package org.usfirst.frc.team1339.robot.commands;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
-import org.usfirst.frc.team1339.robot.subsystems.Elevator;
 import org.usfirst.frc.team1339.utils.ElevatorConversions;
-
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -16,8 +13,8 @@ public class PIDElevator extends CommandBase {
 	boolean toggle1=false;
 	boolean toggle2=false;
 	int tposition = 0;
-	private double driveHeightSetpoint = 0.0, time = 0.0;
-	private final double timeout = 0.5;
+	//private double driveHeightSetpoint = 0.0, time = 0.0;
+	//private final double timeout = 0.5;
 	
     public PIDElevator(int setPointInCm) {
         // Use requires() here to declare subsystem dependencies
@@ -46,13 +43,13 @@ public class PIDElevator extends CommandBase {
     	if (oi.getRightBumper().get() && !toggle1) {
     		toggle2 = false;
     		toggle1 = true;
-    		elevator.state = Math.min(elevator.state+1, 1);
+    		elevator.state = Math.min(elevator.state + 1, 1);
     	}
     	
-    	if (oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger)>0.5 && !toggle2) {
+    	if (oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger) > 0.5 && !toggle2) {
     		toggle1 = false;
     		toggle2 = true;
-    		elevator.state = Math.max(elevator.state-1, -1);
+    		elevator.state = Math.max(elevator.state - 1, -1);
     	}
     	
     	if(elevator.position == RobotMap.posSwitch) {
@@ -71,11 +68,11 @@ public class PIDElevator extends CommandBase {
     		toggle1 = false;
     	}
     	
-    	if(oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger)<0.5) {
+    	if(oi.getXboxStick().getRawAxis(RobotMap.xboxRightTrigger) < 0.5) {
     		toggle2 = false;
     	}
     	
-    	if(!driveHeightInitialized && elevator.getPositionClicks() < RobotMap.driveHeight
+    	/*if(!driveHeightInitialized && elevator.getPositionClicks() < RobotMap.driveHeight
     			&& intake.hazBox(RobotMap.squeezeThreshold)) {
     		driveHeightInitialized = true;
     		driveHeightSetpoint = RobotMap.driveHeight;
@@ -87,7 +84,7 @@ public class PIDElevator extends CommandBase {
     		driveHeightInitialized = false;
     	}
     	
-    	/*if(driveHeightInitialized && elevator.position == 0) {
+    	if(driveHeightInitialized && elevator.position == 0) {
     		if (!timedout) {
     			if(Timer.getFPGATimestamp() > time + timeout) timedout = true;
     		}
