@@ -61,6 +61,10 @@ public class Elevator extends Subsystem {
 		elevatorMaster.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
 		elevatorSlave.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
 	}
+	
+	public void resetEncoder() {
+		elevatorMaster.setSelectedSensorPosition(0, 0, 0);
+	}
 
 	public void publishSmartDashboard() {
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",

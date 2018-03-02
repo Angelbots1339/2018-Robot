@@ -15,7 +15,7 @@ public class TwoCube extends CommandGroup {
     public TwoCube() {
     	addSequential(new LeftToScaleAuto(false),15);
     	addParallel(new PIDWrist(RobotMap.wristHorizontal));
-    	addParallel(new PIDElevatorSetpoint(0, 2));
+    	addSequential(new PIDElevatorSetpoint(0, 2));
     	addSequential(new PIDGyro(113, 0.7, 3));
     	addParallel(new ExecuteProfile("LeftScaleSecondCubeTest"));
     	addSequential(new DriveIntakeTimeout(0.7, 2.5));

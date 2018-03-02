@@ -46,6 +46,10 @@ public class Wrist extends Subsystem {
     	
     }
     
+    public void resetEncoder() {
+    	wristMotor.setSelectedSensorPosition(0, 0, 0);
+    }
+    
     public void setOutput(double output) {
     	if(Math.abs(output) < 0.1) output = 0;
     	if(isWristUp() && !wristUpPressed) {

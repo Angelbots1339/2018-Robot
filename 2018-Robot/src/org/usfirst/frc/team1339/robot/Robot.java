@@ -11,9 +11,7 @@ import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
 import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightToScaleAuto;
-import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
-import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -30,9 +28,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Robot extends TimedRobot {
 
 	Command autonomousCommand;
-	
-	//UsbCamera topCam, bottomCam;
-	//VideoSink server;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,13 +41,12 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.add("Chill", null);
 		CommandBase.server.autonomousSelector.add("Drive Forward", new DriveForwardTimeout(0.6, 2));
 		CommandBase.server.autonomousSelector.add("Center To Switch", new CenterSwitchAuto());
-		CommandBase.server.autonomousSelector.add("Right To Scale Passive", new RightToScaleAuto(true));
-		CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
-		CommandBase.server.autonomousSelector.add("Left To Scale Passive", new LeftToScaleAuto(true));
-		CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
-		CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
+		CommandBase.server.autonomousSelector.add("Right To Scale And Pick Up", new RightToScaleAuto(true));
+		//CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
+		CommandBase.server.autonomousSelector.add("Left To Scale And Pick Up", new LeftToScaleAuto(true));
+		//CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
+		//CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
 		
-		CommandBase.server.autonomousSelector.add("Circle", new ExecuteProfile("Circle"));
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
 	}
@@ -88,13 +82,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		RobotMap.gameMessage = DriverStation.getInstance().getGameSpecificMessage();
+
+		CommandBase.wrist.resetEncoder();
+		CommandBase.elevator.resetEncoder();
 		CommandBase.chassis.setBrakeMode(true);
+		
 		autonomousCommand = CommandBase.server.autonomousSelector.getCurrentModeCommand();
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-		CommandBase.leds.autoInit();
 		
+		CommandBase.leds.autoInit();
 	}
 
 	/**
@@ -109,15 +107,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		CommandBase.chassis.setBrakeMode(false);
+		CommandBase.chassis.resetSensors();
 		CommandBase.wrist.toggle = -1;
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		CommandBase.chassis.resetSensors();
+		
 		CommandBase.leds.teleOpInit();
 	}
 
