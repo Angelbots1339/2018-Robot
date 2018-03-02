@@ -19,9 +19,9 @@ public class LEDs {
 		rStrip = new AngelLight(RobotMap.rightLEDStripId);
 		lStrip = new AngelLight(RobotMap.leftLEDStripId);
 		
-		white = new Color(255, 255, 75);
+		white = new Color(200, 200, 75);
 		red = new Color(255, 0, 0);
-		darkRed = new Color(75, 0, 0);
+		darkRed = new Color(40, 0, 0);
 		blue = new Color(0, 0, 255);
 		green = new Color(0, 255, 0);
 		
@@ -29,7 +29,7 @@ public class LEDs {
 	}
 	
 	public void disabledInit() {
-		lStrip.fade(darkRed, red, 1);
+		lStrip.fade(darkRed, red, 1.5);
 		rStrip.fade(darkRed, red, 1);
 		leftIsRed = true;
 	}
@@ -39,11 +39,11 @@ public class LEDs {
 		rStrip.updateLED();
 		if(lStrip.done || rStrip.done) {
 			if(leftIsRed) {
-				lStrip.fade(red, darkRed, 1);
-				rStrip.fade(red, darkRed, 1);
+				lStrip.fade(red, darkRed, 1.5);
+				rStrip.fade(red, darkRed, 1.5);
 			} else {
-				lStrip.fade(darkRed, red, 1);
-				rStrip.fade(darkRed, red, 1);
+				lStrip.fade(darkRed, red, 1.5);
+				rStrip.fade(darkRed, red, 1.5);
 			}
 			leftIsRed = !leftIsRed;
 		}
@@ -71,8 +71,8 @@ public class LEDs {
 	
 	public void teleOpPeriodic() {
 		if(hazBox) {
-			lStrip.showColor(green);
-			rStrip.showColor(green);
+			lStrip.showColor(white);
+			rStrip.showColor(white);
 		} else {
 			lStrip.showColor(white);
 			rStrip.showColor(white);

@@ -23,6 +23,7 @@ public class ParseFiles {
     		scanner = new Scanner(new File("/home/lvuser/Records/" + name + ".txt"));
     	} catch (FileNotFoundException e) {
     		e.printStackTrace();
+    		System.out.println("Path not found! You do not kno de wae.");
     	}
     	
     	boolean reversed = (scanner.nextLine().equals("0") ? false:true);

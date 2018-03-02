@@ -9,9 +9,11 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 public class LeftToScale extends CommandBase {
 	
 	String name = "null";
+	boolean passive;
 	
-    public LeftToScale() {
+    public LeftToScale(boolean passive) {
     	requires(chassis);
+    	this.passive = passive;
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +22,11 @@ public class LeftToScale extends CommandBase {
     		if(RobotMap.gameMessage.charAt(1) == 'L') {
     			name = "LeftToScale";
     		} else if(RobotMap.gameMessage.charAt(1) == 'R') {
-    			name = "DriveForward";
+    			if(passive) {
+    				name = "LeftToScale";
+    			} else {
+        			name = "LeftToOppositeScale";
+    			}
     		}
     	}
     	

@@ -7,17 +7,44 @@ import org.usfirst.frc.team1339.robot.RobotMap;
  */
 public class DriveElevator extends CommandBase {
 	
+	boolean manual = false;
+	boolean pidRunning = false;
+	double pidSetpoint = 0;
+	
     public DriveElevator() {
     	requires(elevator);
     }
     
     protected void initialize() {
+    	manual = true;
+    	elevator.setPID(0, RobotMap.elevatorKp, RobotMap.elevatorKi, RobotMap.elevatorKd);
+    	elevator.setElevMotorsBrakeMode(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double output = -oi.getOperatorStick().getRawAxis(RobotMap.xboxRightYAxis);
-    	elevator.setElevator(output);
+    	
+    	if(oi.getOperatorBButton().get()) {
+    		manual = true;
+    	} else if(oi.getOperatorXButton().get()) {
+    		manual = false;
+    	}
+    	
+    	if(Math.abs(output) < 0.1) {
+    		if(!pidRunning) {
+        		pidRunning = true;
+        		pidSetpoint = elevator.getPositionClicks();
+    		}
+    	} else {
+    		pidRunning = false;
+    	}
+    	
+    	if(pidRunning && !manual) {
+    		elevator.PIDElevator(pidSetpoint);
+    	} else {
+        	elevator.setElevator(output);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

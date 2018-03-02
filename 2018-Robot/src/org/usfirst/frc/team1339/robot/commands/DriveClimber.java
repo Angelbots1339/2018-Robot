@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1339.robot.commands;
 
-import org.usfirst.frc.team1339.robot.RobotMap;
-
 /**
  *
  */
@@ -9,7 +7,6 @@ public class DriveClimber extends CommandBase {
 	
     public DriveClimber() {
     	requires(elevator);
-    	setInterruptible(false);
     }
     
     protected void initialize() {
@@ -18,13 +15,13 @@ public class DriveClimber extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double output = -oi.getOperatorStick().getRawAxis(RobotMap.operatorYAxis);
-    	elevator.setClimber(output);
+    	boolean climb = oi.getOperatorAButton().get();
+    	elevator.setClimber(climb ? -1 : 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return oi.getOperatorYButton().get();
+        return false;
     }
 
     // Called once after isFinished returns true

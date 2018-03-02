@@ -11,10 +11,10 @@ import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
 import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightToScaleAuto;
+import org.usfirst.frc.team1339.robot.autonomous.TwoCube;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,6 +30,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Robot extends TimedRobot {
 
 	Command autonomousCommand;
+	
+	//UsbCamera topCam, bottomCam;
+	//VideoSink server;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,20 +40,21 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
 		CommandBase.init();
 		
 		CommandBase.server.autonomousSelector.add("Chill", null);
 		CommandBase.server.autonomousSelector.add("Drive Forward", new DriveForwardTimeout(0.6, 2));
 		CommandBase.server.autonomousSelector.add("Center To Switch", new CenterSwitchAuto());
-		CommandBase.server.autonomousSelector.add("Right To Scale", new RightToScaleAuto());
-		CommandBase.server.autonomousSelector.add("Left To Scale", new LeftToScaleAuto());
+		CommandBase.server.autonomousSelector.add("Right To Scale Passive", new RightToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
+		CommandBase.server.autonomousSelector.add("Left To Scale Passive", new LeftToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
+		CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
 		
 		CommandBase.server.autonomousSelector.add("Circle", new ExecuteProfile("Circle"));
-		//CommandBase.server.autonomousSelector.add("Two Cube Left", new TwoCube());
-		CommandBase.server.autonomousSelector.setCurrentMode(1);
+		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
-		
-		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**

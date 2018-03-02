@@ -6,6 +6,7 @@ import org.usfirst.frc.team1339.robot.subsystems.Elevator;
 import org.usfirst.frc.team1339.robot.subsystems.Intake;
 import org.usfirst.frc.team1339.robot.subsystems.Pinchers;
 import org.usfirst.frc.team1339.robot.subsystems.Wrist;
+import org.usfirst.frc.team1339.utils.Cameras;
 import org.usfirst.frc.team1339.utils.LEDs;
 import org.usfirst.frc.team1339.utils.Server;
 
@@ -27,7 +28,7 @@ public abstract class CommandBase extends Command {
     public static Pinchers pinchers;
     
     public static LEDs leds;
-
+    public static Cameras cameras;
 	public static Server server;
 
     public static OI oi;
@@ -40,8 +41,8 @@ public abstract class CommandBase extends Command {
     	pinchers = new Pinchers();
     	
     	leds = new LEDs();
-    	
-    	server = new Server(8080);
+    	cameras = new Cameras();
+    	server = new Server(5808);
 
         oi = new OI();
     }

@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class TwoCube extends CommandGroup {
 
     public TwoCube() {
-    	addSequential(new RightToScaleAuto(),15);
+    	addSequential(new LeftToScaleAuto(false),15);
     	addParallel(new PIDWrist(RobotMap.wristHorizontal));
-    	addSequential(new PIDElevatorSetpoint(0, 2));
-    	addSequential(new PIDGyro(120, 0.7, 3));
+    	addParallel(new PIDElevatorSetpoint(0, 2));
+    	addSequential(new PIDGyro(113, 0.7, 3));
     	addParallel(new ExecuteProfile("LeftScaleSecondCubeTest"));
-    	addSequential(new DriveIntakeTimeout(-1, 2.5));
+    	addSequential(new DriveIntakeTimeout(0.7, 2.5));
     	addSequential(new PIDElevatorSetpoint(RobotMap.posSwitch, 1));
-    	addSequential(new DriveIntakeTimeout(0.8, 2));
+    	addSequential(new DriveIntakeTimeout(-0.8, 2));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

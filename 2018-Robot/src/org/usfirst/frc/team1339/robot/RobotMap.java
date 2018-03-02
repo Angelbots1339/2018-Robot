@@ -109,7 +109,7 @@ public class RobotMap {
 	public final static int backInSol = 3;
 	public final static int backOutSol = 2;
 	public final static int climbOutSol = 5;
-	public final static int climbInSol = 7;
+	public final static int climbInSol = 4;
 	
 	//Sensors
 	public final static int gyroId = 0;
@@ -128,7 +128,7 @@ public class RobotMap {
 
 	//Ramp up
 	public final static double[] lowerLimitRamp = {0.0, 0.0};
-	public final static double[] midLimitRamp = {65, 0.25};
+	public final static double[] midLimitRamp = {65, 0.5};
 	public final static double[] upperLimitRamp = {180.0, 2.0};
   
 	

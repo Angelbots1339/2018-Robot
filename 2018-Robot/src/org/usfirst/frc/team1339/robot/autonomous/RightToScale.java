@@ -9,18 +9,24 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 public class RightToScale extends CommandBase {
 	
 	String name = "null";
+	boolean passive;
 	
-    public RightToScale() {
+    public RightToScale(boolean passive) {
     	requires(chassis);
+    	this.passive = passive;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(RobotMap.gameMessage.length() > 0) {
-    		if(RobotMap.gameMessage.charAt(1) == 'L') {
-    			name = "DriveForward";
-    		} else if(RobotMap.gameMessage.charAt(1) == 'R') {
+    		if(RobotMap.gameMessage.charAt(1) == 'R') {
     			name = "RightToScale";
+    		} else if(RobotMap.gameMessage.charAt(1) == 'L') {
+    			if(passive) {
+    				name = "RightToScale";
+    			} else {
+        			name = "RightToOppositeScale";
+    			}
     		}
     	}
     	

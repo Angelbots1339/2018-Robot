@@ -18,9 +18,9 @@ public class CenterToSwitch extends CommandBase {
     protected void initialize() {
     	if(RobotMap.gameMessage.length() > 0) {
     		if(RobotMap.gameMessage.charAt(0) == 'L') {
-    			name = "LeftCenterToSwitch";
+    			name = "CenterToLeftSwitch";
     		} else if(RobotMap.gameMessage.charAt(0) == 'R') {
-    			name = "RightCenterToSwitch";
+    			name = "CenterToRightSwitch";
     		}
     	}
     	

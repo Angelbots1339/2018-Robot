@@ -1,8 +1,11 @@
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.commands.DriveWrist;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetWrist;
+import org.usfirst.frc.team1339.robot.commands.ShowBottomCam;
+import org.usfirst.frc.team1339.robot.commands.ShowTopCam;
 import org.usfirst.frc.team1339.robot.commands.WristToggle;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
@@ -34,16 +37,16 @@ public class OI {
 	private JoystickButton leftStickButton = new JoystickButton(xboxStick, RobotMap.xboxLeftStickButton);
 	
 	//Operator Buttons
-	private JoystickButton operatorAButton = new JoystickButton(xboxStick, RobotMap.xboxAButton);
-	private JoystickButton operatorBButton = new JoystickButton(xboxStick, RobotMap.xboxBButton);
-	private JoystickButton operatorXButton = new JoystickButton(xboxStick, RobotMap.xboxXButton);
-	private JoystickButton operatorYButton = new JoystickButton(xboxStick, RobotMap.xboxYButton);
-	private JoystickButton operatorRightBumper = new JoystickButton(xboxStick, RobotMap.xboxRightBumper);
-	private JoystickButton operatorLeftBumper = new JoystickButton(xboxStick, RobotMap.xboxLeftBumper);
-	private JoystickButton operatorViewButton = new JoystickButton(xboxStick, RobotMap.xboxViewButton);
-	private JoystickButton operatorMenuButton = new JoystickButton(xboxStick, RobotMap.xboxMenuButton);
-	private JoystickButton operatorRightStickButton = new JoystickButton(xboxStick, RobotMap.xboxRightStickButton);
-	private JoystickButton operatorLeftStickButton = new JoystickButton(xboxStick, RobotMap.xboxLeftStickButton);
+	private JoystickButton operatorAButton = new JoystickButton(operatorStick, RobotMap.xboxAButton);
+	private JoystickButton operatorBButton = new JoystickButton(operatorStick, RobotMap.xboxBButton);
+	private JoystickButton operatorXButton = new JoystickButton(operatorStick, RobotMap.xboxXButton);
+	private JoystickButton operatorYButton = new JoystickButton(operatorStick, RobotMap.xboxYButton);
+	private JoystickButton operatorRightBumper = new JoystickButton(operatorStick, RobotMap.xboxRightBumper);
+	private JoystickButton operatorLeftBumper = new JoystickButton(operatorStick, RobotMap.xboxLeftBumper);
+	private JoystickButton operatorViewButton = new JoystickButton(operatorStick, RobotMap.xboxViewButton);
+	private JoystickButton operatorMenuButton = new JoystickButton(operatorStick, RobotMap.xboxMenuButton);
+	private JoystickButton operatorRightStickButton = new JoystickButton(operatorStick, RobotMap.xboxRightStickButton);
+	private JoystickButton operatorLeftStickButton = new JoystickButton(operatorStick, RobotMap.xboxLeftStickButton);
 	
 	/*	XBOX B ---> Cancels profile
 	 *  XBOX A ---> Follow reverse circle
@@ -67,6 +70,9 @@ public class OI {
 		
 		operatorYButton.whenPressed(new GoToElevator());
 		operatorAButton.whenPressed(new GoToClimber());
+		operatorAButton.whenPressed(new DriveWrist());
+		operatorRightBumper.whenPressed(new ShowTopCam());
+		operatorLeftBumper.whenPressed(new ShowBottomCam());
 	}
 	
 	//Get Functions
