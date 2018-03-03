@@ -4,6 +4,7 @@ import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 import org.usfirst.frc.team1339.robot.commands.PIDGyro;
 import org.usfirst.frc.team1339.robot.commands.PIDWrist;
+import org.usfirst.frc.team1339.robot.commands.ShiftClimberOut;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftToScaleAuto extends CommandGroup {
 
     public LeftToScaleAuto(boolean passive) {
+    	addSequential(new ShiftClimberOut());
     	//Cube in the scale
     	addSequential(new LeftToScale(passive));
     	addParallel(new PIDWrist(RobotMap.wristFortyFive), 3);

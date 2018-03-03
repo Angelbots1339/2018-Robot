@@ -23,7 +23,7 @@ public class LeftToScale extends CommandBase {
     			name = "LeftToScale";
     		} else if(RobotMap.gameMessage.charAt(1) == 'R') {
     			if(passive) {
-    				name = "LeftToScale";
+    				name = "DriveForward";
     			} else {
         			name = "LeftToOppositeScale";
     			}

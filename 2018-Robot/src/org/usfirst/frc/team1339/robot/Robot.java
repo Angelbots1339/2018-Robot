@@ -8,7 +8,9 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
+import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchSecondCubeAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
+import org.usfirst.frc.team1339.robot.autonomous.LeftToOppositeScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightToScaleAuto;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
@@ -44,6 +46,8 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.add("Right To Scale And Pick Up", new RightToScaleAuto(true));
 		//CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
 		CommandBase.server.autonomousSelector.add("Left To Scale And Pick Up", new LeftToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("opposite", new LeftToOppositeScaleAuto());
+		//CommandBase.server.autonomousSelector.add("TwoCubeSwitch", new CenterSwitchSecondCubeAuto());
 		//CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
 		//CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
 		
@@ -108,7 +112,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		CommandBase.chassis.setBrakeMode(false);
 		CommandBase.chassis.resetSensors();
-		CommandBase.wrist.toggle = -1;
+		CommandBase.wrist.toggle = 0;
 		
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();

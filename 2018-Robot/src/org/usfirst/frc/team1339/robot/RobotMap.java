@@ -129,7 +129,7 @@ public class RobotMap {
 	//Ramp up
 	public final static double[] lowerLimitRamp = {0.0, 0.0};
 	public final static double[] midLimitRamp = {65, 0.5};
-	public final static double[] upperLimitRamp = {180.0, 2.0};
+	public final static double[] upperLimitRamp = {180.0, 1.75};
   
 	
 	//Chassis limiter

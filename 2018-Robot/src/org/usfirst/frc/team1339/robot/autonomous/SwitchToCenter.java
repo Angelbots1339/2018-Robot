@@ -6,27 +6,21 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 /**
  *
  */
-public class RightToScale extends CommandBase {
+public class SwitchToCenter extends CommandBase {
 	
 	String name = "null";
-	boolean passive;
 	
-    public RightToScale(boolean passive) {
+    public SwitchToCenter() {
     	requires(chassis);
-    	this.passive = passive;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(RobotMap.gameMessage.length() > 0) {
-    		if(RobotMap.gameMessage.charAt(1) == 'R') {
-    			name = "RightToScale";
-    		} else if(RobotMap.gameMessage.charAt(1) == 'L') {
-    			if(passive) {
-    				name = "DriveForward";
-    			} else {
-        			name = "RightToOppositeScale";
-    			}
+    		if(RobotMap.gameMessage.charAt(0) == 'L') {
+    			name = "ReverseCenterToLeftSwitch";
+    		} else if(RobotMap.gameMessage.charAt(0) == 'R') {
+    			name = "ReverseCenterToRightSwitch";
     		}
     	}
     	
@@ -41,7 +35,7 @@ public class RightToScale extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	 return (chassis.isTrajectoryFinished() && !name.equals("DriveForward")) ||
+        return chassis.isTrajectoryFinished() ||
         		oi.getLeftBumper().get() ||
         		name.equals("null");
     }
