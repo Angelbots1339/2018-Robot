@@ -43,6 +43,7 @@ public class MotionProfiling {
 		log(_talon.clearMotionProfileTrajectories());
 		/* When we do re-enter motionProfile control mode, stay disabled. */
 		_setValue = SetValueMotionProfile.Disable;
+		hasFinished = false;
 	}
 	
 	public void initialize(String name) {
