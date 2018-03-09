@@ -71,8 +71,8 @@ public class LEDs {
 	
 	public void teleOpPeriodic() {
 		if(hazBox) {
-			lStrip.showColor(white);
-			rStrip.showColor(white);
+			lStrip.showColor(green);
+			rStrip.showColor(green);
 		} else {
 			lStrip.showColor(white);
 			rStrip.showColor(white);

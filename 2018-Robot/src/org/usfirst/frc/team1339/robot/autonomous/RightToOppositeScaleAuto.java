@@ -1,9 +1,7 @@
 package org.usfirst.frc.team1339.robot.autonomous;
 
-import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.ExecuteProfile;
 import org.usfirst.frc.team1339.robot.commands.PIDGyro;
-import org.usfirst.frc.team1339.robot.commands.PIDWrist;
 import org.usfirst.frc.team1339.robot.commands.ShiftClimberOut;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
