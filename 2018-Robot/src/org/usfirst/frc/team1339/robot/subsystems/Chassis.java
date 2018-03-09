@@ -58,6 +58,7 @@ public class Chassis extends Subsystem {
     	setPIDF(lMaster, 0, RobotMap.talonKf, RobotMap.talonKp, RobotMap.talonKi, RobotMap.talonKd);
     	
     	lFrontSlave = new TalonSRX(RobotMap.leftFrontDriveMotor);
+    	lFrontSlave.setInverted(true); //Practice bot only because it is really sketch
     	lFrontSlave.follow(lMaster);
     	
     	lBackSlave = new TalonSRX(RobotMap.leftBackDriveMotor);
