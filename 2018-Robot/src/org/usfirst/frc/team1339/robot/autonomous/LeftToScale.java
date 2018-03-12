@@ -42,7 +42,7 @@ public class LeftToScale extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (chassis.isTrajectoryFinished() && path==RobotMap.Drive_Forward) ||
+        return (chassis.isTrajectoryFinished() && path!=RobotMap.Drive_Forward) ||
         		oi.getLeftBumper().get() ||
         		path==null;
     }
