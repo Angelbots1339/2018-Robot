@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1339.robot;
 
 import org.usfirst.frc.team1339.utils.ElevatorConversions;
+import org.usfirst.frc.team1339.utils.ParseFiles;
 import org.usfirst.frc.team1339.utils.WristConversions;
 
 /**
@@ -156,4 +157,27 @@ public class RobotMap {
 	
 	//Auto String
 	public static String gameMessage = "";
+	
+	//Auto Routines
+	public static ParseFiles Center_To_Left_Switch;
+	public static ParseFiles Center_To_Right_Switch;
+	
+	public static ParseFiles Center_To_Cube;
+	
+	public static ParseFiles Drive_Forward;
+	
+	public static ParseFiles Left_To_Opposite_Scale;
+	
+	public static ParseFiles First_To_Opposite_Scale;
+	public static ParseFiles Second_To_Opposite_Scale;
+	public static ParseFiles Third_To_Opposite_Scale;
+	
+	public static ParseFiles Left_To_Scale;
+	public static ParseFiles Left_Scale_Second_Cube;
+	
+	public static ParseFiles Right_To_Scale;
+	
+	public static ParseFiles Reversed_Center_To_Left_Switch;
+	public static ParseFiles Reversed_Center_To_Right_Switch;
+	
 }

@@ -34,6 +34,8 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     
     public static void init() {
+    	
+    	
     	chassis = new Chassis();
     	elevator = new Elevator();
     	intake = new Intake();

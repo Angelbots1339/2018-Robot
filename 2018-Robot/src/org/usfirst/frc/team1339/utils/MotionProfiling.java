@@ -19,12 +19,12 @@ public class MotionProfiling {
 	
 	private SetValueMotionProfile _setValue = SetValueMotionProfile.Disable;
 
-	private static final int kMinPointsInTalon = 1;
+	private static final int kMinPointsInTalon = 5; //When it is 1 we are having the "KEE" -> 5 is recommended
 	public double counter;
 	public double bufferPoints;
 	public boolean hasFinished = false;
 	
-	private ParseFiles file = new ParseFiles();
+	private ParseFiles file;
 	
 	private boolean isLeft, isStarted = false;
 	
@@ -46,28 +46,28 @@ public class MotionProfiling {
 		hasFinished = false;
 	}
 	
-	public void initialize(String name) {
+	public void initialize(ParseFiles file) {
+		this.file = file;
 		_setValue = SetValueMotionProfile.Disable;
-		file.loadFile(name);
 		startFilling(file.getLog(isLeft));
 		isStarted = false;
 		log(_talon.configMotionProfileTrajectoryPeriod(0, 10));
-		counter = 0;
+		//counter = 0;
 		hasFinished = false;
 	}
 	
-	public void startFilling(ArrayList<LogPoint> log) {
+	public void startFilling(LogPoint[] logFile) {
 		log(_talon.clearMotionProfileTrajectories());
 		log(_talon.clearMotionProfileHasUnderrun(0));
-		int totalCnt = log.size();	
-		log(_talon.getMotionProfileStatus(_status));
+		int totalCnt = file.getSize();	
+		log(_talon.getMotionProfileStatus(_status)); // why are we doing this?  Chad says you're dumb
 		
 		TrajectoryPoint point = new TrajectoryPoint();
 		/* This is fast since it's just into our TOP buffer */
-		for (int i = 0; i < totalCnt; ++i) {
+		for (int i = 0; i < totalCnt; i++) {
 			
-			double position = ChassisConversions.metersToClicks(log.get(i).position);
-			double velocity = ChassisConversions.metersPerSecToClickVel(log.get(i).velocity);
+			double position = ChassisConversions.metersToClicks(logFile[i].position);
+			double velocity = ChassisConversions.metersPerSecToClickVel(logFile[i].velocity);
 			/* for each point, fill our structure and pass it to API */
 			point.position = position;
 			point.velocity = velocity;
@@ -94,12 +94,19 @@ public class MotionProfiling {
 	
 	public void execute() {
 		log(_talon.getMotionProfileStatus(_status));
-		counter++;
+		//counter++;
 		bufferPoints = _status.btmBufferCnt;
 		/* wait for MP to stream to Talon, really just the first few
 		* points
 		*/
 		/* do we have a minimum number of points in Talon */
+		
+		// We might want to check for an underrun condition here and log it, otherwise it could happen
+		// and we'd never know about it.  Chad and Angelo added this trash below.
+		if (_status.hasUnderrun) {
+			throw new java.lang.Error("The buffer has underran. Is it Left? " + isLeft);
+		}
+		
 		if (!isStarted && _status.btmBufferCnt > kMinPointsInTalon) {
 			/* start (once) the motion profile */
 			_setValue = SetValueMotionProfile.Enable;
@@ -116,9 +123,9 @@ public class MotionProfiling {
 	}
 	
 	public double getValue() {
-		if (_setValue == SetValueMotionProfile.Disable) return 0;
-		else if (_setValue == SetValueMotionProfile.Enable) return 1;
-		return 2;
+		if (_setValue == SetValueMotionProfile.Disable) return 0; //Do not Run Motion Profiling
+		else if (_setValue == SetValueMotionProfile.Enable) return 1; //Do Run Motion Porofiling
+		return 2; //Hold
 	}
 	
 	public boolean isTrajectoryFinished() {
@@ -130,7 +137,9 @@ public class MotionProfiling {
 	}
 	
 	private void log(ErrorCode code) {
-    	if(code == ErrorCode.OK) return;
-    	System.out.println(code);
+    	if(code != ErrorCode.OK) { 
+    		throw new java.lang.Error("Motion Profile Error: " + code.toString());
+    	}
+    	return;
     }
 }

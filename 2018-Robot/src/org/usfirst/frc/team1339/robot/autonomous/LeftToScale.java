@@ -2,13 +2,14 @@ package org.usfirst.frc.team1339.robot.autonomous;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
+import org.usfirst.frc.team1339.utils.ParseFiles;
 
 /**
  *
  */
 public class LeftToScale extends CommandBase {
 	
-	String name = "null";
+	ParseFiles path = null;
 	boolean passive;
 	
     public LeftToScale(boolean passive) {
@@ -20,18 +21,18 @@ public class LeftToScale extends CommandBase {
     protected void initialize() {
     	if(RobotMap.gameMessage.length() > 0) {
     		if(RobotMap.gameMessage.charAt(1) == 'L') {
-    			name = "LeftToScale";
+    			path = RobotMap.Left_To_Scale;
     		} else if(RobotMap.gameMessage.charAt(1) == 'R') {
     			if(passive) {
-    				name = "DriveForward";
+    				path = RobotMap.Drive_Forward;
     			} else {
-        			name = "LeftToOppositeScale";
+        			path = RobotMap.Left_To_Opposite_Scale;
     			}
     		}
     	}
     	
-    	if(!name.equals("null"))
-    		chassis.initializeMotionProfile(name);
+    	if(path!=null)
+    		chassis.initializeMotionProfile(path);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,9 +42,9 @@ public class LeftToScale extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (chassis.isTrajectoryFinished() && !name.equals("DriveForward")) ||
+        return (chassis.isTrajectoryFinished() && path==RobotMap.Drive_Forward) ||
         		oi.getLeftBumper().get() ||
-        		name.equals("null");
+        		path==null;
     }
 
     // Called once after isFinished returns true

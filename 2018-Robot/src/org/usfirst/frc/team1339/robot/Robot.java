@@ -15,6 +15,7 @@ import org.usfirst.frc.team1339.robot.autonomous.RightToOppositeScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightToScaleAuto;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.robot.commands.ShiftClimberOut;
+import org.usfirst.frc.team1339.utils.ParseFiles;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -56,6 +57,8 @@ public class Robot extends TimedRobot {
 		
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
 		CommandBase.server.start();
+		
+		pathInit();
 	}
 
 	/**
@@ -86,6 +89,29 @@ public class Robot extends TimedRobot {
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
 	 */
+	private void pathInit(){
+		RobotMap.Center_To_Left_Switch = new ParseFiles("CenterToLeftSwitch");
+		RobotMap.Center_To_Right_Switch = new ParseFiles("CenterToRightSwitch");
+		
+		RobotMap.Center_To_Cube = new ParseFiles("CenterToCube");
+		
+		RobotMap.Drive_Forward = new ParseFiles("DriveForward");
+		
+		RobotMap.Left_To_Opposite_Scale = new ParseFiles("LeftToOppositeScale");
+		
+		RobotMap.First_To_Opposite_Scale = new ParseFiles("FirstToOppositeScale");
+		RobotMap.Second_To_Opposite_Scale = new ParseFiles("SecondToOppositeScale");
+		RobotMap.Third_To_Opposite_Scale = new ParseFiles("ThirdToOppositeScale");
+		
+		RobotMap.Left_To_Scale = new ParseFiles("LeftToScale");
+		RobotMap.Left_Scale_Second_Cube = new ParseFiles("LeftScaleSecondCubeTest");
+		
+		RobotMap.Right_To_Scale = new ParseFiles("RightToScale");
+		
+		RobotMap.Reversed_Center_To_Left_Switch = new ParseFiles("ReversedCenterToLeftSwitch");
+		RobotMap.Reversed_Center_To_Right_Switch = new ParseFiles("ReversedCenterToRightSwitch");
+	}
+	
 	@Override
 	public void autonomousInit() {
 		RobotMap.gameMessage = DriverStation.getInstance().getGameSpecificMessage();
@@ -126,7 +152,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		CommandBase.chassis.setBrakeMode(false);
 		CommandBase.chassis.resetSensors();
-		CommandBase.wrist.toggle = 0;
+		CommandBase.wrist.toggle = -1;
 		
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();

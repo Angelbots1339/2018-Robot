@@ -10,6 +10,7 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.ChassisConversions;
 import org.usfirst.frc.team1339.utils.Interpolation;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
+import org.usfirst.frc.team1339.utils.ParseFiles;
 import org.usfirst.frc.team1339.utils.SynchronousPID;
 
 import com.ctre.phoenix.ErrorCode;
@@ -282,7 +283,7 @@ public class Chassis extends Subsystem {
     	directionalDrive(throttle, turn);
     }
 
-    public void initializeMotionProfile(String filename) {
+    public void initializeMotionProfile(ParseFiles file) {
     	resetEncoders();
     	log(rMaster.changeMotionControlFramePeriod(10));
     	log(lMaster.changeMotionControlFramePeriod(10));
@@ -290,8 +291,8 @@ public class Chassis extends Subsystem {
     	lMaster.configOpenloopRamp(0, 0);
     	rMaster.configOpenloopRamp(0, 0);
     	
-    	rightProfiler.initialize(filename);
-    	leftProfiler.initialize(filename);
+    	rightProfiler.initialize(file);
+    	leftProfiler.initialize(file);
     	
     	notifier.startPeriodic(0.005);
     }
