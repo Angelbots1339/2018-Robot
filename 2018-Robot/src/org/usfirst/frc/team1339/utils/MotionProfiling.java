@@ -140,6 +140,5 @@ public class MotionProfiling {
     	if(code != ErrorCode.OK) { 
     		throw new java.lang.Error("Motion Profile Error: " + code.toString());
     	}
-    	return;
     }
 }
