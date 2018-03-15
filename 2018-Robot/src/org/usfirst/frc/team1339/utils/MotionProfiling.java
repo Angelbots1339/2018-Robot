@@ -96,6 +96,7 @@ public class MotionProfiling {
 		log(_talon.getMotionProfileStatus(_status));
 		//counter++;
 		bufferPoints = _status.btmBufferCnt;
+		System.out.println(bufferPoints + "isLeft? " + isLeft);
 		/* wait for MP to stream to Talon, really just the first few
 		* points
 		*/
@@ -112,12 +113,12 @@ public class MotionProfiling {
 			_setValue = SetValueMotionProfile.Enable;
 			isStarted = true;
 		}
-		if (_status.activePointValid && _status.isLast) {
+		if (_status.activePointValid && _status.isLast && isStarted) {
 			/*
 			 * because we set the last point's isLast to true, we will
 			 * get here when the MP is done
 			 */
-			_setValue = SetValueMotionProfile.Hold;
+			_setValue = SetValueMotionProfile.Disable;
 			hasFinished = true;
 		}
 	}

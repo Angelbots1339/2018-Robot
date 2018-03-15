@@ -13,20 +13,22 @@ public class ParseFiles {
 	private int size;
 	
     public ParseFiles(String name) {
-    	String info = scanner.nextLine();
-    	
-    	size = Integer.parseInt(info.split(",")[0]);
-    	boolean reversed = (info.split(",")[1].equals("0") ? false:true);
-    	
-    	leftLog = new LogPoint[size];
-        rightLog = new LogPoint[size];
-        
+
     	try {
     		scanner = new Scanner(new File("/home/lvuser/Records/" + name + ".txt"));
     	} catch (FileNotFoundException e) {
     		e.printStackTrace();
     		System.out.println("Path not found! You do not kno de wae.");
     	}
+    	
+    	String info = scanner.nextLine();
+    	System.out.println("Something Before"+info+"SA");
+    	size = Integer.parseInt(info.split(",")[0]);
+    	boolean reversed = (info.split(",")[1].equals("0") ? false:true);
+    	
+    	leftLog = new LogPoint[size];
+        rightLog = new LogPoint[size];
+        
     	
     	
 //    	while(scanner.hasNextLine()) {

@@ -108,8 +108,8 @@ public class Robot extends TimedRobot {
 		
 		RobotMap.Right_To_Scale = new ParseFiles("RightToScale");
 		
-		RobotMap.Reversed_Center_To_Left_Switch = new ParseFiles("ReversedCenterToLeftSwitch");
-		RobotMap.Reversed_Center_To_Right_Switch = new ParseFiles("ReversedCenterToRightSwitch");
+		//RobotMap.Reversed_Center_To_Left_Switch = new ParseFiles("ReversedCenterToLeftSwitch");
+		//RobotMap.Reversed_Center_To_Right_Switch = new ParseFiles("ReversedCenterToRightSwitch");
 	}
 	
 	@Override
