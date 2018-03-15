@@ -25,7 +25,7 @@ public class Wrist extends Subsystem {
 	
 
 	public Wrist() {
-		toggle = -1;
+		toggle = 0;
 		wristMotor = new TalonSRX(RobotMap.wristMotor);
 		wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		wristMotor.setInverted(true);
