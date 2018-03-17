@@ -16,11 +16,15 @@ public class RightToOppositeScaleAuto extends CommandGroup {
     	addSequential(new ShiftClimberOut());
     	
     	addSequential(new ExecuteProfile(RobotMap.First_To_Opposite_Scale));
-    	addSequential(new PIDGyro(-86, 0.7, 3));
-    	//addSequential(new Chill(1));
+    	//addSequential(new PIDGyro(-176, 0.7, 3));
+
+    	//addSequential(new PIDGyro(-86, 0.7, 3));
+    	addSequential(new Chill(1));
     	
-    	addSequential(new ExecuteProfile(RobotMap.Second_To_Opposite_Scale));
-    	addSequential(new PIDGyro(86, 0.7, 3));
+    	addSequential(new ExecuteProfile(RobotMap.Second_To_Opposite_Scale)); 
+    	//addSequential(new PIDGyro(-176, 0.7, 3));
+
+//    	addSequential(new PIDGyro(86, 0.7, 3));
     	//addSequential(new Chill(1));
 
     	//addSequential(new ExecuteProfile("ThirdToOppositeScale"));

@@ -136,6 +136,8 @@ public class Chassis extends Subsystem {
 		CommandBase.server.valueDisplay.putValue("Gyro", getGyroAngle());
 		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
 		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
+		CommandBase.server.valueDisplay.putValue("Left Motion Profiling", leftProfiler.getValue());
+		CommandBase.server.valueDisplay.putValue("Right Motion Profiling", rightProfiler.getValue());
 				
 		SmartDashboard.putNumber("left front motor current", lFrontSlave.getOutputCurrent());
 		SmartDashboard.putNumber("right front motor current", rFrontSlave.getOutputCurrent());
@@ -199,7 +201,7 @@ public class Chassis extends Subsystem {
     	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
     	lMaster.configOpenloopRamp(ramp, 0);
     	rMaster.configOpenloopRamp(ramp, 0);
-    	double limit = 0.7;
+    	double limit = 0.9;
     	return Math.max(Math.min(limit, value), -limit);
     }
     
@@ -230,8 +232,8 @@ public class Chassis extends Subsystem {
     
     class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {
-	    	rMaster.processMotionProfileBuffer();
-	    	lMaster.processMotionProfileBuffer();
+	    	if(rMaster.getMotionProfileTopLevelBufferCount() != 0) rMaster.processMotionProfileBuffer();
+	    	if(lMaster.getMotionProfileTopLevelBufferCount() != 0)lMaster.processMotionProfileBuffer();
 	    }
 	}
     
