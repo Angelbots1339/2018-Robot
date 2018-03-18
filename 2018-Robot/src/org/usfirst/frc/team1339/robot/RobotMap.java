@@ -104,10 +104,10 @@ public class RobotMap {
 	public final static int leftLEDStripId = 2;
 	
 	//Solenoids
-	public final static int frontInSol = 1;
-	public final static int frontOutSol = 0;
-	public final static int backInSol = 3;
-	public final static int backOutSol = 2;
+	public final static int frontInSol = 3;
+	public final static int frontOutSol = 2;
+	public final static int backInSol = 1;
+	public final static int backOutSol = 0;
 	public final static int climbOutSol = 5;
 	public final static int climbInSol = 4;
 	
