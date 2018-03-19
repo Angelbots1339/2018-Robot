@@ -98,17 +98,17 @@ public class RobotMap {
 	//TalonSRX Position Closed Loop PID on Wrist
 	public static final double wristKp = 0.04;
 	public static final double wristKi = 0.0;
-	public static final double wristKd = 0.1;
+	public static final double wristKd = 4;
 
 	//LEDs
 	public final static int rightLEDStripId = 1;
 	public final static int leftLEDStripId = 2;
 	
 	//Solenoids
-	public final static int frontInSol = 1;
-	public final static int frontOutSol = 0;
-	public final static int backInSol = 3;
-	public final static int backOutSol = 2;
+	public final static int frontInSol = 3;
+	public final static int frontOutSol = 2;
+	public final static int backInSol = 1;
+	public final static int backOutSol = 0;
 	public final static int climbOutSol = 5;
 	public final static int climbInSol = 4;
 	
@@ -129,7 +129,7 @@ public class RobotMap {
 
 	//Ramp up
 	public final static double[] lowerLimitRamp = {0.0, 0.0};
-	public final static double[] midLimitRamp = {65, 0.5};
+	public final static double[] midLimitRamp = {65, 0.2};
 	public final static double[] upperLimitRamp = {180.0, 1.75};
   
 	
@@ -142,18 +142,19 @@ public class RobotMap {
 	public final static int posScale = ElevatorConversions.cmsToClicks(170);
 	
 	public final static int lowSwitch = ElevatorConversions.cmsToClicks(55);
-	public final static int highSwitch = ElevatorConversions.cmsToClicks(80);
+	public final static int highSwitch = ElevatorConversions.cmsToClicks(88.5);
 	public final static int lowScale = ElevatorConversions.cmsToClicks(150);
 	public final static int highScale = ElevatorConversions.cmsToClicks(181);
   
 	public final static double driveHeight = ElevatorConversions.cmsToClicks(5);
-	
+	public final static double eleMinOTP = ElevatorConversions.cmsToClicks(80);
 	//Ultrasonic thresholds
 	public final static double threshold = 80;
 	
 	//Wrist Positions Degrees
-	public final static double wristHorizontal = WristConversions.degreesToClicks(-82);
-	public final static double wristFortyFive = WristConversions.degreesToClicks(-30);
+	public final static double wristHorizontal = WristConversions.degreesToClicks(1.339);
+	public final static double wristFortyFive = WristConversions.degreesToClicks(45);
+	public final static double wristOTP = WristConversions.degreesToClicks(160);
 	
 	//Auto String
 	public static String gameMessage = "";

@@ -13,6 +13,7 @@ public class PIDElevator extends CommandBase {
 	boolean toggle1=false;
 	boolean toggle2=false;
 	int tposition = 0;
+	boolean goingDown=false;
 	//private double driveHeightSetpoint = 0.0, time = 0.0;
 	//private final double timeout = 0.5;
 	
@@ -20,16 +21,18 @@ public class PIDElevator extends CommandBase {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(elevator);
-    	
 		elevator.position = setPointInCm;
 		elevator.state = 0;
     	this.setpoint = ElevatorConversions.cmsToClicks(setPointInCm);
     	tposition = setPointInCm;
+
     	//2301
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if (Math.abs(ElevatorConversions.clicksToCMs((int)(this.setpoint))-elevator.getHeight()) > 25) goingDown=true;
+    	else goingDown=false;
     	elevator.state = 0;
     	elevator.setPID(0, RobotMap.elevatorKp, RobotMap.elevatorKi, RobotMap.elevatorKd);
     	elevator.position = tposition;
@@ -93,7 +96,7 @@ public class PIDElevator extends CommandBase {
     	else {
     		elevator.PIDElevator(setpoint);
     	}*/
-    	elevator.PIDElevator(setpoint);
+    	if(!goingDown || CommandBase.wrist.isOTPOk()) elevator.PIDElevator(setpoint);
     }
 
     // Make this return true when this Command no longer needs to run execute()

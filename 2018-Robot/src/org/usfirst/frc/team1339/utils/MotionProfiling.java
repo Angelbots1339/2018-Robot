@@ -132,10 +132,14 @@ public class MotionProfiling {
 		return _status.btmBufferCnt < 128;
 	}
 	
+	public int getBtmBuffer() {return _status.btmBufferCnt;}
+	public int getTopBuffer() {return _status.topBufferCnt;}
+	
 	public void execute() {
 		log(_talon.getMotionProfileStatus(_status));
 		//counter++;
 		bufferPoints = _status.btmBufferCnt;
+		System.out.println(bufferPoints);
 		System.out.println("Index = " + index);
 		/* wait for MP to stream to Talon, really just the first few
 		* points

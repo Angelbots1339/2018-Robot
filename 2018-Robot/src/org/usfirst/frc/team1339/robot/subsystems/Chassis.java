@@ -134,11 +134,17 @@ public class Chassis extends Subsystem {
     
 	public void publishSmartDashboard() {
 		CommandBase.server.valueDisplay.putValue("Gyro", getGyroAngle());
+		
 		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
 		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
+		CommandBase.server.valueDisplay.putValue("Left Top Buffer", leftProfiler.getTopBuffer());
+		CommandBase.server.valueDisplay.putValue("Left Btm Buffer", leftProfiler.getBtmBuffer());
+		CommandBase.server.valueDisplay.putValue("Right Top Buffer", rightProfiler.getTopBuffer());
+		CommandBase.server.valueDisplay.putValue("Right Btm Buffer", rightProfiler.getBtmBuffer());
+		
 		CommandBase.server.valueDisplay.putValue("Left Motion Profiling", leftProfiler.getValue());
 		CommandBase.server.valueDisplay.putValue("Right Motion Profiling", rightProfiler.getValue());
-				
+
 		SmartDashboard.putNumber("left front motor current", lFrontSlave.getOutputCurrent());
 		SmartDashboard.putNumber("right front motor current", rFrontSlave.getOutputCurrent());
 		SmartDashboard.putNumber("left back motor current", lBackSlave.getOutputCurrent());
