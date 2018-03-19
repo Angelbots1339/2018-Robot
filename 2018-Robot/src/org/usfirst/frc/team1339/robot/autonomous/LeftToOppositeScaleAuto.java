@@ -21,11 +21,11 @@ public class LeftToOppositeScaleAuto extends CommandGroup {
     	addSequential(new PIDGyro(86, 0.7, 3));
     	addSequential(new Chill(0.5));
     	*/
-    	addSequential(new ExecuteProfile("SecondToOppositeScale"));
+    	addSequential(new ExecuteProfile(RobotMap.Second_To_Opposite_Scale));
     	addSequential(new PIDGyro(-90, 0.7, 3));
     	addSequential(new Chill(0.5));
 
-    	addSequential(new ExecuteProfile("ThirdToOppositeScale"));
+    	addSequential(new ExecuteProfile(RobotMap.Third_To_Opposite_Scale));
     	addSequential(new Chill(0.5));
     	addSequential(new PIDGyro(-90, 0.7, 3));
     	addSequential(new Chill(0.5));

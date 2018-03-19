@@ -10,6 +10,7 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.ChassisConversions;
 import org.usfirst.frc.team1339.utils.Interpolation;
 import org.usfirst.frc.team1339.utils.MotionProfiling;
+import org.usfirst.frc.team1339.utils.ParseFiles;
 import org.usfirst.frc.team1339.utils.SynchronousPID;
 
 import com.ctre.phoenix.ErrorCode;
@@ -136,12 +137,14 @@ public class Chassis extends Subsystem {
 		
 		CommandBase.server.valueDisplay.putValue("Left Drive Enc", lMaster.getSelectedSensorPosition(0));
 		CommandBase.server.valueDisplay.putValue("Right Drive Enc", rMaster.getSelectedSensorPosition(0));
-		
 		CommandBase.server.valueDisplay.putValue("Left Top Buffer", leftProfiler.getTopBuffer());
 		CommandBase.server.valueDisplay.putValue("Left Btm Buffer", leftProfiler.getBtmBuffer());
 		CommandBase.server.valueDisplay.putValue("Right Top Buffer", rightProfiler.getTopBuffer());
 		CommandBase.server.valueDisplay.putValue("Right Btm Buffer", rightProfiler.getBtmBuffer());
 		
+		CommandBase.server.valueDisplay.putValue("Left Motion Profiling", leftProfiler.getValue());
+		CommandBase.server.valueDisplay.putValue("Right Motion Profiling", rightProfiler.getValue());
+
 		SmartDashboard.putNumber("left front motor current", lFrontSlave.getOutputCurrent());
 		SmartDashboard.putNumber("right front motor current", rFrontSlave.getOutputCurrent());
 		SmartDashboard.putNumber("left back motor current", lBackSlave.getOutputCurrent());
@@ -235,8 +238,8 @@ public class Chassis extends Subsystem {
     
     class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {
-	    	rMaster.processMotionProfileBuffer();
-	    	lMaster.processMotionProfileBuffer();
+	    	if(rMaster.getMotionProfileTopLevelBufferCount() != 0) rMaster.processMotionProfileBuffer();
+	    	if(lMaster.getMotionProfileTopLevelBufferCount() != 0)lMaster.processMotionProfileBuffer();
 	    }
 	}
     
@@ -288,7 +291,7 @@ public class Chassis extends Subsystem {
     	directionalDrive(throttle, turn);
     }
 
-    public void initializeMotionProfile(String filename) {
+    public void initializeMotionProfile(ParseFiles file) {
     	resetEncoders();
     	log(rMaster.changeMotionControlFramePeriod(10));
     	log(lMaster.changeMotionControlFramePeriod(10));
@@ -296,8 +299,8 @@ public class Chassis extends Subsystem {
     	lMaster.configOpenloopRamp(0, 0);
     	rMaster.configOpenloopRamp(0, 0);
     	
-    	rightProfiler.initialize(filename);
-    	leftProfiler.initialize(filename);
+    	rightProfiler.initialize(file);
+    	leftProfiler.initialize(file);
     	
     	notifier.startPeriodic(0.005);
     }

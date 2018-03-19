@@ -1,19 +1,21 @@
 package org.usfirst.frc.team1339.robot.commands;
 
+import org.usfirst.frc.team1339.utils.ParseFiles;
+
 /**
  *
  */
 public class ExecuteProfile extends CommandBase {
 	
-	String name;
+	ParseFiles file;
 	
-    public ExecuteProfile(String filename) {
+    public ExecuteProfile(ParseFiles file) {
     	requires(chassis);
-    	name = filename;
+    	this.file = file;
     }
     
     protected void initialize() {
-    	chassis.initializeMotionProfile(name);
+    	chassis.initializeMotionProfile(file);
     }
     
     

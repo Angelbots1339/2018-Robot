@@ -20,7 +20,7 @@ public class CenterSwitchSecondCubeAuto extends CommandGroup {
     	addParallel(new SwitchToCenter());
     	addSequential(new Chill(.7));
     	addSequential(new PIDElevatorSetpoint(0,1));
-    	addParallel(new ExecuteProfile("CenterToCube"));
+    	addParallel(new ExecuteProfile(RobotMap.Center_To_Cube));
     	addSequential(new DriveIntakeTimeout(0.7, 1.5));
     }
 }

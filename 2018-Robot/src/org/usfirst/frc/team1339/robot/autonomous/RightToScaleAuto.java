@@ -25,7 +25,7 @@ public class RightToScaleAuto extends CommandGroup {
     	addParallel(new PIDWrist(RobotMap.wristHorizontal));
     	addSequential(new PIDElevatorSetpoint(0, 2));
     	addSequential(new PIDGyro(-113, 0.7, 3));
-    	addParallel(new ExecuteProfile("LeftScaleSecondCubeTest"), 1.5);
+    	addParallel(new ExecuteProfile(RobotMap.Left_Scale_Second_Cube), 1.5);
     	addSequential(new DriveIntakeTimeout(0.7, 2.5));
     }
 }

@@ -37,7 +37,7 @@ public class Intake extends Subsystem {
     }
     
     public void setIntake(double output) {
-    	CommandBase.leds.hazBox(hazBox(RobotMap.threshold));
+    	//CommandBase.leds.hazBox(hazBox(RobotMap.threshold));
     	
     	lMotor.set(ControlMode.PercentOutput, output);
     	rMotor.set(ControlMode.PercentOutput, output);
