@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1339.robot.subsystems;
 
+import org.usfirst.frc.team1339.robot.OI;
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.robot.commands.DriveWrist;
@@ -22,13 +23,14 @@ public class Wrist extends Subsystem {
 	private DigitalInput wristDown;
 	public int toggle;
 	boolean wristUpPressed = false;
+	public boolean OTP = false;
 	
 
 	public Wrist() {
 		toggle = 0;
 		wristMotor = new TalonSRX(RobotMap.wristMotor);
 		wristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		wristMotor.setInverted(true);
+		wristMotor.setSensorPhase(true);
 		
 		wristUp = new DigitalInput(RobotMap.wristUpId);
 		wristDown = new DigitalInput(RobotMap.wristDownId);
@@ -43,6 +45,8 @@ public class Wrist extends Subsystem {
     			WristConversions.clicksToDegrees(wristMotor.getSelectedSensorPosition(0)));
     	CommandBase.server.valueDisplay.putValue("wrist up limit", wristUp.get());
     	CommandBase.server.valueDisplay.putValue("wrist down limit", wristDown.get());
+    	CommandBase.server.valueDisplay.putValue("Wrist Going Down ", isWristGoingDown());
+    	CommandBase.server.valueDisplay.putValue("Wrist Going Up ", isWristGoingUp());
     	
     }
     
@@ -58,11 +62,12 @@ public class Wrist extends Subsystem {
     	}
     	if(wristUpPressed && !isWristUp()) wristUpPressed = false;
     	
-    	if (isWristDown())
+    	if (isWristDown()) {
     		output = Math.max(0, output);
+   			wristMotor.setSelectedSensorPosition(0, 0, 10);
+    	}
     	else if(isWristUp()) {
     		output = Math.min(0, output);
-    		wristMotor.setSelectedSensorPosition(0, 0, 10);
     	}
     	
     	wristMotor.set(ControlMode.PercentOutput, output);
@@ -74,6 +79,9 @@ public class Wrist extends Subsystem {
     
     public boolean isWristUp() {
     	return !wristUp.get();
+    }
+    public boolean isOTPOk() {
+    	return WristConversions.clicksToDegrees(wristMotor.getSelectedSensorPosition(0))<40;
     }
     
     public boolean isWristGoingUp() {
@@ -97,6 +105,7 @@ public class Wrist extends Subsystem {
     		setOutput(0);
     	}
     	else wristMotor.set(ControlMode.Position, setpoint);
+    	System.out.println("SetPoint: " + WristConversions.clicksToDegrees((int)setpoint));
     }
     
     public void setPID(int slot, double p, double i, double d) {

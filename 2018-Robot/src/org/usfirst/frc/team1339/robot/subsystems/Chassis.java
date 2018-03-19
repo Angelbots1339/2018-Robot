@@ -204,7 +204,7 @@ public class Chassis extends Subsystem {
     	ramp = rampInterpolator.lagrangePolynomialQuadratic(CommandBase.elevator.getPosition());
     	lMaster.configOpenloopRamp(ramp, 0);
     	rMaster.configOpenloopRamp(ramp, 0);
-    	double limit = 0.7;
+    	double limit = 0.9;
     	return Math.max(Math.min(limit, value), -limit);
     }
     

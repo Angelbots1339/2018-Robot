@@ -56,6 +56,9 @@ public class Elevator extends Subsystem {
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveElevator());
 	}
+	public double getHeight() {
+		return ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0));
+	}
 
 	public void setElevMotorsBrakeMode(boolean brake) {
 		elevatorMaster.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
@@ -65,12 +68,16 @@ public class Elevator extends Subsystem {
 	public void resetEncoder() {
 		elevatorMaster.setSelectedSensorPosition(0, 0, 0);
 	}
+	public boolean canGoOTP() {
+		return elevatorMaster.getSelectedSensorPosition(0)>RobotMap.eleMinOTP;
+	}
 
 	public void publishSmartDashboard() {
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Carriage down", carriageDown.get());
 		CommandBase.server.valueDisplay.putValue("Carriage Up", elevatorUp.get());
+		CommandBase.server.valueDisplay.putValue("Over The Top", canGoOTP());
 		
 		SmartDashboard.putNumber("Top Elevator Motor Current Draw", elevatorMaster.getOutputCurrent());
 		SmartDashboard.putNumber("Bottom Elevator Motor Current Draw", elevatorSlave.getOutputCurrent());

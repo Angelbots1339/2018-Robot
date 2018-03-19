@@ -7,7 +7,7 @@ import org.usfirst.frc.team1339.robot.RobotMap;
  */
 public class WristToggle extends CommandBase {
 
-	boolean toggle = false;
+	boolean OTP = false;
 	boolean pressed = false;
 	
     public WristToggle() {
@@ -23,17 +23,31 @@ public class WristToggle extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (oi.getXButton().get() && !pressed) {
+    	if ((oi.getXButton().get() && !pressed && OTP) || oi.getAButton().get() || oi.getBButton().get()) {
     		wrist.toggle = 0;
-    		toggle = !toggle;
+    		OTP = false;
     		pressed = true;
     	}
+    	if(oi.getXButton().get() && !pressed && !OTP && CommandBase.elevator.canGoOTP()) {
+    		wrist.toggle = 0;
+    		OTP = true;
+    		pressed = true;
+    	}
+    	
     	if(pressed && !oi.getXButton().get()) {
     		pressed = false;
     	}
+    	
     	if(wrist.toggle == -1) wrist.setOutput(0);
-    	else if(toggle) wrist.PIDWrist(RobotMap.wristHorizontal);
-    	else wrist.PIDWrist(RobotMap.wristFortyFive);
+    	else { 
+    		if(!OTP) {
+    			wrist.PIDWrist(RobotMap.wristHorizontal);
+    			wrist.OTP = false;
+    		}
+	    	else { wrist.PIDWrist(RobotMap.wristOTP);//CHANGE TO OTP POSITION
+	    		wrist.OTP = true;
+	    	}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -20,7 +20,8 @@ public class Intake extends Subsystem {
 	public Intake() {
 		lMotor = new TalonSRX(RobotMap.leftIntakeMotor);
 		rMotor = new TalonSRX(RobotMap.rightIntakeMotor);
-		rMotor.setInverted(true);
+		lMotor.setInverted(true);
+		rMotor.setInverted(false);
 		
 		ultra = new Ultrasonic(RobotMap.ultrasonicOutput, RobotMap.ultrasonicInput);
 		ultra.setAutomaticMode(true);
