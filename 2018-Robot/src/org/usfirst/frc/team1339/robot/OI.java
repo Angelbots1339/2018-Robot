@@ -67,10 +67,10 @@ public class OI {
 		aButton.whenPressed(new ElevatorHome()); //bottom
 		
 //		leftStickButton.whenPressed(new ToggleSqueeze());
-		leftStickButton.whenPressed(new ClawClosed());
+		//leftStickButton.whenPressed(new ClawClosed());
 		
-		rightStickButton.whenPressed(new ClawOpen());
-		rightStickButton.whenReleased(new ClawMed());
+		//rightStickButton.whenPressed(new ClawOpen());
+		//rightStickButton.whenReleased(new ClawMed());
 	
 		viewButton.whenPressed(new ResetWrist());
 		menuButton.whenPressed(new ResetElevator());

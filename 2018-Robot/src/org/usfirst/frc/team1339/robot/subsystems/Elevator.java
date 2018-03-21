@@ -36,18 +36,21 @@ public class Elevator extends Subsystem {
 		elevatorMaster = new TalonSRX(RobotMap.topElevatorMotor);
 		elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		elevatorMaster.setSensorPhase(true);
+		
 
 		elevatorSlave = new TalonSRX(RobotMap.bottomElevatorMotor);
 		elevatorSlave.follow(elevatorMaster);
 		elevatorSlave.setInverted(true); //Check and remember
 
 		climber = new TalonSRX(RobotMap.climbMotor);
-
+		
 		in = new Solenoid(RobotMap.climbInSol);
 		out = new Solenoid(RobotMap.climbOutSol);
 
 		elevatorUp = new DigitalInput(RobotMap.elevatorUpId);
 		carriageDown = new DigitalInput(RobotMap.carriageDownId);
+		
+		climber.follow(elevatorMaster);
 		
 		position = 0;
 		state = 0;
@@ -127,7 +130,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public boolean onTarget(double setpoint, double tolerance) {
-		return Math.abs(setpoint - elevatorMaster.getSelectedSensorPosition(0)) < tolerance;
+		return Math.abs(setpoint - ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0))) < tolerance;
 	}
 
 	public void setOutSol(boolean val) {

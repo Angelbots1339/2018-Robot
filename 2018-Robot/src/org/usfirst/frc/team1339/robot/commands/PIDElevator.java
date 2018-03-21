@@ -101,6 +101,11 @@ public class PIDElevator extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (this.setpoint == 0) {
+    		return elevator.isCarriageDown() || 
+            		Math.abs(oi.getOperatorStick().getRawAxis(RobotMap.xboxRightYAxis)) > 0.1 ||
+            		elevator.onTarget(0, 2);
+    	}
         return  elevator.isCarriageGoingDown() ||
         		elevator.isElevatorGoingUp() ||
         		Math.abs(oi.getOperatorStick().getRawAxis(RobotMap.xboxRightYAxis)) > 0.1;

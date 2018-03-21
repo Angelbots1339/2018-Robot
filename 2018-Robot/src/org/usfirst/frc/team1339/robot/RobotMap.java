@@ -147,7 +147,7 @@ public class RobotMap {
 	public final static int highScale = ElevatorConversions.cmsToClicks(181);
   
 	public final static double driveHeight = ElevatorConversions.cmsToClicks(5);
-	public final static double eleMinOTP = ElevatorConversions.cmsToClicks(80);
+	public final static double eleMinOTP = ElevatorConversions.cmsToClicks(85);
 	//Ultrasonic thresholds
 	public final static double threshold = 80;
 	
@@ -180,5 +180,9 @@ public class RobotMap {
 	
 	public static ParseFiles Reversed_Center_To_Left_Switch;
 	public static ParseFiles Reversed_Center_To_Right_Switch;
+	
+	public static ParseFiles First_Scale_Test;
+	public static ParseFiles Second_Scale_Test;
+	public static ParseFiles Third_Scale_Test;
 	
 }

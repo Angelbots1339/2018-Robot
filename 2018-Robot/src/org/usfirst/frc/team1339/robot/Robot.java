@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1339.robot;
 
+import org.usfirst.frc.team1339.robot.autonomous.AutonomousTest;
 import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
 import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
@@ -50,11 +51,10 @@ public class Robot extends TimedRobot {
 		//CommandBase.server.autonomousSelector.add("Right to opp scale", new RightToOppositeScaleAuto());
 		//CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
 		CommandBase.server.autonomousSelector.add("Left To Scale And Pick Up", new LeftToScaleAuto(true));
-		CommandBase.server.autonomousSelector.add("Right Side Auto", new RightSideAuto());
-		CommandBase.server.autonomousSelector.add("opposite", new RightToOppositeScaleAuto());
 		//CommandBase.server.autonomousSelector.add("TwoCubeSwitch", new CenterSwitchSecondCubeAuto());
 		//CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
 		//CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
+		CommandBase.server.autonomousSelector.add("Test", new AutonomousTest());
 		
 		
 		CommandBase.server.autonomousSelector.setCurrentMode(0);
@@ -108,6 +108,10 @@ public class Robot extends TimedRobot {
 		RobotMap.Left_Scale_Second_Cube = new ParseFiles("LeftScaleSecondCubeTest");
 		
 		RobotMap.Right_To_Scale = new ParseFiles("RightToScale");
+		
+		RobotMap.First_Scale_Test = new ParseFiles("FirstToLeftScale");
+		RobotMap.Second_Scale_Test = new ParseFiles("SecondToLeftScale");
+		RobotMap.Third_Scale_Test = new ParseFiles("ThirdToLeftScale");
 		
 		//RobotMap.Reversed_Center_To_Left_Switch = new ParseFiles("ReversedCenterToLeftSwitch");
 		//RobotMap.Reversed_Center_To_Right_Switch = new ParseFiles("ReversedCenterToRightSwitch");

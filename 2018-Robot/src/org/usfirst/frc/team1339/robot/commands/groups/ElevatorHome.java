@@ -28,6 +28,6 @@ public class ElevatorHome extends CommandGroup {
         // arm.
     	
     	addParallel(new PIDElevator(0));
-    	addSequential(new ClawMed());
+    	//addSequential(new ClawMed());
     }
 }
