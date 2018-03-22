@@ -11,6 +11,7 @@ public class DrivePincher extends CommandBase {
 	private boolean pressed=false;
 	private boolean aPressed=false;
 	private boolean changed = false;
+	private boolean rPressed=false;
 	
     public DrivePincher() {
     	requires(pinchers);

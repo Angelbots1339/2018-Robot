@@ -144,13 +144,14 @@ public class RobotMap {
 	public final static int up5CM = ElevatorConversions.cmsToClicks(20);
 	
 	public final static int lowSwitch = ElevatorConversions.cmsToClicks(40);
-	public final static int highSwitch = ElevatorConversions.cmsToClicks(88.5);
+	public final static int highSwitch = ElevatorConversions.cmsToClicks(90);
 	public final static int lowScale = ElevatorConversions.cmsToClicks(150);
 	public final static int highScale = ElevatorConversions.cmsToClicks(181);
   
 	public final static double driveHeight = ElevatorConversions.cmsToClicks(5);
 	public final static double eleMinOTP = ElevatorConversions.cmsToClicks(85);
 	public final static double tol2Cm = ElevatorConversions.cmsToClicks(2);
+	public final static double tol05Cm = ElevatorConversions.cmsToClicks(.5);
 	//Ultrasonic thresholds
 	public final static double threshold = 80;
 	
