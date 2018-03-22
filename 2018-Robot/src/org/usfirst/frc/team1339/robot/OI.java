@@ -65,12 +65,6 @@ public class OI {
 		yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
 		bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
 		aButton.whenPressed(new ElevatorHome()); //bottom
-		
-//		leftStickButton.whenPressed(new ToggleSqueeze());
-		//leftStickButton.whenPressed(new ClawClosed());
-		
-		//rightStickButton.whenPressed(new ClawOpen());
-		//rightStickButton.whenReleased(new ClawMed());
 	
 		viewButton.whenPressed(new ResetWrist());
 		menuButton.whenPressed(new ResetElevator());

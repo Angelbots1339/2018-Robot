@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1339.utils;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
+import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.utils.leds.AngelLight;
 import org.usfirst.frc.team1339.utils.leds.Color;
 
@@ -70,12 +71,12 @@ public class LEDs {
 	}
 	
 	public void teleOpPeriodic() {
-		if(hazBox) {
+		if(CommandBase.pinchers.toggle) {
 			lStrip.showColor(green);
 			rStrip.showColor(green);
 		} else {
-			lStrip.showColor(white);
-			rStrip.showColor(white);
+			lStrip.showColor(red);
+			rStrip.showColor(red);
 		}
 	}
 	

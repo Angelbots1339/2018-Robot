@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Pinchers extends Subsystem {
 	
-	public boolean toggle=false;
+	public boolean toggle=true;
 	Solenoid backIn, backOut, frontIn, frontOut;
 	
 	public Pinchers() {

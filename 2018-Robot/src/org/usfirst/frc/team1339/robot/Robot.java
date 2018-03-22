@@ -69,13 +69,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		//CommandBase.leds.disabledInit();
+		CommandBase.leds.disabledInit();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		//CommandBase.leds.disabledPeriodic();
+		CommandBase.leds.disabledPeriodic();
 		CommandBase.intake.publishWebServer();
 	}
 
@@ -99,21 +99,14 @@ public class Robot extends TimedRobot {
 		RobotMap.Drive_Forward = new ParseFiles("DriveForward");
 		
 		RobotMap.Left_To_Opposite_Scale = new ParseFiles("LeftToOppositeScale");
-		
-		RobotMap.First_To_Opposite_Scale = new ParseFiles("FirstToOppositeScale");
-		RobotMap.Second_To_Opposite_Scale = new ParseFiles("SecondToOppositeScale");
-		RobotMap.Third_To_Opposite_Scale = new ParseFiles("ThirdToOppositeScale");
-		
+
 		RobotMap.Left_To_Scale = new ParseFiles("LeftToScale");
-		RobotMap.Left_Scale_Second_Cube = new ParseFiles("LeftScaleSecondCubeTest");
+		RobotMap.Second_Cube_PickUP = new ParseFiles("LeftScaleSecondCubeTest");
 		
 		RobotMap.Right_To_Scale = new ParseFiles("RightToScale");
 		
-		RobotMap.First_Scale_Test = new ParseFiles("FirstToLeftScale");
-		RobotMap.Second_Scale_Test = new ParseFiles("SecondToLeftScale");
-		RobotMap.Third_Scale_Test = new ParseFiles("ThirdToLeftScale");
-		
-		RobotMap.Second_Cube = new ParseFiles("SecondCube");
+		RobotMap.Right_Second_Cube = new ParseFiles("RightSecondCube");
+		RobotMap.Left_Second_Cube = new ParseFiles("LeftSecondCube");
 		
 		RobotMap.Right_To_Opposite_Scale = new ParseFiles("RightToOppositeScale");
 		
@@ -145,7 +138,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.start();
 		}
 		
-		//CommandBase.leds.autoInit();
+		CommandBase.leds.autoInit();
 	}
 
 	/**
@@ -155,7 +148,7 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		CommandBase.chassis.publishSmartDashboard();
-		//CommandBase.leds.autoPeriodic();
+		CommandBase.leds.autoPeriodic();
 	}
 
 	@Override
@@ -168,7 +161,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.cancel();
 		}
 		
-		//CommandBase.leds.teleOpInit();
+		CommandBase.leds.teleOpInit();
 	}
 
 	/**
@@ -182,7 +175,7 @@ public class Robot extends TimedRobot {
 		CommandBase.elevator.publishSmartDashboard();
 		CommandBase.wrist.publishWebServer();
 		
-		//CommandBase.leds.teleOpPeriodic();
+		CommandBase.leds.teleOpPeriodic();
 	}
 
 	/**

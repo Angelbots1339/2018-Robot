@@ -62,7 +62,10 @@ public class PIDElevator extends CommandBase {
     	else if (elevator.position == RobotMap.posScale) {
     		driveHeightInitialized = false;
     		if(elevator.state == -1) setpoint = RobotMap.lowScale;
-    		else if (elevator.state == 1) setpoint = RobotMap.highScale;
+    		else if (elevator.state == 1) {
+    			setpoint = RobotMap.highScale;
+    			if (wrist.toggle!=-1) wrist.toggle=1;
+    		}
     		else setpoint = RobotMap.posScale;
     	}
     	if (!oi.getRightBumper().get()) {
@@ -73,6 +76,7 @@ public class PIDElevator extends CommandBase {
     		toggle2 = false;
     	}
     	
+    	if(elevator.state!=1 && wrist.toggle!=-1) wrist.toggle=0;
     	/*if(!driveHeightInitialized && elevator.getPositionClicks() < RobotMap.driveHeight
     			&& intake.hazBox(RobotMap.squeezeThreshold)) {
     		driveHeightInitialized = true;

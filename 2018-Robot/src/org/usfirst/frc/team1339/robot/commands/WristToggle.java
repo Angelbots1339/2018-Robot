@@ -39,6 +39,7 @@ public class WristToggle extends CommandBase {
     	}
     	
     	if(wrist.toggle == -1) wrist.setOutput(0);
+    	else if(wrist.toggle==1) wrist.PIDWrist(RobotMap.wristFortyFive);
     	else { 
     		if(!OTP) {
     			wrist.PIDWrist(RobotMap.wristHorizontal);
