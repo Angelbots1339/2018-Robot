@@ -10,6 +10,7 @@ package org.usfirst.frc.team1339.robot;
 import org.usfirst.frc.team1339.robot.autonomous.AutonomousTest;
 import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
+import org.usfirst.frc.team1339.robot.autonomous.LeftToOppositeScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightSideAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightToOppositeScaleAuto;
@@ -47,10 +48,10 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.add("Chill", new ShiftClimberOut());
 		CommandBase.server.autonomousSelector.add("Drive Forward", new DriveForwardTimeout(0.6, 2));
 		CommandBase.server.autonomousSelector.add("Center To Switch", new CenterSwitchAuto());
-		CommandBase.server.autonomousSelector.add("Right To Scale And Pick Up", new RightToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("Right Side", new RightToScaleAuto(true));
 		//CommandBase.server.autonomousSelector.add("Right to opp scale", new RightToOppositeScaleAuto());
 		//CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
-		CommandBase.server.autonomousSelector.add("Left To Scale And Pick Up", new LeftToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("Left Side", new LeftToScaleAuto(true));
 		//CommandBase.server.autonomousSelector.add("TwoCubeSwitch", new CenterSwitchSecondCubeAuto());
 		//CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
 		//CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
@@ -130,6 +131,16 @@ public class Robot extends TimedRobot {
 	    			autonomousCommand = new RightToScaleAuto(true);
 	    		} else if(RobotMap.gameMessage.charAt(1) == 'L') {
 	    			autonomousCommand = new RightToOppositeScaleAuto();
+	    		}
+	    	}
+		}
+	
+		if(CommandBase.server.autonomousSelector.getCurrentModeName().equals("Left Side Auto")) {
+			if(RobotMap.gameMessage.length() > 0) {
+	    		if(RobotMap.gameMessage.charAt(1) == 'L') {
+	    			autonomousCommand = new LeftToScaleAuto(true);
+	    		} else if(RobotMap.gameMessage.charAt(1) == 'R') {
+	    			autonomousCommand = new LeftToOppositeScaleAuto();
 	    		}
 	    	}
 		}

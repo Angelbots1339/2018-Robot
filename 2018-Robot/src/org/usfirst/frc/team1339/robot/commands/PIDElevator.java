@@ -64,7 +64,7 @@ public class PIDElevator extends CommandBase {
     		if(elevator.state == -1) setpoint = RobotMap.lowScale;
     		else if (elevator.state == 1) {
     			setpoint = RobotMap.highScale;
-    			if (wrist.toggle!=-1) wrist.toggle=1;
+    			if (wrist.toggle != -1) wrist.toggle = 1;
     		}
     		else setpoint = RobotMap.posScale;
     	}
