@@ -25,7 +25,7 @@ public class MotionProfiling {
 	public double counter;
 	public double bufferPoints;
 	public boolean hasFinished = false;
-	private int minFillPoints= (int)(80);
+	private int minFillPoints = (int)(80);
 	private LogPoint[] logFile;
 	
 	private ParseFiles file;
@@ -103,6 +103,7 @@ public class MotionProfiling {
 		int max = Math.min(index+30, file.getSize());
 		/* This is fast since it's just into our TOP buffer */
 		for (int i = index; i < max; i++) {
+			System.out.println("PUTTING POINTS");
 			TrajectoryPoint point = new TrajectoryPoint();
 
 			double position = ChassisConversions.metersToClicks(logFile[i].position);
@@ -162,7 +163,7 @@ public class MotionProfiling {
 		}
 		
 		System.out.println(_status.isLast);
-		if (_status.activePointValid && _status.isLast && isStarted) {
+		if (_status.activePointValid && _status.isLast) {
 			/*
 			 * because we set the last point's isLast to true, we will
 			 * get here when the MP is done

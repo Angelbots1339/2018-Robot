@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1339.robot.commands.groups;
 
+import org.usfirst.frc.team1339.robot.commands.CommandBase;
 import org.usfirst.frc.team1339.robot.commands.PIDElevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -26,8 +27,8 @@ public class ElevatorHome extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
     	addParallel(new PIDElevator(0));
     	//addSequential(new ClawMed());
+    	
     }
 }

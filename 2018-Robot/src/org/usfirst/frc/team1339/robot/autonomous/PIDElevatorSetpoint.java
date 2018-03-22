@@ -7,9 +7,17 @@ import org.usfirst.frc.team1339.robot.commands.CommandBase;
  *
  */
 public class PIDElevatorSetpoint extends CommandBase {
-
+	double tolerance = -1;
 	double setpoint;
 	
+    public PIDElevatorSetpoint(double setpoint, double timeout, double tolerance) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(elevator);
+    	this.setpoint = setpoint;
+    	this.tolerance = tolerance;
+    	setTimeout(timeout);
+    }
     public PIDElevatorSetpoint(double setpoint, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -31,7 +39,9 @@ public class PIDElevatorSetpoint extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return elevator.isCarriageGoingDown() || elevator.isElevatorGoingUp() || isTimedOut();
+    	if (tolerance==-1)
+    		return elevator.isCarriageGoingDown() || elevator.isElevatorGoingUp() || isTimedOut();
+        return elevator.isCarriageGoingDown() || elevator.isElevatorGoingUp() || isTimedOut() || elevator.onTarget(this.setpoint, tolerance);
     }
 
     // Called once after isFinished returns true

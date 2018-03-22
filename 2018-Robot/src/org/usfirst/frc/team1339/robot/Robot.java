@@ -113,6 +113,10 @@ public class Robot extends TimedRobot {
 		RobotMap.Second_Scale_Test = new ParseFiles("SecondToLeftScale");
 		RobotMap.Third_Scale_Test = new ParseFiles("ThirdToLeftScale");
 		
+		RobotMap.Second_Cube = new ParseFiles("SecondCube");
+		
+		RobotMap.Right_To_Opposite_Scale = new ParseFiles("RightToOppositeScale");
+		
 		//RobotMap.Reversed_Center_To_Left_Switch = new ParseFiles("ReversedCenterToLeftSwitch");
 		//RobotMap.Reversed_Center_To_Right_Switch = new ParseFiles("ReversedCenterToRightSwitch");
 	}

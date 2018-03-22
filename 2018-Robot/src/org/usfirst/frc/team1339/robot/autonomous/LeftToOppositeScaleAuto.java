@@ -31,7 +31,7 @@ public class LeftToOppositeScaleAuto extends CommandGroup {
     	addSequential(new Chill(0.5));
 
     	addParallel(new PIDWrist(RobotMap.wristFortyFive), 3);
-    	addSequential(new PIDElevatorSetpoint(RobotMap.highScale, 2));
+    	addSequential(new PIDElevatorSetpoint(RobotMap.highScale, 2, RobotMap.tol2Cm));
     	addSequential(new DriveIntakeTimeout(-0.75, 0.5));
     	/*
     	//Second cube

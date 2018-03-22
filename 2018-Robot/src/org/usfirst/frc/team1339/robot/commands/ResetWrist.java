@@ -17,12 +17,12 @@ public class ResetWrist extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	wrist.setOutput(.4);
+    	wrist.setOutput(-.2);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return wrist.isWristUp();
+        return wrist.isWristDown();
     }
 
     // Called once after isFinished returns true

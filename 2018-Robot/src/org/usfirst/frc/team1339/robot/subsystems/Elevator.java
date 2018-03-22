@@ -130,7 +130,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public boolean onTarget(double setpoint, double tolerance) {
-		return Math.abs(setpoint - ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0))) < tolerance;
+		return Math.abs(setpoint -elevatorMaster.getSelectedSensorPosition(0)) < tolerance;
 	}
 
 	public void setOutSol(boolean val) {

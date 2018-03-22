@@ -7,6 +7,7 @@ import org.usfirst.frc.team1339.robot.RobotMap;
  */
 public class PIDWrist extends CommandBase {
 	
+	double tolerance = -1;
 	double setpoint;
 
     public PIDWrist(double setpoint) {
@@ -14,6 +15,14 @@ public class PIDWrist extends CommandBase {
         // eg. requires(chassis);
     	requires(wrist);
     	this.setpoint = setpoint;
+    }
+    
+    public PIDWrist(double setpoint, double tolerance) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(wrist);
+    	this.setpoint = setpoint;
+    	this.tolerance = tolerance;
     }
 
     // Called just before this Command runs the first time
@@ -28,8 +37,14 @@ public class PIDWrist extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return wrist.isWristGoingDown() ||
-        		wrist.isWristGoingUp();
+    	if (tolerance == -1) {
+	        return wrist.isWristGoingDown() ||
+	        		wrist.isWristGoingUp();
+    	} else {
+	        return wrist.isWristGoingDown() ||
+	        		wrist.isWristGoingUp() ||
+	        		wrist.onTarget(setpoint, tolerance);
+    	}
     }
 
     // Called once after isFinished returns true

@@ -141,13 +141,16 @@ public class RobotMap {
 	public final static int posSwitch = ElevatorConversions.cmsToClicks(65);
 	public final static int posScale = ElevatorConversions.cmsToClicks(170);
 	
-	public final static int lowSwitch = ElevatorConversions.cmsToClicks(55);
+	public final static int up5CM = ElevatorConversions.cmsToClicks(20);
+	
+	public final static int lowSwitch = ElevatorConversions.cmsToClicks(40);
 	public final static int highSwitch = ElevatorConversions.cmsToClicks(88.5);
 	public final static int lowScale = ElevatorConversions.cmsToClicks(150);
 	public final static int highScale = ElevatorConversions.cmsToClicks(181);
   
 	public final static double driveHeight = ElevatorConversions.cmsToClicks(5);
 	public final static double eleMinOTP = ElevatorConversions.cmsToClicks(85);
+	public final static double tol2Cm = ElevatorConversions.cmsToClicks(2);
 	//Ultrasonic thresholds
 	public final static double threshold = 80;
 	
@@ -155,6 +158,8 @@ public class RobotMap {
 	public final static double wristHorizontal = WristConversions.degreesToClicks(1.339);
 	public final static double wristFortyFive = WristConversions.degreesToClicks(45);
 	public final static double wristOTP = WristConversions.degreesToClicks(160);
+	
+	public final static double wristTol2Cm = WristConversions.degreesToClicks(2);
 	
 	//Auto String
 	public static String gameMessage = "";
@@ -184,5 +189,9 @@ public class RobotMap {
 	public static ParseFiles First_Scale_Test;
 	public static ParseFiles Second_Scale_Test;
 	public static ParseFiles Third_Scale_Test;
+	
+	public static ParseFiles Second_Cube;
+	
+	public static ParseFiles Right_To_Opposite_Scale;
 	
 }
