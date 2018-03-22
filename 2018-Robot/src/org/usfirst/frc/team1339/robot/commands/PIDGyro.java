@@ -26,7 +26,7 @@ public class PIDGyro extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (chassis.getGyroRate() < 0.3 && chassis.gyroPID.onTarget(tolerance)) || isTimedOut();
+        return (chassis.getGyroRate() < 0.4 && chassis.gyroPID.onTarget(tolerance)) || isTimedOut();
     }
 
     // Called once after isFinished returns true

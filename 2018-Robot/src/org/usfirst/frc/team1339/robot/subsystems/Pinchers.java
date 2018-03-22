@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1339.robot.subsystems;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
+import org.usfirst.frc.team1339.robot.commands.DrivePincher;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Pinchers extends Subsystem {
 	
+	public boolean toggle=false;
 	Solenoid backIn, backOut, frontIn, frontOut;
 	
 	public Pinchers() {
@@ -20,6 +22,7 @@ public class Pinchers extends Subsystem {
 	}
 
     public void initDefaultCommand() {
+    	setDefaultCommand(new DrivePincher());
     }
     
     public void setBackIn(boolean value) {

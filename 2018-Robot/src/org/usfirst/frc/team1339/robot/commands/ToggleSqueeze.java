@@ -1,14 +1,18 @@
 package org.usfirst.frc.team1339.robot.commands;
 
+import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
+
+import edu.wpi.first.wpilibj.command.Command;
+
 /**
  *
  */
-public class ResetWrist extends CommandBase {
+public class ToggleSqueeze extends CommandBase {
 
-    public ResetWrist() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(wrist);
+	private boolean isSqueezed;
+    public ToggleSqueeze() {
+        requires(pinchers);
+        isSqueezed = false;
     }
 
     // Called just before this Command runs the first time
@@ -17,12 +21,21 @@ public class ResetWrist extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	wrist.setOutput(-.2);
+    	if(isSqueezed) {
+    		System.out.println("Unsqueezing");
+    		(new BackIn()).execute();
+    		(new FrontOut()).execute();
+    	} else {
+    		System.out.println("Squeezing");
+    		(new BackIn()).execute();
+    		(new FrontIn()).execute();
+    	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return wrist.isWristDown();
+        return false;
     }
 
     // Called once after isFinished returns true

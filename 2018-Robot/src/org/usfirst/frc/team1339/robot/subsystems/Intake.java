@@ -20,6 +20,8 @@ public class Intake extends Subsystem {
 	public Intake() {
 		lMotor = new TalonSRX(RobotMap.leftIntakeMotor);
 		rMotor = new TalonSRX(RobotMap.rightIntakeMotor);
+		lMotor.setInverted(true);
+		rMotor.setInverted(false);
 		
 		ultra = new Ultrasonic(RobotMap.ultrasonicOutput, RobotMap.ultrasonicInput);
 		ultra.setAutomaticMode(true);
@@ -35,7 +37,7 @@ public class Intake extends Subsystem {
     }
     
     public void setIntake(double output) {
-    	CommandBase.leds.hazBox(hazBox(RobotMap.threshold));
+    	//CommandBase.leds.hazBox(hazBox(RobotMap.threshold));
     	
     	lMotor.set(ControlMode.PercentOutput, output);
     	rMotor.set(ControlMode.PercentOutput, output);

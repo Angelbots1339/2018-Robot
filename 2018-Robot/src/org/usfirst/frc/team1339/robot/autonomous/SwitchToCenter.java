@@ -2,13 +2,14 @@ package org.usfirst.frc.team1339.robot.autonomous;
 
 import org.usfirst.frc.team1339.robot.RobotMap;
 import org.usfirst.frc.team1339.robot.commands.CommandBase;
+import org.usfirst.frc.team1339.utils.ParseFiles;
 
 /**
  *
  */
 public class SwitchToCenter extends CommandBase {
 	
-	String name = "null";
+	ParseFiles path = null;
 	
     public SwitchToCenter() {
     	requires(chassis);
@@ -18,14 +19,14 @@ public class SwitchToCenter extends CommandBase {
     protected void initialize() {
     	if(RobotMap.gameMessage.length() > 0) {
     		if(RobotMap.gameMessage.charAt(0) == 'L') {
-    			name = "ReverseCenterToLeftSwitch";
+    			path = RobotMap.Reversed_Center_To_Left_Switch;
     		} else if(RobotMap.gameMessage.charAt(0) == 'R') {
-    			name = "ReverseCenterToRightSwitch";
+    			path = RobotMap.Reversed_Center_To_Right_Switch;
     		}
     	}
     	
-    	if(!name.equals("null"))
-    		chassis.initializeMotionProfile(name);
+    	if(path!=null)
+    		chassis.initializeMotionProfile(path);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,7 +38,7 @@ public class SwitchToCenter extends CommandBase {
     protected boolean isFinished() {
         return chassis.isTrajectoryFinished() ||
         		oi.getLeftBumper().get() ||
-        		name.equals("null");
+        		path==null;
     }
 
     // Called once after isFinished returns true

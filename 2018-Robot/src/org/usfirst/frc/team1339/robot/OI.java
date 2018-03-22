@@ -6,9 +6,12 @@ import org.usfirst.frc.team1339.robot.commands.ResetElevator;
 import org.usfirst.frc.team1339.robot.commands.ResetWrist;
 import org.usfirst.frc.team1339.robot.commands.ShowBottomCam;
 import org.usfirst.frc.team1339.robot.commands.ShowTopCam;
+import org.usfirst.frc.team1339.robot.commands.ToggleSqueeze;
 import org.usfirst.frc.team1339.robot.commands.WristToggle;
+import org.usfirst.frc.team1339.robot.commands.groups.ClawClosed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawMed;
 import org.usfirst.frc.team1339.robot.commands.groups.ClawOpen;
+import org.usfirst.frc.team1339.robot.commands.groups.ElevatorHome;
 import org.usfirst.frc.team1339.robot.commands.groups.GoToClimber;
 import org.usfirst.frc.team1339.robot.commands.groups.GoToElevator;
 
@@ -61,10 +64,14 @@ public class OI {
 		xButton.whenPressed(new WristToggle());
 		yButton.whenPressed(new PIDElevator(RobotMap.posScale)); //scale
 		bButton.whenPressed(new PIDElevator(RobotMap.posSwitch)); //switch
-		aButton.whenPressed(new PIDElevator(0)); //bottom
-		rightStickButton.whenPressed(new ClawOpen());
-		rightStickButton.whenReleased(new ClawMed());
+		aButton.whenPressed(new ElevatorHome()); //bottom
 		
+//		leftStickButton.whenPressed(new ToggleSqueeze());
+		//leftStickButton.whenPressed(new ClawClosed());
+		
+		//rightStickButton.whenPressed(new ClawOpen());
+		//rightStickButton.whenReleased(new ClawMed());
+	
 		viewButton.whenPressed(new ResetWrist());
 		menuButton.whenPressed(new ResetElevator());
 		

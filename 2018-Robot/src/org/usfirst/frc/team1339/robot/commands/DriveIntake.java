@@ -19,7 +19,7 @@ public class DriveIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double output = (oi.getLeftBumper().get() ? 0.8 : 0) - (oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger) * 0.4);
+    	double output = (oi.getLeftBumper().get() ? 1 : 0) - (oi.getXboxStick().getRawAxis(RobotMap.xboxLeftTrigger) * 0.6);
     	intake.setIntake(output);
     }
 

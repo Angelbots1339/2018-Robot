@@ -36,18 +36,21 @@ public class Elevator extends Subsystem {
 		elevatorMaster = new TalonSRX(RobotMap.topElevatorMotor);
 		elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		elevatorMaster.setSensorPhase(true);
+		
 
 		elevatorSlave = new TalonSRX(RobotMap.bottomElevatorMotor);
 		elevatorSlave.follow(elevatorMaster);
-		elevatorSlave.setInverted(true);
+		elevatorSlave.setInverted(true); //Check and remember
 
 		climber = new TalonSRX(RobotMap.climbMotor);
-
+		
 		in = new Solenoid(RobotMap.climbInSol);
 		out = new Solenoid(RobotMap.climbOutSol);
 
 		elevatorUp = new DigitalInput(RobotMap.elevatorUpId);
 		carriageDown = new DigitalInput(RobotMap.carriageDownId);
+		
+		climber.follow(elevatorMaster);
 		
 		position = 0;
 		state = 0;
@@ -55,6 +58,9 @@ public class Elevator extends Subsystem {
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveElevator());
+	}
+	public double getHeight() {
+		return ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0));
 	}
 
 	public void setElevMotorsBrakeMode(boolean brake) {
@@ -65,12 +71,16 @@ public class Elevator extends Subsystem {
 	public void resetEncoder() {
 		elevatorMaster.setSelectedSensorPosition(0, 0, 0);
 	}
+	public boolean canGoOTP() {
+		return elevatorMaster.getSelectedSensorPosition(0)>RobotMap.eleMinOTP;
+	}
 
 	public void publishSmartDashboard() {
 		CommandBase.server.valueDisplay.putValue("Elevator Enc",
 				ElevatorConversions.clicksToCMs(elevatorMaster.getSelectedSensorPosition(0)));
 		CommandBase.server.valueDisplay.putValue("Carriage down", carriageDown.get());
 		CommandBase.server.valueDisplay.putValue("Carriage Up", elevatorUp.get());
+		CommandBase.server.valueDisplay.putValue("Over The Top", canGoOTP());
 		
 		SmartDashboard.putNumber("Top Elevator Motor Current Draw", elevatorMaster.getOutputCurrent());
 		SmartDashboard.putNumber("Bottom Elevator Motor Current Draw", elevatorSlave.getOutputCurrent());
@@ -120,7 +130,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public boolean onTarget(double setpoint, double tolerance) {
-		return Math.abs(setpoint - elevatorMaster.getSelectedSensorPosition(0)) < tolerance;
+		return Math.abs(setpoint -elevatorMaster.getSelectedSensorPosition(0)) < tolerance;
 	}
 
 	public void setOutSol(boolean val) {
