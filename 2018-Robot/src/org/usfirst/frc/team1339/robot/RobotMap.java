@@ -174,24 +174,17 @@ public class RobotMap {
 	public static ParseFiles Drive_Forward;
 	
 	public static ParseFiles Left_To_Opposite_Scale;
-	
-	public static ParseFiles First_To_Opposite_Scale;
-	public static ParseFiles Second_To_Opposite_Scale;
-	public static ParseFiles Third_To_Opposite_Scale;
-	
+
 	public static ParseFiles Left_To_Scale;
-	public static ParseFiles Left_Scale_Second_Cube;
-	
 	public static ParseFiles Right_To_Scale;
+	
+	public static ParseFiles Second_Cube_PickUP;
 	
 	public static ParseFiles Reversed_Center_To_Left_Switch;
 	public static ParseFiles Reversed_Center_To_Right_Switch;
-	
-	public static ParseFiles First_Scale_Test;
-	public static ParseFiles Second_Scale_Test;
-	public static ParseFiles Third_Scale_Test;
-	
-	public static ParseFiles Second_Cube;
+
+	public static ParseFiles Right_Second_Cube;
+	public static ParseFiles Left_Second_Cube;
 	
 	public static ParseFiles Right_To_Opposite_Scale;
 	

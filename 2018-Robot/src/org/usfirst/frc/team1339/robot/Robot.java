@@ -10,6 +10,7 @@ package org.usfirst.frc.team1339.robot;
 import org.usfirst.frc.team1339.robot.autonomous.AutonomousTest;
 import org.usfirst.frc.team1339.robot.autonomous.CenterSwitchAuto;
 import org.usfirst.frc.team1339.robot.autonomous.DriveForwardTimeout;
+import org.usfirst.frc.team1339.robot.autonomous.LeftToOppositeScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.LeftToScaleAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightSideAuto;
 import org.usfirst.frc.team1339.robot.autonomous.RightToOppositeScaleAuto;
@@ -47,10 +48,10 @@ public class Robot extends TimedRobot {
 		CommandBase.server.autonomousSelector.add("Chill", new ShiftClimberOut());
 		CommandBase.server.autonomousSelector.add("Drive Forward", new DriveForwardTimeout(0.6, 2));
 		CommandBase.server.autonomousSelector.add("Center To Switch", new CenterSwitchAuto());
-		CommandBase.server.autonomousSelector.add("Right To Scale And Pick Up", new RightToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("Right Side", new RightToScaleAuto(true));
 		//CommandBase.server.autonomousSelector.add("Right to opp scale", new RightToOppositeScaleAuto());
 		//CommandBase.server.autonomousSelector.add("Right To Scale Force", new RightToScaleAuto(false));
-		CommandBase.server.autonomousSelector.add("Left To Scale And Pick Up", new LeftToScaleAuto(true));
+		CommandBase.server.autonomousSelector.add("Left Side", new LeftToScaleAuto(true));
 		//CommandBase.server.autonomousSelector.add("TwoCubeSwitch", new CenterSwitchSecondCubeAuto());
 		//CommandBase.server.autonomousSelector.add("Left To Scale Force", new ExecuteProfile("LeftToOppositeScale"));
 		//CommandBase.server.autonomousSelector.add("Two Cube", new TwoCube());
@@ -69,13 +70,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		//CommandBase.leds.disabledInit();
+		CommandBase.leds.disabledInit();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		//CommandBase.leds.disabledPeriodic();
+		CommandBase.leds.disabledPeriodic();
 		CommandBase.intake.publishWebServer();
 	}
 
@@ -99,13 +100,14 @@ public class Robot extends TimedRobot {
 		RobotMap.Drive_Forward = new ParseFiles("DriveForward");
 		
 		RobotMap.Left_To_Opposite_Scale = new ParseFiles("LeftToOppositeScale");
-		
 		RobotMap.Left_To_Scale = new ParseFiles("LeftToScale");
-		RobotMap.Left_Scale_Second_Cube = new ParseFiles("LeftScaleSecondCubeTest");
+		RobotMap.Second_Cube_PickUP = new ParseFiles("LeftScaleSecondCubeTest");
 		
 		RobotMap.Right_To_Scale = new ParseFiles("RightToScale");
+		
+		RobotMap.Right_Second_Cube = new ParseFiles("RightSecondCube");
+		RobotMap.Left_Second_Cube = new ParseFiles("LeftSecondCube");
 
-		RobotMap.Second_Cube = new ParseFiles("RightSecondCube");
 		
 		RobotMap.Right_To_Opposite_Scale = new ParseFiles("RightToOppositeScale");
 		
@@ -132,12 +134,22 @@ public class Robot extends TimedRobot {
 	    		}
 	    	}
 		}
+	
+		if(CommandBase.server.autonomousSelector.getCurrentModeName().equals("Left Side Auto")) {
+			if(RobotMap.gameMessage.length() > 0) {
+	    		if(RobotMap.gameMessage.charAt(1) == 'L') {
+	    			autonomousCommand = new LeftToScaleAuto(true);
+	    		} else if(RobotMap.gameMessage.charAt(1) == 'R') {
+	    			autonomousCommand = new LeftToOppositeScaleAuto();
+	    		}
+	    	}
+		}
 		
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
 		
-		//CommandBase.leds.autoInit();
+		CommandBase.leds.autoInit();
 	}
 
 	/**
@@ -147,7 +159,7 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		CommandBase.chassis.publishSmartDashboard();
-		//CommandBase.leds.autoPeriodic();
+		CommandBase.leds.autoPeriodic();
 	}
 
 	@Override
@@ -160,7 +172,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand.cancel();
 		}
 		
-		//CommandBase.leds.teleOpInit();
+		CommandBase.leds.teleOpInit();
 	}
 
 	/**
@@ -174,7 +186,7 @@ public class Robot extends TimedRobot {
 		CommandBase.elevator.publishSmartDashboard();
 		CommandBase.wrist.publishWebServer();
 		
-		//CommandBase.leds.teleOpPeriodic();
+		CommandBase.leds.teleOpPeriodic();
 	}
 
 	/**

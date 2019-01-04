@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftToScaleAuto extends CommandGroup {
 
     public LeftToScaleAuto(boolean passive) {
-    	addSequential(new ShiftClimberOut());
+    	addParallel(new StartAuto());
     	//Cube in the scale
     	addSequential(new LeftToScale(passive));
     	addParallel(new PIDWrist(RobotMap.wristFortyFive), 3);
@@ -24,10 +24,12 @@ public class LeftToScaleAuto extends CommandGroup {
     	//Second cube
     	addParallel(new PIDWrist(RobotMap.wristHorizontal));
     	addSequential(new PIDElevatorSetpoint(0, 2, RobotMap.tol2Cm));
-    	addSequential(new PIDGyro(113, 1, 3));
-    	addParallel(new ExecuteProfile(RobotMap.Left_Scale_Second_Cube));
-    	addSequential(new DriveIntakeTimeout(0.7, 2));
-    	addSequential(new ExecuteProfile(RobotMap.Second_Cube));
+
+    	addSequential(new PIDGyro(113, 0.7, 3));
+    	addParallel(new ExecuteProfile(RobotMap.Second_Cube_PickUP), 1.5);
+    	addSequential(new DriveIntakeTimeout(0.7, 2.5));
+    	addSequential(new ExecuteProfile(RobotMap.Left_Second_Cube));
+
     	addSequential(new PIDElevatorSetpoint(RobotMap.highScale, 2, RobotMap.tol2Cm));
     	addSequential(new PIDWrist(RobotMap.wristOTP),.8);
     	addSequential(new DriveIntakeTimeout(-0.75, 0.5));

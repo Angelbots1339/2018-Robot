@@ -27,7 +27,7 @@ public abstract class CommandBase extends Command {
     public static Wrist wrist;
     public static Pinchers pinchers;
     
-    //public static LEDs leds;
+    public static LEDs leds;
     public static Cameras cameras;
 	public static Server server;
 
@@ -42,7 +42,7 @@ public abstract class CommandBase extends Command {
     	wrist = new Wrist();
     	pinchers = new Pinchers();
     	
-    	//leds = new LEDs();
+    	leds = new LEDs();
     	cameras = new Cameras();
     	server = new Server(5808);
 

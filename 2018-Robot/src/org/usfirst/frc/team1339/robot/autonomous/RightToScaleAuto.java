@@ -18,8 +18,7 @@ public class RightToScaleAuto extends CommandGroup {
     public RightToScaleAuto(boolean passive) {
     	//addSequential(new ShiftClimberOut());
     	//Cube in scale
-    	addParallel(new PIDElevator(5));
-    	addParallel(new ResetWrist());
+    	addParallel(new StartAuto());
     	addSequential(new RightToScale(passive));
     	addParallel(new PIDWrist(RobotMap.wristFortyFive), 3);
     	addSequential(new PIDElevatorSetpoint(RobotMap.highScale, 2, RobotMap.tol2Cm));
@@ -29,9 +28,9 @@ public class RightToScaleAuto extends CommandGroup {
     	addParallel(new PIDWrist(RobotMap.wristHorizontal));
     	addSequential(new PIDElevatorSetpoint(0, 2, RobotMap.tol2Cm));
     	addSequential(new PIDGyro(-113, 1, 3));
-    	addParallel(new ExecuteProfile(RobotMap.Left_Scale_Second_Cube));
+    	addParallel(new ExecuteProfile(RobotMap.Second_Cube_PickUP));
     	addSequential(new DriveIntakeTimeout(0.7, 2));
-    	addSequential(new ExecuteProfile(RobotMap.Second_Cube));
+    	addSequential(new ExecuteProfile(RobotMap.Right_Second_Cube));
     	addSequential(new PIDElevatorSetpoint(RobotMap.highScale, 2, RobotMap.tol2Cm));
     	addSequential(new PIDWrist(RobotMap.wristOTP),.8);
     	addSequential(new DriveIntakeTimeout(-0.75, 0.5));
