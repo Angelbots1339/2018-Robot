@@ -100,7 +100,6 @@ public class Robot extends TimedRobot {
 		RobotMap.Drive_Forward = new ParseFiles("DriveForward");
 		
 		RobotMap.Left_To_Opposite_Scale = new ParseFiles("LeftToOppositeScale");
-
 		RobotMap.Left_To_Scale = new ParseFiles("LeftToScale");
 		RobotMap.Second_Cube_PickUP = new ParseFiles("LeftScaleSecondCubeTest");
 		
@@ -108,6 +107,7 @@ public class Robot extends TimedRobot {
 		
 		RobotMap.Right_Second_Cube = new ParseFiles("RightSecondCube");
 		RobotMap.Left_Second_Cube = new ParseFiles("LeftSecondCube");
+
 		
 		RobotMap.Right_To_Opposite_Scale = new ParseFiles("RightToOppositeScale");
 		

@@ -108,7 +108,7 @@ public class PIDElevator extends CommandBase {
     	if (this.setpoint == 0) {
     		return elevator.isCarriageDown() || 
             		Math.abs(oi.getOperatorStick().getRawAxis(RobotMap.xboxRightYAxis)) > 0.1 ||
-            		elevator.onTarget(0, RobotMap.tol2Cm);
+            		elevator.onTarget(0, RobotMap.tol05Cm);
     	}
         return  elevator.isCarriageGoingDown() ||
         		elevator.isElevatorGoingUp() ||
